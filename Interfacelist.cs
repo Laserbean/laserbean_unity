@@ -6,6 +6,9 @@ using UnityEngine;
 // {
 // }
 
+namespace Laserbean.General
+{
+
 public class InterfaceList<T> {
     public List<T> list = new List<T>();
 
@@ -34,4 +37,7 @@ public class InterfaceList<T> {
         }
         return total;
     }
+}
+
+
 }

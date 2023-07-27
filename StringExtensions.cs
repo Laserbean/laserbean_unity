@@ -2,6 +2,9 @@
 
 using UnityEngine;
 
+namespace Laserbean.General
+{
+
 public static class StringExtensions 
 {
 
@@ -32,3 +35,6 @@ public static class ColorUtility
 }
 
 // <color=blue>{0}</color>
+
+
+}

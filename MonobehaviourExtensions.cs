@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using System.Linq;
  
+
+ namespace Laserbean.General
+{
 public static class MonobehaviourExtensions
 {
 /// <summary>
@@ -58,3 +61,5 @@ public static class MonobehaviourExtensions
     }
 }
  
+
+}

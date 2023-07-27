@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Laserbean.General
+{
+
 public static class RandomStatic
 {
     public static float RandomGaussian(float minValue = 0.0f, float maxValue = 1.0f)
@@ -35,4 +38,7 @@ public static class RandomStatic
         }
         return mystring; 
     }
+}
+
+
 }

@@ -45,7 +45,8 @@ using UnityEngine;
 //     // }
 // } 
 
-
+namespace Laserbean.Colliders
+{
 public static class GizmoHelper {
 
     public static void Draw(this PolygonCollider2D polygonCollider, Color color, Transform parent = null)
@@ -175,3 +176,4 @@ public static class GizmoHelper {
 
 }
 
+}

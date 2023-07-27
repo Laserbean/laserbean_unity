@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Laserbean.General
+{
+
 public class MakeSingleton : Singleton<MakeSingleton>
 {
     /// <summary>
@@ -14,4 +17,7 @@ public class MakeSingleton : Singleton<MakeSingleton>
             DontDestroyOnLoad(this.gameObject);
         }
     }
+}
+
+
 }

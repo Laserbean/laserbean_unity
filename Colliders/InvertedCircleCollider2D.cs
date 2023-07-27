@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+namespace Laserbean.Colliders
+{
 [RequireComponent(typeof(EdgeCollider2D))]
 public class InvertedCircleCollider2D : MonoBehaviour
 {
@@ -38,4 +40,6 @@ public class InvertedCircleCollider2D : MonoBehaviour
 
         edgeCollider2D.points = points;
     }
+}
+
 }

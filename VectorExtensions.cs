@@ -1,6 +1,10 @@
 ﻿
 using UnityEngine;
 
+namespace Laserbean.General
+{
+
+
 public static class VectorExtensions
 {
 
@@ -117,5 +121,8 @@ public static class VectorExtensions
         //about z cause i'm doing 2d lol
         return new Vector3Int(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y), Mathf.RoundToInt(v.z)); 
     }
+
+}
+
 
 }

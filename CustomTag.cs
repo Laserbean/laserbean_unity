@@ -11,8 +11,9 @@ using System.Linq;
 using UnityEditorInternal;
 #endif
 
-
-
+namespace Laserbean.General
+{
+    
 public class CustomTag : MonoBehaviour 
 {
     [SerializeField]
@@ -216,3 +217,5 @@ public class CustomTagEditor : Editor
 }
 
 #endif
+
+}

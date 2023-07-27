@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Laserbean.Colliders
+{
+
 public static class PolygonColliderExtras
 {
 
@@ -80,5 +83,7 @@ public static class PolygonColliderExtras
     }
 
 
+
+}
 
 }

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Laserbean.General
+{
+
 public class SecondOrderDynamics 
 {
     Vector3 xp;
@@ -143,5 +146,8 @@ public class SecondOrderDynamicsFloat
         yd = yd + T * (x + k3 * xd -y - k1 * yd) /k2_stable; 
         return y; 
     }
+
+}
+
 
 }

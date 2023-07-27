@@ -6,7 +6,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 
 
-
+namespace Laserbean.General
+{
 
 public static class SaveAnything 
 {
@@ -40,5 +41,7 @@ public static class SaveAnything
         return null;
         
     }
+
+}
 
 }

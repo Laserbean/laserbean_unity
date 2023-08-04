@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Laserbean.General
+
+{
 [System.Serializable]
 public class ObjectPoolItem
 {
@@ -108,4 +111,6 @@ public class ObjectPooler : MonoBehaviour
 		positions.Add(0);
 
 	}
+}
+
 }

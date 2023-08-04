@@ -19,14 +19,19 @@ public static class SaveAnything
         return File.Exists(loadPath); 
     }
 
-    public static void SaveThing <T> (T thing, string savePath, string thingName, string extension = "bin") {
+    public static void SaveThing <T> (T thing, string savePath, string thingName, string extension = "bin") where T : class
+    {
 
         if (!savePath.EndsWith("/")) savePath = savePath + "/"; 
         if (extension.StartsWith(".")) extension = extension.Substring(1, extension.Length-1); 
 
         if (!Directory.Exists(savePath))
             Directory.CreateDirectory(savePath);
-            
+
+        
+        ISaveCallback myObj = thing as ISaveCallback;
+        myObj?.OnBeforeSave(); 
+
 
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = new FileStream(savePath + thingName + "." + extension, FileMode.Create);
@@ -36,7 +41,8 @@ public static class SaveAnything
     }
 
 
-    public static T LoadThing<T> (string loadPath, string thingName, string extension = "bin") where T : class{
+    public static T LoadThing<T> (string loadPath, string thingName, string extension = "bin") where T : class 
+    {
         if (!loadPath.EndsWith("/")) loadPath = loadPath + "/"; 
         if (extension.StartsWith(".")) extension = extension.Substring(1, extension.Length-1); 
 
@@ -50,6 +56,9 @@ public static class SaveAnything
 
             T thing = formatter.Deserialize(stream) as T;
             stream.Close();
+
+            ISaveCallback myObj = thing as ISaveCallback;
+            myObj?.OnAfterLoad(); 
 
             return thing;
         }
@@ -94,6 +103,13 @@ public static class SaveAnything
 
 }
 
+
+
+public interface ISaveCallback {
+    public void OnBeforeSave();
+
+    public void OnAfterLoad(); 
+}
 
 [System.Serializable]
 public class StringDict {

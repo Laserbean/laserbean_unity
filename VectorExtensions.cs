@@ -13,6 +13,15 @@ public static class VectorExtensions
         return Quaternion.FromToRotation(Vector3.up, to - from).eulerAngles.z;
     }
 
+    public static float VectorToAngle(this Vector2 vect) { 
+        return Vector2.SignedAngle(new Vector2(0, 1), vect.normalized);
+    }
+
+    public static float VectorToAngle(this Vector3 vect) { 
+        return Vector2.SignedAngle(new Vector2(0, 1), vect.normalized);
+    }
+
+
     public static Vector2 Rotate(this Vector2 v, float degrees){
         float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
         float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);

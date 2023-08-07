@@ -33,22 +33,29 @@ public class AIPathFollower : MonoBehaviour, IAstarAI
     float IAstarAI.maxSpeed              { get => maxSpeed; set => maxSpeed = value; }
 
 
-
     public Vector3 velocity            => rgbd2d.velocity; 
 
     Vector3 _desiredVelocity; 
     public Vector3 desiredVelocity     => _desiredVelocity;
 
-    float IAstarAI.remainingDistance     => throw new NotImplementedException();
-    bool IAstarAI.reachedDestination     => throw new NotImplementedException();
-    bool IAstarAI.reachedEndOfPath       => throw new NotImplementedException();
+    float IAstarAI.remainingDistance     => cur_path.vectorPath.Count - curSeekerIndex;
+    bool IAstarAI.reachedDestination     => (this.transform.position-destination).sqrMagnitude < 0.05f;
+
+
+    bool IAstarAI.reachedEndOfPath       => curSeekerIndex >= cur_path.vectorPath.Count;
 
     Vector3 destination;
     Vector3 IAstarAI.destination         { get => destination; set => destination = value; }
     bool IAstarAI.canSearch              { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    bool IAstarAI.canMove                { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    bool IAstarAI.hasPath                => throw new NotImplementedException();
-    bool IAstarAI.pathPending            => throw new NotImplementedException();
+    
+    bool canMove = true; 
+    bool IAstarAI.canMove                { get => canMove; set => canMove = value; }
+
+
+    bool IAstarAI.hasPath                => cur_path != null;
+
+    bool pathPending = false; 
+    bool IAstarAI.pathPending            => pathPending;
 
     bool isStopped = false; 
     bool IAstarAI.isStopped              { get =>isStopped;  set =>isStopped = value ; }
@@ -76,11 +83,15 @@ public class AIPathFollower : MonoBehaviour, IAstarAI
         SearchPath();
     }
 
-
+    [Min(0)]
+    [SerializeField] int frameskips = 0; 
+    int curframe = 0; 
     private void FixedUpdate() {
+        if (curframe > frameskips) curframe = 0;  
+        if (curframe++ > 0) return; 
 
-        MovementUpdate(Time.fixedDeltaTime, out _steeringTarget, out _rotationTarget);
-
+        if (!canMove) return; 
+        MovementUpdate(Time.fixedDeltaTime * (1+frameskips), out _steeringTarget, out _rotationTarget);
         FinalizeMovement(_steeringTarget, _rotationTarget);
     }
 
@@ -89,6 +100,7 @@ public class AIPathFollower : MonoBehaviour, IAstarAI
     }
 
     public void SearchPath() {
+        pathPending = true; 
         seeker.StartPath(this.transform.position, destination, OnPathComplete);
         curSeekerIndex = 0; 
 
@@ -96,9 +108,11 @@ public class AIPathFollower : MonoBehaviour, IAstarAI
 
     Path cur_path; 
     void OnPathComplete(Path p) {
+        pathPending = false; 
+
         cur_path = p; 
 
-        onSearchPath();
+        onSearchPath?.Invoke();
     }
 
     public void SetPath(Path path) {
@@ -119,16 +133,14 @@ public class AIPathFollower : MonoBehaviour, IAstarAI
         nextPosition = this.transform.position; 
         nextRotation = this.transform.rotation; 
 
-        if (cur_path == null) return;
-
-        
+        if (cur_path == null) return;        
         if (Vector2.Distance(this.transform.position, cur_path.vectorPath[curSeekerIndex]) <= pickNextWayPointDist) {
             curSeekerIndex++;
         }
-
-
-
-        if (curSeekerIndex >= cur_path.vectorPath.Count) return;
+        if (curSeekerIndex >= cur_path.vectorPath.Count)  {
+            cur_path = null;
+            return;
+        }
 
         Vector3 targetpos = cur_path.vectorPath[curSeekerIndex];
         nextPosition = targetpos; 

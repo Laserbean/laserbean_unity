@@ -4,7 +4,7 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
-
+using Unity.Mathematics;
 
 namespace Laserbean.General
 {
@@ -16,7 +16,7 @@ public static class SaveAnything
         if (!loadPath.EndsWith("/")) loadPath = loadPath + "/"; 
         if (extension.StartsWith(".")) extension = extension.Substring(1, extension.Length-1); 
 
-        return File.Exists(loadPath); 
+        return File.Exists(loadPath + thingName + "." + extension); 
     }
 
     public static void SaveThing <T> (T thing, string savePath, string thingName, string extension = "bin") where T : class
@@ -98,6 +98,14 @@ public static class SaveAnything
             return jsonthing;
         }
         return null;
+    }
+
+    public static string ToJson<T>(T thing) {
+        return JsonUtility.ToJson(thing); 
+    }
+
+    public static T FromJson<T>(string thing) {
+        return JsonUtility.FromJson<T>(thing); 
     }
 
 
@@ -265,5 +273,7 @@ public class StringDict {
 
 
 // }
+
+
 
 }

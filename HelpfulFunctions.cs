@@ -7,6 +7,7 @@ using System.Linq;
 using System.IO;
 
 
+namespace Laserbean.General {
 
 public static class HelpfulFunctions {
     public static List<T> Overlap<T>(this List<T> thislist, List<T> another) {
@@ -66,3 +67,5 @@ public static class ScriptableObjectUtility
 }
 
 #endif
+
+}

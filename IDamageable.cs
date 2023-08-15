@@ -30,5 +30,6 @@ public interface IStunnable
 
 public interface IInteractable
 {
-    void Interact(); 
+    void Interact(GameObject gameObject); 
+    void Highlight(bool on); 
 }

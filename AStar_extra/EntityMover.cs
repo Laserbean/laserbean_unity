@@ -5,6 +5,7 @@ using UnityEngine;
 using Pathfinding; 
 
 using Laserbean.General;
+using Laserbean.General.GlobalTicks;
 
 
 public class EntityMover : MonoBehaviour 
@@ -25,7 +26,8 @@ public class EntityMover : MonoBehaviour
     [SerializeField] Vector3 location_to_stay_near = Vector3.zero; 
 
     [SerializeField] float roam_radius = 5f;
-    [SerializeField] float roam_time = 5f; 
+    [SerializeField] float roam_time = 10f; 
+    int roam_ticks; 
 
     public void DisenableMovement(bool canMove) {
         // if (!canMove) this.GetComponent<Rigidbody2D>().velocity = Vector3.zero; 
@@ -49,9 +51,22 @@ public class EntityMover : MonoBehaviour
             destinationSetter = this.gameObject.AddComponent<AIDestinationSetter>();
 
         rigidbody2d = this.GetComponent<Rigidbody2D>();        
+
+        // GlobalTickSystem.OnTick += delegate (object sender, GlobalTickSystem.OnTickEventArgs e) {TimeTick_OnTick(sender, e);}; 
+        GlobalTickSystem.OnTick += TimeTick_OnTick; 
     }
 
-    float roam_timer = 10f; 
+    void TimeTick_OnTick(object sender, GlobalTickSystem.OnTickEventArgs eventArgs) {
+        int curtick = eventArgs.tick;
+        roam_ticks = Mathf.RoundToInt(roam_time / GlobalTickSystem.TICK_TIME);
+        if (destinationSetter.target == null && state == EntityState.Wander && start_roam + roam_ticks < curtick) {
+            UpdateRoamLocation(); 
+            start_roam = curtick; 
+        } 
+        
+    }
+
+    int start_roam = -1; 
     private void Update() {
         if (!GameManager.Instance.IsRunning) {
             DisenableMovement(false); 
@@ -64,17 +79,14 @@ public class EntityMover : MonoBehaviour
             return; 
         }
 
-        if (destinationSetter.target == null && state == EntityState.Wander && roam_timer >= roam_time) {
-            UpdateRoamLocation(); 
-            roam_timer = 0f; 
-        }
-        
-
-        roam_timer += Time.deltaTime; 
     }
 
     public void SetFocus() {
         state = EntityState.Focus; 
+    }
+
+    public void SetWander() {
+        state = EntityState.Wander; 
     }
 
     public void SetSleep() {

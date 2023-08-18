@@ -9,7 +9,7 @@ namespace Laserbean.General.GlobalTicks
 {
 
 
-public class GlobalTickSystem : MonoBehaviour {
+public class TimeTickSystem : MonoBehaviour {
 
     public class OnTickEventArgs : EventArgs {
         public int tick; 
@@ -29,9 +29,9 @@ public class GlobalTickSystem : MonoBehaviour {
         tickTimer += Time.deltaTime;
         if (tickTimer >= TICK_TIME) {
             tickTimer -= TICK_TIME; 
-            tick++; 
-            if (OnTick != null) OnTick(this, new OnTickEventArgs{tick=tick});
-            CMDebug.TextPopupMouseFontsize("tick".DebugColor(Color.green) + tick); 
+            tick++;
+                OnTick?.Invoke(this, new OnTickEventArgs { tick = tick });
+                CMDebug.TextPopupMouseFontsize("tick".DebugColor(Color.green) + tick); 
         }
 
 

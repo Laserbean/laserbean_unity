@@ -21,7 +21,6 @@ public class EntityMover : MonoBehaviour
     EntityState state = EntityState.Wander; 
 
     [Header("Roaming")]
-    [SerializeField] bool enable_wandering = true; 
     [SerializeField] bool stays_near_location = false;
     [SerializeField] Vector3 location_to_stay_near = Vector3.zero; 
 
@@ -53,12 +52,12 @@ public class EntityMover : MonoBehaviour
         rigidbody2d = this.GetComponent<Rigidbody2D>();        
 
         // GlobalTickSystem.OnTick += delegate (object sender, GlobalTickSystem.OnTickEventArgs e) {TimeTick_OnTick(sender, e);}; 
-        GlobalTickSystem.OnTick += TimeTick_OnTick; 
+        TimeTickSystem.OnTick += TimeTick_OnTick; 
     }
 
-    void TimeTick_OnTick(object sender, GlobalTickSystem.OnTickEventArgs eventArgs) {
+    void TimeTick_OnTick(object sender, TimeTickSystem.OnTickEventArgs eventArgs) {
         int curtick = eventArgs.tick;
-        roam_ticks = Mathf.RoundToInt(roam_time / GlobalTickSystem.TICK_TIME);
+        roam_ticks = Mathf.RoundToInt(roam_time / TimeTickSystem.TICK_TIME);
         if (destinationSetter.target == null && state == EntityState.Wander && start_roam + roam_ticks < curtick) {
             UpdateRoamLocation(); 
             start_roam = curtick; 

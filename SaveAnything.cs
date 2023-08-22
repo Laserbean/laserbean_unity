@@ -33,8 +33,8 @@ public static class SaveAnything
         myObj?.OnBeforeSave(); 
 
 
-        BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(savePath + thingName + "." + extension, FileMode.Create);
+        BinaryFormatter formatter = new ();
+        FileStream stream = new (savePath + thingName + "." + extension, FileMode.Create);
 
         formatter.Serialize(stream, thing);
         stream.Close();
@@ -43,16 +43,16 @@ public static class SaveAnything
 
     public static T LoadThing<T> (string loadPath, string thingName, string extension = "bin") where T : class 
     {
-        if (!loadPath.EndsWith("/")) loadPath = loadPath + "/"; 
-        if (extension.StartsWith(".")) extension = extension.Substring(1, extension.Length-1); 
+        if (!loadPath.EndsWith("/")) loadPath += "/"; 
+        if (extension.StartsWith(".")) extension = extension[1..]; 
 
 
         loadPath = loadPath + thingName + "." + extension; 
         // Check if a save exists for the name we were passed.
         if (File.Exists(loadPath)) {
 
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(loadPath, FileMode.Open);
+            BinaryFormatter formatter = new ();
+            FileStream stream = new (loadPath, FileMode.Open);
 
             T thing = formatter.Deserialize(stream) as T;
             stream.Close();
@@ -68,7 +68,7 @@ public static class SaveAnything
     }
 
     public static void SaveJson<T>(T thing, string savePath, string thingName, string extension = "json") {
-        if (!savePath.EndsWith("/")) savePath = savePath + "/"; 
+        if (!savePath.EndsWith("/")) savePath += "/"; 
         if (extension.StartsWith(".")) extension = extension.Substring(1, extension.Length-1); 
 
         if (!Directory.Exists(savePath))

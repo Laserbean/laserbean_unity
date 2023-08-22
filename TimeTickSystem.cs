@@ -43,7 +43,48 @@ public class TimeTickSystem : MonoBehaviour {
     }
 
 
+
 }
+
+public class TickTimer {
+    int start_tick = 0; 
+    int timer_tick; 
+
+    int current_tick=0; 
+
+    public TickTimer(int period) {
+        timer_tick = period; 
+        TimeTickSystem.OnTick += onTick; 
+
+    }
+
+    public TickTimer(float time) {
+        SetTimerSeconds(time); 
+        TimeTickSystem.OnTick += onTick; 
+    }
+
+    void onTick(object sender, TimeTickSystem.OnTickEventArgs eventArgs) {
+        current_tick = eventArgs.tick; 
+    }
+
+    public void StartTimer() {
+        start_tick = current_tick; 
+    }
+
+    public bool HasFinished() {
+        return (current_tick > start_tick + timer_tick); 
+    }
+
+    public void SetTimer(int new_period) {
+        timer_tick = new_period; 
+    }
+
+    public void SetTimerSeconds(float time) {
+        timer_tick = Mathf.RoundToInt(time / TimeTickSystem.TICK_TIME);
+    }
+}
+
+
 
 //usage:
 // GlobalTickSystem.OnTick += delegate (object sender, GlobalTickSystem.OnTickEventArgs e) {

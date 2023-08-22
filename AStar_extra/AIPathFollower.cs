@@ -74,8 +74,9 @@ public class AIPathFollower : MonoBehaviour, IAstarAI
 
     Rigidbody2D rgbd2d; 
     private void Awake() {
-        seeker = this.GetComponent<Seeker>(); 
-        rgbd2d = this.GetComponent<Rigidbody2D>(); 
+        seeker = GetComponent<Seeker>(); 
+        if (seeker == null) seeker = gameObject.AddComponent<Seeker>(); 
+        rgbd2d = GetComponent<Rigidbody2D>(); 
         InvokeRepeating("SearchPath", 0.1f, 0.5f); 
     }
 
@@ -134,13 +135,21 @@ public class AIPathFollower : MonoBehaviour, IAstarAI
         nextRotation = this.transform.rotation; 
 
         if (cur_path == null) return;        
-        if (Vector2.Distance(this.transform.position, cur_path.vectorPath[curSeekerIndex]) <= pickNextWayPointDist) {
-            curSeekerIndex++;
-        }
+
         if (curSeekerIndex >= cur_path.vectorPath.Count)  {
             cur_path = null;
             return;
         }
+
+        if (Vector2.Distance(this.transform.position, cur_path.vectorPath[curSeekerIndex]) <= pickNextWayPointDist) {
+            curSeekerIndex++;
+
+            if (curSeekerIndex >= cur_path.vectorPath.Count)  {
+                cur_path = null;
+                return;
+            }
+        }
+
 
         Vector3 targetpos = cur_path.vectorPath[curSeekerIndex];
         nextPosition = targetpos; 

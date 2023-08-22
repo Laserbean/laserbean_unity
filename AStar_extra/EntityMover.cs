@@ -26,7 +26,8 @@ public class EntityMover : MonoBehaviour
 
     [SerializeField] float roam_radius = 5f;
     [SerializeField] float roam_time = 10f; 
-    int roam_ticks; 
+
+    TickTimer tickTimer; 
 
     public void DisenableMovement(bool canMove) {
         // if (!canMove) this.GetComponent<Rigidbody2D>().velocity = Vector3.zero; 
@@ -53,19 +54,24 @@ public class EntityMover : MonoBehaviour
 
         // GlobalTickSystem.OnTick += delegate (object sender, GlobalTickSystem.OnTickEventArgs e) {TimeTick_OnTick(sender, e);}; 
         TimeTickSystem.OnTick += TimeTick_OnTick; 
+
+        tickTimer = new TickTimer(roam_time); 
     }
 
+    #if UNITY_EDITOR
+    private void OnValidate() {
+        tickTimer?.SetTimerSeconds(roam_time);
+    }
+    #endif
+
     void TimeTick_OnTick(object sender, TimeTickSystem.OnTickEventArgs eventArgs) {
-        int curtick = eventArgs.tick;
-        roam_ticks = Mathf.RoundToInt(roam_time / TimeTickSystem.TICK_TIME);
-        if (destinationSetter.target == null && state == EntityState.Wander && start_roam + roam_ticks < curtick) {
+        if (destinationSetter.target == null && state == EntityState.Wander && tickTimer.HasFinished()) {
             UpdateRoamLocation(); 
-            start_roam = curtick; 
+            tickTimer.StartTimer();
         } 
         
     }
 
-    int start_roam = -1; 
     private void Update() {
         if (!GameManager.Instance.IsRunning) {
             DisenableMovement(false); 

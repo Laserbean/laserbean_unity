@@ -106,27 +106,6 @@ public static class GameObjectExtensions {
     }
     #endregion
 
-
-    ///<summary>Does this depending on if it containes the pooled object tag </summary>
-    public static void DestoyOrDeactivate(this GameObject go) {
-        if (go.HasTag(Constants.TAG_POOLED)) {
-            go.SetActive(false); 
-        } else {
-            GameObject.Destroy(go); 
-        }
-    }
-
-    // Constants
-
-
-    public static System.Collections.IEnumerator DoAnimation(this GameObject go, SpriteRenderer spriteRenderer, List<Sprite> sprites, float total_time) {
-        int nnnn = sprites.Count;
-        for (int j = 0; j < nnnn; j++) {
-            spriteRenderer.sprite = sprites[j];
-            yield return new WaitForSeconds(total_time/nnnn); 
-        }
-    }
-
     
 }
 

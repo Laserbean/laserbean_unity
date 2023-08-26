@@ -31,7 +31,7 @@ public class TimeTickSystem : MonoBehaviour {
             tickTimer -= TICK_TIME; 
             tick++;
                 OnTick?.Invoke(this, new OnTickEventArgs { tick = tick });
-                CMDebug.TextPopupMouseFontsize("tick".DebugColor(Color.green) + tick); 
+                // CMDebug.TextPopupMouseFontsize("tick".DebugColor(Color.green) + tick); 
         }
 
 

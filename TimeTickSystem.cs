@@ -54,16 +54,16 @@ public class TickTimer {
 
     public TickTimer(int period) {
         timer_tick = period; 
-        TimeTickSystem.OnTick += onTick; 
+        TimeTickSystem.OnTick += OnTick; 
 
     }
 
     public TickTimer(float time) {
         SetTimerSeconds(time); 
-        TimeTickSystem.OnTick += onTick; 
+        TimeTickSystem.OnTick += OnTick; 
     }
 
-    void onTick(object sender, TimeTickSystem.OnTickEventArgs eventArgs) {
+    void OnTick(object sender, TimeTickSystem.OnTickEventArgs eventArgs) {
         current_tick = eventArgs.tick; 
     }
 

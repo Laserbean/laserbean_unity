@@ -53,7 +53,6 @@ public class EntityMover : MonoBehaviour
         rigidbody2d = this.GetComponent<Rigidbody2D>();        
 
         // GlobalTickSystem.OnTick += delegate (object sender, GlobalTickSystem.OnTickEventArgs e) {TimeTick_OnTick(sender, e);}; 
-        TimeTickSystem.OnTick += TimeTick_OnTick; 
 
         tickTimer = new TickTimer(roam_time); 
     }
@@ -64,13 +63,7 @@ public class EntityMover : MonoBehaviour
     }
     #endif
 
-    void TimeTick_OnTick(object sender, TimeTickSystem.OnTickEventArgs eventArgs) {
-        if (destinationSetter.target == null && state == EntityState.Wander && tickTimer.HasFinished()) {
-            UpdateRoamLocation(); 
-            tickTimer.StartTimer();
-        } 
-        
-    }
+
 
     private void Update() {
         if (!GameManager.Instance.IsRunning) {
@@ -83,6 +76,11 @@ public class EntityMover : MonoBehaviour
             DisenableMovement(false);
             return; 
         }
+
+        if (destinationSetter.target == null && state == EntityState.Wander && tickTimer.HasFinished()) {
+            UpdateRoamLocation(); 
+            tickTimer.StartTimer();
+        } 
 
     }
 

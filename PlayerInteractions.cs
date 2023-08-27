@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Laserbean.General;
-
+using UnityEngine.PlayerLoop;
 
 public class PlayerInteractions : MonoBehaviour
 {
@@ -17,28 +17,39 @@ public class PlayerInteractions : MonoBehaviour
     }
 
 
+    GameObject closestInteractable = null; 
+
     public void OnInteract() {
-        float distance = 1000f;
-        float curdistance = 1000f;
-        GameObject closest = null; 
-        foreach(GameObject thing in interactableList) {
-            curdistance = (thing.transform.position - focusTransform.position).sqrMagnitude; 
-            if (curdistance < distance) {
-                distance = curdistance;
-                closest = thing; 
-            }
-        }
-        closest?.GetComponent<IInteractable>()?.Interact(this.gameObject); 
+
+        // GameObject closest = GetClosestInteractable(); 
+
+        closestInteractable?.GetComponent<IInteractable>()?.Interact(this.gameObject); 
     }
 
-    public List<GameObject> interactableList = new List<GameObject>(); 
+
+    private void Update() {
+        float distance = 1000f;
+        
+        foreach(GameObject thing in interactableList) {
+            float curdistance = (thing.transform.position - focusTransform.position).sqrMagnitude; 
+            if (curdistance < distance) {
+                distance = curdistance;
+                closestInteractable?.GetComponent<IInteractable>()?.Highlight(false); 
+                closestInteractable = thing; 
+                closestInteractable?.GetComponent<IInteractable>()?.Highlight(true); 
+            }
+            
+
+        }        
+    }
+
+    public List<GameObject> interactableList = new (); 
 
     private void OnTriggerEnter2D(Collider2D other) {
         // if (other.gameObject.HasTag(Constants.TAG_INTERACTABLE)) {
         var interactt = other.gameObject.GetComponent<IInteractable>(); 
         if (interactt != null) {
             interactableList.Add(other.gameObject); 
-            interactt.Highlight(true); 
         }
         
     }

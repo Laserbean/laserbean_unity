@@ -35,9 +35,9 @@ public class PlayerInteractions : MonoBehaviour
             float curdistance = (thing.transform.position - focusTransform.position).sqrMagnitude; 
             if (curdistance < distance) {
                 distance = curdistance;
-                closestInteractable?.GetComponent<IInteractable>()?.Highlight(false); 
+                closestInteractable?.GetComponent<IInteractable>()?.UnHighlight(); 
                 closestInteractable = thing; 
-                closestInteractable?.GetComponent<IInteractable>()?.Highlight(true); 
+                closestInteractable?.GetComponent<IInteractable>()?.Highlight(); 
             }
             
 
@@ -58,7 +58,15 @@ public class PlayerInteractions : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other) {
         if (interactableList.Contains(other.gameObject)) {
             interactableList.Remove(other.gameObject); 
-            other.gameObject.GetComponent<IInteractable>().Highlight(false);
+            other.gameObject.GetComponent<IInteractable>().UnHighlight();
         }
     }
+}
+
+
+public interface IInteractable
+{
+    void Interact(GameObject gameObject); 
+    void Highlight(); 
+    void UnHighlight(); 
 }

@@ -41,4 +41,40 @@ public static class RandomStatic
 }
 
 
+public static class Roulette {
+
+    public static int Spin(float[] weights)
+    {
+        float totalWeight = 0f;
+        for (int i = 0; i < weights.Length; i++)
+        {
+            totalWeight += weights[i];
+        }
+
+        float randomWeight = UnityEngine.Random.Range(0f, totalWeight);
+        for (int i = 0; i < weights.Length; i++)
+        {
+            if (randomWeight < weights[i])
+            {
+                return i;
+            }
+            randomWeight -= weights[i];
+        }
+
+        return -1;
+    }
+
+    public static int SpinEqual(int numOptions)
+    {
+        float[] weights = new float[numOptions];
+        for (int i = 0; i < numOptions; i++)
+        {
+            weights[i] = 1f / numOptions;
+        }
+
+        return Spin(weights);
+    }
+
+}
+
 }

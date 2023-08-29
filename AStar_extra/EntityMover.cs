@@ -42,6 +42,15 @@ public class EntityMover : MonoBehaviour
         rigidbody2d.AddForce(move, ForceMode2D.Impulse); 
     }
 
+    public void Stun(float time) {
+        DisenableMovement(false); 
+
+        Invoke("ReenableMovement", time); 
+    }
+    
+    void ReenableMovement() {
+        DisenableMovement(true); 
+    }
 
 
     void Start() {

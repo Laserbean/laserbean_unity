@@ -5,21 +5,6 @@ using UnityEngine;
 namespace Laserbean.General
 
 {
-[System.Serializable]
-public class ObjectPoolItem
-{
-
-	public GameObject objectToPool;
-	public int amountToPool;
-	public bool shouldExpand = true;
-
-	public ObjectPoolItem(GameObject obj, int amt, bool exp = true)
-	{
-		objectToPool = obj;
-		amountToPool = Mathf.Max(amt,2);
-		shouldExpand = exp;
-	}
-}
 
 public class ObjectPooler : MonoBehaviour
 {
@@ -33,7 +18,6 @@ public class ObjectPooler : MonoBehaviour
 
 	void Awake()
 	{
-
 		SharedInstance = this;
 
 		pooledObjectsList = new List<List<GameObject>>();
@@ -86,7 +70,7 @@ public class ObjectPooler : MonoBehaviour
 
 	public int AddObject(GameObject GO, int amt = 3, bool exp = true)
 	{
-		ObjectPoolItem item = new ObjectPoolItem(GO, amt, exp);
+		ObjectPoolItem item = new (GO, amt, exp);
 		int currLen = itemsToPool.Count;
 		itemsToPool.Add(item);
 		ObjectPoolItemToPooledObject(currLen);
@@ -113,4 +97,21 @@ public class ObjectPooler : MonoBehaviour
 	}
 }
 
+
+
+[System.Serializable]
+public class ObjectPoolItem
+{
+
+	public GameObject objectToPool;
+	public int amountToPool;
+	public bool shouldExpand = true;
+
+	public ObjectPoolItem(GameObject obj, int amt, bool exp = true)
+	{
+		objectToPool = obj;
+		amountToPool = Mathf.Max(amt,2);
+		shouldExpand = exp;
+	}
+}
 }

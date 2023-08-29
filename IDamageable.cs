@@ -28,8 +28,3 @@ public interface IStunnable
 }
 
 
-public interface IInteractable
-{
-    void Interact(GameObject gameObject); 
-    void Highlight(bool on); 
-}

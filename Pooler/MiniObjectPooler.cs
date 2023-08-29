@@ -8,15 +8,15 @@ namespace Laserbean.General
 
 public class MiniObjectPooler {
 
-    Transform parent; 
+    readonly Transform Parent; 
 	public ObjectPoolItem itemToPool;
 
-	public List<GameObject> pooledObjectList = new List<GameObject>(); 
+	public List<GameObject> pooledObjectList = new (); 
 
 
 
     public MiniObjectPooler(ObjectPoolItem item, Transform _parent) { 
-        parent = _parent; 
+        Parent = _parent; 
         itemToPool = item; 
         AddPooledObject();
     }
@@ -41,7 +41,7 @@ public class MiniObjectPooler {
 
     public GameObject AddPooledObject() {
         GameObject go = MonoBehaviour.Instantiate(itemToPool.objectToPool, Vector3.zero, Quaternion.identity); 
-        go.transform.SetParent(parent);
+        go.transform.SetParent(Parent);
         go.SetActive(false);
 
         go.transform.localPosition = Vector3.zero; 

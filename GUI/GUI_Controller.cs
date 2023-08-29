@@ -2,25 +2,41 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Laserbean.General;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class GUI_Controller : MonoBehaviour
 {
   
     public GUI_Window_Info ShowInfo;
     public GUI_Window_Info HideInfo; 
+    GUI_Window_Info target_window_info; 
+
+    
+    [SerializeField] float windowMoveDuration; 
+    [SerializeField] float opacityChangeDuration; 
+
+
 
     public bool IsShowing = true; 
 
-    [SerializeField] float windowMoveSpeed; 
-    [SerializeField] float opacityChangeSpeed; 
-
     CanvasGroup canvasGroup; 
 
+    RectTransform rectTransform; 
+
     private void Start() {
+        rectTransform = this.GetComponent<RectTransform>(); 
+
         canvasGroup = this.GetComponent<CanvasGroup>(); 
         if (canvasGroup == null) canvasGroup = this.gameObject.AddComponent<CanvasGroup>(); 
+
+        if (IsShowing) {
+            ShowGui();
+        } else {
+            HideGui(); 
+        }
     }
 
     private void OnValidate() {
@@ -30,21 +46,49 @@ public class GUI_Controller : MonoBehaviour
 
     public void ShowGui() {
         // if (IsShowing) return; 
-        var rectrans = this.GetComponent<RectTransform>(); 
-        rectrans.anchoredPosition = ShowInfo.Position;
+        rectTransform.anchoredPosition = ShowInfo.Position;
         canvasGroup.alpha = ShowInfo.Opacity; 
         IsShowing = true; 
     }
 
     public void HideGui() {
         // if (!IsShowing) return; 
-
-        var rectrans = this.GetComponent<RectTransform>();
-        rectrans.anchoredPosition = HideInfo.Position; 
+        rectTransform.anchoredPosition = HideInfo.Position; 
         canvasGroup.alpha = HideInfo.Opacity; 
         IsShowing = false; 
     }
 
+
+
+    int lerp_direction = -1; 
+    public void ShowGuiLerp() {
+        target_window_info = ShowInfo; 
+        IsShowing = true; 
+        lerp_direction = -1; 
+        // timer = windowMoveDuration; 
+
+    }
+
+    public void HideGuiLerp() {
+        target_window_info = HideInfo; 
+        IsShowing = false; 
+        lerp_direction = 1; 
+        // timer = 0f; 
+    }
+
+    float timer = 0f; 
+    private void Update() {
+        if ((rectTransform.anchoredPosition.ToVector3() - target_window_info.Position).sqrMagnitude < 0.05f) return; 
+
+        rectTransform.anchoredPosition = Vector3.Lerp(ShowInfo.Position, HideInfo.Position, timer/windowMoveDuration);
+        timer += (lerp_direction * Time.deltaTime); 
+
+
+        canvasGroup.alpha = Mathf.Lerp(ShowInfo.Opacity, HideInfo.Opacity, timer/windowMoveDuration);
+        
+
+        
+    }
     // IEnumerator ChangeGUI(GUI_Window_Info window_Info) { 
                 
 
@@ -86,6 +130,15 @@ public class CustomUIControllerEditor : Editor {
         if(GUILayout.Button("HideGui")) {
             customUIController.HideGui();             
         }
+
+        if(GUILayout.Button("ShowGuiLerp")) {
+            customUIController.ShowGuiLerp();             
+        }
+
+        if(GUILayout.Button("HideGuiLerp")) {
+            customUIController.HideGuiLerp();             
+        }
+
 
     }
 

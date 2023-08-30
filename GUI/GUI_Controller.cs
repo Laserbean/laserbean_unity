@@ -40,6 +40,8 @@ public class GUI_Controller : MonoBehaviour
     }
 
     private void OnValidate() {
+        rectTransform = this.GetComponent<RectTransform>(); 
+
         if (canvasGroup == null) canvasGroup = this.GetComponent<CanvasGroup>(); 
         if (canvasGroup == null) canvasGroup = this.gameObject.AddComponent<CanvasGroup>(); 
     }
@@ -148,7 +150,7 @@ public class CustomUIControllerEditor : Editor {
         RectTransform recttrans = customUIController.transform.GetComponent<RectTransform>(); 
         RectTransform parentrecttrans = customUIController.transform.parent.GetComponent<RectTransform>(); 
 
-        Debug.Log(parentrecttrans.sizeDelta.x);
+        // Debug.Log(parentrecttrans.sizeDelta.x);
 
         // Debug.Log(recttrans.anchoredPosition);
 

@@ -16,6 +16,56 @@ public static class HelpfulFunctions {
         List<T> res = thislist.Intersect(another).ToList<T>();
         return res;     
     }
+
+
+    public static void Resize<T>(ref List<T> array, int new_length, T thing = default) {
+        List<T> newArray = new (new_length);
+
+        for (int i = 0; i < Mathf.Min(array.Count, new_length); i++) {
+            newArray.Add(thing); 
+            newArray[i] = array[i];
+            // if (array[i] != null)
+            //     newArray.Add(array[i]);
+        }
+        for (int i = Mathf.Min(array.Count, new_length); i < new_length; i++) {
+            // newArray[i] = new T();
+            newArray.Add(thing); 
+        }
+
+        // if (new_length > array.Count) {
+        //     for (int i = Mathf.Min(array.Count, new_length); i < Mathf.Max(array.Count, new_length); i++) {
+        //         // newArray[i] = new T();
+        //     }
+        // } else {
+
+        // }
+
+        if (newArray.Count != new_length) {
+            throw new System.Exception("fish"); 
+        }
+        array = newArray; 
+    }
+
+
+
+    // public static void Resize<T>(ref T[] array, int new_length) {
+    //     T[] newArray = new T[new_length];
+
+
+    //     for (int i = 0; i < Mathf.Min(array.Length, new_length); i++) {
+    //         newArray[i] = array[i];
+    //     }
+
+
+    //     if (new_length > array.Length) {
+    //         for (int i = Mathf.Min(array.Length, new_length); i < Mathf.Max(array.Length, new_length); i++) {
+    //             newArray[i] = new T();
+    //         }
+    //     } else {
+
+    //     }
+    //     array = newArray; 
+    // }
 }
 
 

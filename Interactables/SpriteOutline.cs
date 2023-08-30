@@ -20,6 +20,8 @@ public class SpriteOutline : MonoBehaviour
     private void Start() {
         spriteRenderer = GetComponent<SpriteRenderer>();
         SetupOutlineSprite();
+        outline_go.SetActive(false); 
+        
     }
     
 

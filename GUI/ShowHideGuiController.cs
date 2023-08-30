@@ -9,9 +9,8 @@ using UnityEngine.PlayerLoop;
 
 namespace Laserbean.CustomGUI
 {
-public class GUI_Controller : MonoBehaviour
+public class ShowHideGuiController : MonoBehaviour
 {
-  
     public GUI_Window_Info ShowInfo;
     public GUI_Window_Info HideInfo; 
     Vector3 target_window_position = Vector3.zero; 
@@ -125,14 +124,14 @@ public struct GUI_Window_Info {
 
 
 #if UNITY_EDITOR 
-[CustomEditor(typeof(GUI_Controller))]
+[CustomEditor(typeof(ShowHideGuiController))]
 public class CustomUIControllerEditor : Editor {
 
 
     public override void OnInspectorGUI() {
         base.OnInspectorGUI();
 
-        GUI_Controller customUIController = (GUI_Controller)target;
+        ShowHideGuiController customUIController = (ShowHideGuiController)target;
 
         if(GUILayout.Button("ShowGui")) {
             customUIController.ShowGui();             
@@ -154,7 +153,7 @@ public class CustomUIControllerEditor : Editor {
     }
 
     public void OnSceneGUI() {
-        GUI_Controller customUIController = (GUI_Controller)target;
+        ShowHideGuiController customUIController = (ShowHideGuiController)target;
 
         RectTransform recttrans = customUIController.transform.GetComponent<RectTransform>(); 
         RectTransform parentrecttrans = customUIController.transform.parent.GetComponent<RectTransform>(); 

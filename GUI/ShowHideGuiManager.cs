@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Laserbean.CustomGUI
 {
-public class CustomUIController : MonoBehaviour
+public class ShowHideGuiManager : MonoBehaviour
 {
     [HideInInspector]
     public int RowNumber;
@@ -106,9 +106,9 @@ public class CustomUIController : MonoBehaviour
 
         foreach(var col in columns) {
             if (col.rows[num]) {
-                col.reference_object?.GetComponent<GUI_Controller>()?.ShowGuiLerp(); 
+                col.reference_object?.GetComponent<ShowHideGuiController>()?.ShowGuiLerp(); 
             } else {
-                col.reference_object?.GetComponent<GUI_Controller>()?.HideGuiLerp(); 
+                col.reference_object?.GetComponent<ShowHideGuiController>()?.HideGuiLerp(); 
             }
         }
         cur_state = num; 
@@ -121,9 +121,9 @@ public class CustomUIController : MonoBehaviour
 
         foreach(var col in columns) {
             if (col.rows[num]) {
-                col.reference_object?.GetComponent<GUI_Controller>()?.ShowGui(); 
+                col.reference_object?.GetComponent<ShowHideGuiController>()?.ShowGui(); 
             } else {
-                col.reference_object?.GetComponent<GUI_Controller>()?.HideGui(); 
+                col.reference_object?.GetComponent<ShowHideGuiController>()?.HideGui(); 
             }
         }
         cur_state = num; 
@@ -155,10 +155,10 @@ public class CustomUIController : MonoBehaviour
 
 
 
-[CustomEditor(typeof(CustomUIController))]
+[CustomEditor(typeof(ShowHideGuiManager))]
 public class CustomScriptInscpector : Editor {
 
-    CustomUIController targetScript;
+    ShowHideGuiManager targetScript;
 
     int prev_col_num;
     int prev_row_num;
@@ -171,7 +171,7 @@ public class CustomScriptInscpector : Editor {
         // using (new EditorGUI.DisabledScope(true))
         //     EditorGUILayout.ObjectField("Script", MonoScript.FromMonoBehaviour((MonoBehaviour)target), GetType(), false);
 
-        targetScript = target as CustomUIController;
+        targetScript = target as ShowHideGuiManager;
 
         
         int column_num = targetScript.ColumnNumber;

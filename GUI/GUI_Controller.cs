@@ -7,16 +7,18 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
+namespace Laserbean.CustomGUI
+{
 public class GUI_Controller : MonoBehaviour
 {
   
     public GUI_Window_Info ShowInfo;
     public GUI_Window_Info HideInfo; 
-    GUI_Window_Info target_window_info; 
+    Vector3 target_window_position = Vector3.zero; 
 
     
     [SerializeField] float windowMoveDuration; 
-    [SerializeField] float opacityChangeDuration; 
+    // [SerializeField] float opacityChangeDuration; 
 
 
 
@@ -51,6 +53,9 @@ public class GUI_Controller : MonoBehaviour
         rectTransform.anchoredPosition = ShowInfo.Position;
         canvasGroup.alpha = ShowInfo.Opacity; 
         IsShowing = true; 
+        ShowGuiLerp(); 
+        timer = 0f; 
+
     }
 
     public void HideGui() {
@@ -58,13 +63,17 @@ public class GUI_Controller : MonoBehaviour
         rectTransform.anchoredPosition = HideInfo.Position; 
         canvasGroup.alpha = HideInfo.Opacity; 
         IsShowing = false; 
+        HideGuiLerp(); 
+        timer = windowMoveDuration; 
+
+
     }
 
 
 
     int lerp_direction = -1; 
     public void ShowGuiLerp() {
-        target_window_info = ShowInfo; 
+        target_window_position = ShowInfo.Position; 
         IsShowing = true; 
         lerp_direction = -1; 
         // timer = windowMoveDuration; 
@@ -72,7 +81,7 @@ public class GUI_Controller : MonoBehaviour
     }
 
     public void HideGuiLerp() {
-        target_window_info = HideInfo; 
+        target_window_position = HideInfo.Position; 
         IsShowing = false; 
         lerp_direction = 1; 
         // timer = 0f; 
@@ -80,7 +89,12 @@ public class GUI_Controller : MonoBehaviour
 
     float timer = 0f; 
     private void Update() {
-        if ((rectTransform.anchoredPosition.ToVector3() - target_window_info.Position).sqrMagnitude < 0.05f) return; 
+        if (target_window_position == Vector3.zero) return; 
+        if ((rectTransform.anchoredPosition.ToVector3() - target_window_position).sqrMagnitude < 0.05f) return; 
+
+        if (timer > windowMoveDuration) timer = windowMoveDuration;
+        if (timer < 0f) timer = 0;
+
 
         rectTransform.anchoredPosition = Vector3.Lerp(ShowInfo.Position, HideInfo.Position, timer/windowMoveDuration);
         timer += (lerp_direction * Time.deltaTime); 
@@ -108,11 +122,6 @@ public struct GUI_Window_Info {
     [Range(0f, 1f)]
     public float Opacity; 
 }
-
-
-
-
-
 
 
 #if UNITY_EDITOR 
@@ -204,3 +213,5 @@ public class CustomUIControllerEditor : Editor {
 }
 
 #endif
+
+}

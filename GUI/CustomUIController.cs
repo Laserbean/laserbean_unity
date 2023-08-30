@@ -7,12 +7,17 @@ using UnityEditor.SceneManagement;
 using System;
 using System.Linq;
 
+namespace Laserbean.CustomGUI
+{
 public class CustomUIController : MonoBehaviour
 {
     [HideInInspector]
     public int RowNumber;
     [HideInInspector]
     public int ColumnNumber;
+
+    [SerializeField]
+    int cur_state = 0; 
 
     [System.Serializable]
     public class Column
@@ -42,6 +47,11 @@ public class CustomUIController : MonoBehaviour
         UpdateArraysizes();
     }
     #endif
+
+    void Start()
+    {
+        DoStateInstant(cur_state); 
+    }
 
     public void UpdateArraysizes() {
         if (row_names.Count != RowNumber) 
@@ -76,6 +86,11 @@ public class CustomUIController : MonoBehaviour
         }
     }
 
+
+    public int GetCurrentState() {
+        return cur_state;
+    }
+
     public bool NameExists(string name) {
         return name_index_dict.Keys.Contains(name);
     }
@@ -91,11 +106,12 @@ public class CustomUIController : MonoBehaviour
 
         foreach(var col in columns) {
             if (col.rows[num]) {
-                col.reference_object?.GetComponent<GUI_Controller>().ShowGuiLerp(); 
+                col.reference_object?.GetComponent<GUI_Controller>()?.ShowGuiLerp(); 
             } else {
-                col.reference_object?.GetComponent<GUI_Controller>().HideGuiLerp(); 
+                col.reference_object?.GetComponent<GUI_Controller>()?.HideGuiLerp(); 
             }
         }
+        cur_state = num; 
     }
 
     public void DoStateInstant(int num) {
@@ -105,11 +121,12 @@ public class CustomUIController : MonoBehaviour
 
         foreach(var col in columns) {
             if (col.rows[num]) {
-                col.reference_object?.GetComponent<GUI_Controller>().ShowGui(); 
+                col.reference_object?.GetComponent<GUI_Controller>()?.ShowGui(); 
             } else {
-                col.reference_object?.GetComponent<GUI_Controller>().HideGui(); 
+                col.reference_object?.GetComponent<GUI_Controller>()?.HideGui(); 
             }
         }
+        cur_state = num; 
     }
 }
 
@@ -246,3 +263,5 @@ public class CustomScriptInscpector : Editor {
 
 
 #endif
+
+}

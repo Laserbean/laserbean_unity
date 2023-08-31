@@ -32,9 +32,12 @@ public class EntityMover : MonoBehaviour
     public void DisenableMovement(bool canMove) {
         // if (!canMove) this.GetComponent<Rigidbody2D>().velocity = Vector3.zero; 
         canMove = !canMove; 
-        if (aipath.isStopped != canMove) {
-            aipath.isStopped = canMove; 
+        if (aipath != null) {
+            if (aipath.isStopped != canMove) {
+                aipath.isStopped = canMove; 
+            }
         }
+
         currentlyCanMove = !canMove; 
     }
 

@@ -31,9 +31,9 @@ public class SecondOrderDynamics
         yd = Vector3.zero; 
     }
 
-    public Vector3 Step(float T, Vector3 x, Vector3 xd = default(Vector3)) {
+    public Vector3 Step(float T, Vector3 x, Vector3 xd = default) {
         //T is the time between frames.
-        if (xd == default(Vector3)) {
+        if (xd == default) {
             xd = (x-xp) / T;
             xp = x; 
         }
@@ -46,8 +46,8 @@ public class SecondOrderDynamics
         return y; 
     }
 
-    public Vector3 StepPoleMatch(float T, Vector3 x, Vector3 xd = default(Vector3)) {
-        if (xd == default(Vector3)) {
+    public Vector3 StepPoleMatch(float T, Vector3 x, Vector3 xd = default) {
+        if (xd == default) {
             xd = (x-xp) / T;
             xp = x; 
         }

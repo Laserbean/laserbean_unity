@@ -9,18 +9,20 @@ public interface IDamageable
     // void Heal(float points);
 }
 
-
-public interface IHealable 
+public interface IHealth
 {
-    // void Damage(float damage);
-    void Heal(int  points);
+    int Health { get; }
+    int MaxHealth { get; }
+    void SetHealth ( int value );
+    void AddHealth ( int change );
 }
+
+
 
 public interface IKnockbackable
 {
     void Knockback(Vector2 dir); 
 }
-
 
 public interface IStunnable
 {

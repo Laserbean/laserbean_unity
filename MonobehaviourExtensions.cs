@@ -66,14 +66,14 @@ public static class InterfaceExtensions
 }
 
 public static class MoreExtensions {
-    ///<summary>Does this depending on if it containes the pooled object tag </summary>
-    public static void DestoyOrDeactivate(this GameObject go) {
-        if (go.HasTag(Constants.TAG_POOLED)) {
-            go.SetActive(false); 
-        } else {
-            GameObject.Destroy(go); 
-        }
-    }
+    // ///<summary>Does this depending on if it containes the pooled object tag </summary>
+    // public static void DestoyOrDeactivate(this GameObject go) {
+    //     if (go.HasTag(Constants.TAG_POOLED)) {
+    //         go.SetActive(false); 
+    //     } else {
+    //         GameObject.Destroy(go); 
+    //     }
+    // }
 
     // Constants
 

@@ -24,7 +24,7 @@ public class MiniObjectPooler {
     public GameObject GetPooledObject() {
 
         foreach(var go in pooledObjectList) {
-            if (go.activeInHierarchy) {
+            if (!go.activeInHierarchy) {
                 return go; 
             }
         }
@@ -40,7 +40,7 @@ public class MiniObjectPooler {
 
 
     public GameObject AddPooledObject() {
-        GameObject go = MonoBehaviour.Instantiate(itemToPool.objectToPool, Vector3.zero, Quaternion.identity); 
+        GameObject go = Object.Instantiate(itemToPool.objectToPool, Vector3.zero, Quaternion.identity); 
         go.transform.SetParent(Parent);
         go.SetActive(false);
 

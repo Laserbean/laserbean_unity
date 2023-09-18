@@ -1,3 +1,5 @@
+#define DEBUG_LOGS
+
 using System.Collections;
 using System.Collections.Generic;
 using Laserbean.General;
@@ -9,16 +11,7 @@ using System.Linq;
 
 namespace Laserbean.CustomGUI
 {
-
-public interface IGuiManager {
-    public int GetCurrentState();
-    public bool NameExists(string name);
-    public int GetStateNumber(string nme);
-    public void DoState(int num);
-    public void DoStateInstant(int num);
-}
-
-public class ShowHideGuiManager : MonoBehaviour, IGuiManager
+public class MultistateGuiManager : MonoBehaviour, IGuiManager
 {
     [HideInInspector]
     public int RowNumber;
@@ -33,7 +26,7 @@ public class ShowHideGuiManager : MonoBehaviour, IGuiManager
     {
         public string Name = "";
         public GameObject reference_object;
-        public List<bool> rows = new ();
+        public List<int> rows = new ();
 
         public Column (int num) {
             rows = new (num);
@@ -111,14 +104,13 @@ public class ShowHideGuiManager : MonoBehaviour, IGuiManager
     public void DoState(int num) {
         if (row_names.Count < num) throw new IndexOutOfRangeException("Index: " + num + "can't be found in customUIController"); 
 
+#if DEBUG_LOGS
         Debug.Log("Showing " + row_names[num] + " windows");
+#endif
 
         foreach(var col in columns) {
-            if (col.rows[num]) {
-                col.reference_object?.GetComponent<ShowHideGuiController>()?.ShowGuiLerp(); 
-            } else {
-                col.reference_object?.GetComponent<ShowHideGuiController>()?.HideGuiLerp(); 
-            }
+
+            col.reference_object?.GetComponent<MultistateGuiController>()?.StartGuiLerpAt(col.rows[num]); 
         }
         cur_state = num; 
     }
@@ -126,14 +118,12 @@ public class ShowHideGuiManager : MonoBehaviour, IGuiManager
     public void DoStateInstant(int num) {
         if (row_names.Count < num) throw new IndexOutOfRangeException("Index: " + num + "can't be found in customUIController"); 
 
+#if DEBUG_LOGS
         Debug.Log("Showing " + row_names[num] + " windows");
+#endif
 
         foreach(var col in columns) {
-            if (col.rows[num]) {
-                col.reference_object?.GetComponent<ShowHideGuiController>()?.ShowGui(); 
-            } else {
-                col.reference_object?.GetComponent<ShowHideGuiController>()?.HideGui(); 
-            }
+            col.reference_object?.GetComponent<MultistateGuiController>()?.ShowGuiAt(col.rows[num]); 
         }
         cur_state = num; 
     }
@@ -164,10 +154,10 @@ public class ShowHideGuiManager : MonoBehaviour, IGuiManager
 
 
 
-[CustomEditor(typeof(ShowHideGuiManager))]
-public class CustomScriptInscpector : Editor {
+[CustomEditor(typeof(MultistateGuiManager))]
+public class MultistateGuiManagerEditor : Editor {
 
-    ShowHideGuiManager targetScript;
+    MultistateGuiManager targetScript;
 
     int prev_col_num;
     int prev_row_num;
@@ -180,7 +170,7 @@ public class CustomScriptInscpector : Editor {
         // using (new EditorGUI.DisabledScope(true))
         //     EditorGUILayout.ObjectField("Script", MonoScript.FromMonoBehaviour((MonoBehaviour)target), GetType(), false);
 
-        targetScript = target as ShowHideGuiManager;
+        targetScript = target as MultistateGuiManager;
 
         
         int column_num = targetScript.ColumnNumber;
@@ -236,8 +226,6 @@ public class CustomScriptInscpector : Editor {
             try {
                 targetScript.columns[y].Name= EditorGUILayout.TextField(targetScript.columns[y].Name, GUILayout.Width(colwidth));
             } catch {
-
-                Debug.Log("fish");
                 try {
                     targetScript.columns[y].Name= EditorGUILayout.TextField(targetScript.columns[y].Name, GUILayout.Width(colwidth));
                 } 
@@ -250,7 +238,7 @@ public class CustomScriptInscpector : Editor {
             for (int x = 0; x < row_num; x++)
             {
                 try {
-                    targetScript.columns[y].rows[x] = EditorGUILayout.Toggle(targetScript.columns[y].rows[x]);
+                    targetScript.columns[y].rows[x] = EditorGUILayout.IntField(targetScript.columns[y].rows[x]);
                 } catch {
                     EditorGUILayout.EndVertical ();
                     EditorGUILayout.EndHorizontal ();

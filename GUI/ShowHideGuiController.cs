@@ -51,6 +51,8 @@ public class ShowHideGuiController : MonoBehaviour
         // if (IsShowing) return; 
         rectTransform.anchoredPosition = ShowInfo.Position;
         canvasGroup.alpha = ShowInfo.Opacity; 
+        canvasGroup.interactable = ShowInfo.Interactable; 
+
         IsShowing = true; 
         ShowGuiLerp(); 
         timer = 0f; 
@@ -61,6 +63,9 @@ public class ShowHideGuiController : MonoBehaviour
         // if (!IsShowing) return; 
         rectTransform.anchoredPosition = HideInfo.Position; 
         canvasGroup.alpha = HideInfo.Opacity; 
+        canvasGroup.interactable = HideInfo.Interactable; 
+
+
         IsShowing = false; 
         HideGuiLerp(); 
         timer = windowMoveDuration; 
@@ -73,6 +78,8 @@ public class ShowHideGuiController : MonoBehaviour
     int lerp_direction = -1; 
     public void ShowGuiLerp() {
         target_window_position = ShowInfo.Position; 
+        canvasGroup.interactable = ShowInfo.Interactable; 
+
         IsShowing = true; 
         lerp_direction = -1; 
         // timer = windowMoveDuration; 
@@ -81,6 +88,8 @@ public class ShowHideGuiController : MonoBehaviour
 
     public void HideGuiLerp() {
         target_window_position = HideInfo.Position; 
+        canvasGroup.interactable = HideInfo.Interactable; 
+
         IsShowing = false; 
         lerp_direction = 1; 
         // timer = 0f; 
@@ -115,11 +124,17 @@ public class ShowHideGuiController : MonoBehaviour
 
 
 [System.Serializable]
-public struct GUI_Window_Info {
+public class GUI_Window_Info {
     public Vector3 Position; 
 
     [Range(0f, 1f)]
     public float Opacity; 
+
+    public void SetPosition(Vector3 pos) {
+        Position = pos; 
+    }
+
+    public bool Interactable; 
 }
 
 
@@ -185,7 +200,7 @@ public class CustomUIControllerEditor : Editor {
         Vector3 newPosition = Handles.PositionHandle(transformPosition + (customUIController.ShowInfo.Position* scale), Quaternion.identity);
         if (EditorGUI.EndChangeCheck()) {
             Undo.RecordObject(customUIController, "Change Anchor Position");
-            customUIController.ShowInfo.Position = (newPosition - transformPosition);
+            customUIController.ShowInfo.Position = (newPosition - transformPosition)/scale;
             serializedObject.Update();
         }
 
@@ -197,7 +212,7 @@ public class CustomUIControllerEditor : Editor {
         newPosition = Handles.PositionHandle(transformPosition + customUIController.HideInfo.Position* scale, Quaternion.identity);
         if (EditorGUI.EndChangeCheck()) {
             Undo.RecordObject(customUIController, "Change Anchor Position");
-            customUIController.HideInfo.Position = newPosition - transformPosition;
+            customUIController.HideInfo.Position = (newPosition - transformPosition)/scale;
             serializedObject.Update();
         }
 

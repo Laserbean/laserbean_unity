@@ -27,10 +27,17 @@ public class GameManager : Singleton<GameManager>
                     _appPath =  Application.persistentDataPath ; 
                 }
             }
-
-
             return _appPath; 
         }
+    }
+
+    string gamepath = ""; 
+    public string GamePath {
+        get => AppPath + "/" + gamepath; 
+    }
+
+    public void SetGamePath(string pth) {
+        gamepath = pth; 
     }
 
 
@@ -45,11 +52,11 @@ public class GameManager : Singleton<GameManager>
     }
 
 
-    void LoadScene(string name) {
+    public void LoadScene(string name) {
         SceneManager.LoadScene(name);
     }
 
-    void DebugToggle(bool dee) {
+    public void DebugToggle(bool dee) {
         debug = dee; 
     }
 

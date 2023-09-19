@@ -105,7 +105,7 @@ public class ShowHideGuiController : MonoBehaviour
 
 
         rectTransform.anchoredPosition = Vector3.Lerp(ShowInfo.Position, HideInfo.Position, timer/windowMoveDuration);
-        timer += (lerp_direction * Time.deltaTime); 
+        timer += (lerp_direction * Time.unscaledDeltaTime); 
 
 
         canvasGroup.alpha = Mathf.Lerp(ShowInfo.Opacity, HideInfo.Opacity, timer/windowMoveDuration);

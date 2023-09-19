@@ -29,4 +29,6 @@ public interface IStunnable
     void Stun(float time); 
 }
 
-
+public interface IDestroyOrDisable {
+    void DestroyOrDisable(); 
+}

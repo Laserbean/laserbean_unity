@@ -93,7 +93,7 @@ public class MultistateGuiController : MonoBehaviour
 
 
         rectTransform.anchoredPosition = Vector3.Lerp(window_info_list[cur_window_ind].Position, window_info_list[target_window_ind].Position, timer/windowMoveDuration);
-        timer += Time.deltaTime; 
+        timer += Time.unscaledDeltaTime; 
 
 
         canvasGroup.alpha = Mathf.Lerp(window_info_list[cur_window_ind].Opacity, window_info_list[target_window_ind].Opacity, timer/windowMoveDuration);

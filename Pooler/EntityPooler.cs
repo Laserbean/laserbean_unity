@@ -28,6 +28,10 @@ namespace Laserbean.General {
             ItemPool = new(GroundItemObjectPool, transform); 
         }
 
+        public bool IsMobName(string nnnn) {
+            return MobNameDict.ContainsKey(nnnn); 
+        }
+
         public GameObject GetPooledMob(string name) {
             return MobPool[MobNameDict[name]].GetPooledObject(); 
         }

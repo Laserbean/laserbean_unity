@@ -33,7 +33,7 @@ public class GameManager : Singleton<GameManager>
 
     string gamepath = ""; 
     public string GamePath {
-        get => AppPath + "/" + gamepath; 
+        get => AppPath + "/saves/" + gamepath; 
     }
 
     public void SetGamePath(string pth) {

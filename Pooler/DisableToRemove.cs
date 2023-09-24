@@ -11,4 +11,14 @@ public class DisableToRemove : MonoBehaviour, IDestroyOrDisable
     {
         gameObject.SetActive(false); 
     }
+
+    void IDestroyOrDisable.DestroyOrDisableNextFrame()
+    {
+        StartCoroutine(DisableCoroutine());
+    }
+
+    IEnumerator DisableCoroutine() {
+        yield return null; 
+        gameObject.SetActive(false); 
+    }
 }

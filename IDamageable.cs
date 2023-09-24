@@ -31,4 +31,5 @@ public interface IStunnable
 
 public interface IDestroyOrDisable {
     void DestroyOrDisable(); 
+    void DestroyOrDisableNextFrame(); 
 }

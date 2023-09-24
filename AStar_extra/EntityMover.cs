@@ -29,6 +29,11 @@ public class EntityMover : MonoBehaviour
 
     TickTimer tickTimer; 
 
+    private void OnDisable() {
+        state = EntityState.Wander; 
+        currentlyCanMove = true;
+    }
+
     public void DisenableMovement(bool canMove) {
         // if (!canMove) this.GetComponent<Rigidbody2D>().velocity = Vector3.zero; 
         canMove = !canMove; 
@@ -56,11 +61,11 @@ public class EntityMover : MonoBehaviour
     }
 
 
-    void Start() {
+    void Awake() {
         aipath = this.GetComponent<IAstarAI>(); 
         destinationSetter = this.GetComponent<AIDestinationSetter>(); 
-        if (destinationSetter == null) 
-            destinationSetter = this.gameObject.AddComponent<AIDestinationSetter>();
+        // if (destinationSetter == null) 
+        destinationSetter ??= this.gameObject.AddComponent<AIDestinationSetter>();
 
         rigidbody2d = this.GetComponent<Rigidbody2D>();        
 
@@ -135,6 +140,8 @@ public class EntityMover : MonoBehaviour
     }
 
     public void SetTarget(Transform transform) {
+        destinationSetter ??= this.GetComponent<AIDestinationSetter>(); 
+
         destinationSetter.target = transform; 
     }
 

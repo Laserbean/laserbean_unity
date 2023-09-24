@@ -13,8 +13,8 @@ public static class SaveAnything
 {
 
     public static bool FileExists(string loadPath, string thingName, string extension = "bin") {
-        if (!loadPath.EndsWith("/")) loadPath = loadPath + "/"; 
-        if (extension.StartsWith(".")) extension = extension.Substring(1, extension.Length-1); 
+        if (!loadPath.EndsWith("/")) loadPath += "/"; 
+        if (extension.StartsWith(".")) extension = extension[1..]; 
 
         return File.Exists(loadPath + thingName + "." + extension); 
     }
@@ -22,8 +22,8 @@ public static class SaveAnything
     public static void SaveThing <T> (T thing, string savePath, string thingName, string extension = "bin") where T : class
     {
 
-        if (!savePath.EndsWith("/")) savePath = savePath + "/"; 
-        if (extension.StartsWith(".")) extension = extension.Substring(1, extension.Length-1); 
+        if (!savePath.EndsWith("/")) savePath += "/"; 
+        if (extension.StartsWith(".")) extension = extension[1..]; 
 
         if (!Directory.Exists(savePath))
             Directory.CreateDirectory(savePath);
@@ -73,6 +73,9 @@ public static class SaveAnything
 
         if (!Directory.Exists(savePath))
             Directory.CreateDirectory(savePath);
+
+        ISaveCallback myObj = thing as ISaveCallback;
+        myObj?.OnBeforeSave(); 
             
         string json = JsonUtility.ToJson(thing);
 
@@ -83,8 +86,8 @@ public static class SaveAnything
 
     public static T LoadJson<T> (string loadPath, string thingName, string extension = "json") where T : class{    
 
-        if (!loadPath.EndsWith("/")) loadPath = loadPath + "/"; 
-        if (extension.StartsWith(".")) extension = extension.Substring(1, extension.Length-1); 
+        if (!loadPath.EndsWith("/")) loadPath += "/"; 
+        if (extension.StartsWith(".")) extension = extension[1..]; 
 
         loadPath = loadPath + thingName + "." + extension; 
 
@@ -95,6 +98,10 @@ public static class SaveAnything
 
             //Convert the JSON string back to a ConfigData object.
             T jsonthing = JsonUtility.FromJson<T>(savedJson);
+
+
+            ISaveCallback myObj = jsonthing as ISaveCallback;
+            myObj?.OnAfterLoad(); 
             return jsonthing;
         }
         return null;
@@ -107,6 +114,8 @@ public static class SaveAnything
     public static T FromJson<T>(string thing) {
         return JsonUtility.FromJson<T>(thing); 
     }
+
+
 
 
 }

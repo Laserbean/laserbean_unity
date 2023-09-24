@@ -10,4 +10,14 @@ public class DestroyToRemove : MonoBehaviour, IDestroyOrDisable
     {
         Destroy(gameObject); 
     }
+
+    void IDestroyOrDisable.DestroyOrDisableNextFrame()
+    {
+        StartCoroutine(DestroyCoroutine());
+    }
+
+    IEnumerator DestroyCoroutine() {
+        yield return null; 
+        Destroy(gameObject); 
+    }
 }

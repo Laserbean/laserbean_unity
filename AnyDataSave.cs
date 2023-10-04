@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -108,6 +109,18 @@ public class SpecialDict : ICollection<KeyValuePair<string, SpecialData>>, IEnum
     // public void AddSpecial(string key, float num) {
 
     // }
+
+    public bool TryAdd(string key, SpecialData value) {
+        if (Keys.IndexOf(key) >= 0) 
+            return false;
+
+        if (key == null) 
+            return false;
+
+        Keys.Add(key); 
+        KVPs.Add(new SpecialKVP(key, value));
+        return true; 
+    }
 
     public void Add(string key, SpecialData value) {
         if (Keys.IndexOf(key) >= 0) 
@@ -300,4 +313,142 @@ public struct SpecialData {
         set => Float3 = new float3(value.x, value.y, 0); 
 
     }
-}}
+}
+ 
+
+    [System.Serializable]
+    public class StringFloatDictionary : ICollection<KeyValuePair<string, float>>, IEnumerable<KeyValuePair<string, float>>,
+        // IEnumerable, 
+        IDictionary<string, float>, IReadOnlyCollection<KeyValuePair<string, float>>, IReadOnlyDictionary<string, float>,
+        // ICollection, 
+        // IDictionary, 
+        IDeserializationCallback, // ISerializable, 
+        ISerializationCallbackReceiver
+
+    {
+        public List<string> keys; 
+        public List<float> values; 
+        public ICollection<string> Keys => keys;
+        public ICollection<float> Values => values;
+
+        public float this[string key] { 
+            get => values[keys.IndexOf(key)]; 
+            set {
+                if (keys.Contains(key)){
+                    values[keys.IndexOf(key)] = value;
+                } else {
+                    values.Add(value);
+                    keys.Add(key);
+                }
+            }
+        }
+
+        public int Count => values.Count == keys.Count ? values.Count : throw new SystemException("keys and values have different lenght");
+
+        public bool IsReadOnly => false;
+
+
+        IEnumerable<string> IReadOnlyDictionary<string, float>.Keys => throw new NotImplementedException();
+        IEnumerable<float> IReadOnlyDictionary<string, float>.Values => throw new NotImplementedException();
+
+        public void Add(KeyValuePair<string, float> item)
+        {
+            Add(item.Key, item.Value);
+        }
+
+        public void Add(string key, float value)
+        {
+            if (Keys.Contains(key)) throw new ArgumentException(); 
+            if (key == null) throw new ArgumentNullException(); 
+
+            Keys.Add(key);
+            values.Add(value); 
+        }
+
+        public void Clear()
+        {
+            keys.Clear();
+            values.Clear();
+        }
+
+        public bool Contains(KeyValuePair<string, float> item)
+        {
+            return keys.Contains(item.Key) && values.Contains(item.Value); 
+        }
+
+        public bool ContainsKey(string key)
+        {
+            return keys.Contains(key);
+        }
+
+            public void CopyTo(KeyValuePair<string, float>[] array, int arrayIndex)
+            {
+                throw new NotImplementedException();
+            }
+
+        public IEnumerator<KeyValuePair<string, float>> GetEnumerator()
+        {
+            for (int i = 0; i < Count; i++) {
+                yield return new KeyValuePair<string, float>(keys[i], values[i]);
+            }
+        }
+
+            public void OnAfterDeserialize()
+            {
+                
+            }
+
+            public void OnBeforeSerialize()
+            {
+                
+            }
+
+            public void OnDeserialization(object sender)
+            {
+                
+            }
+
+        public bool Remove(KeyValuePair<string, float> item)
+        {
+            int index = keys.IndexOf(item.Key); 
+
+            if (index < 0) return false; 
+
+            keys.RemoveAt(index);
+            values.RemoveAt(index); 
+
+            return true; 
+        }
+
+        public bool Remove(string key)
+        {
+            int index = keys.IndexOf(key); 
+
+            if (index < 0) return false; 
+
+            keys.RemoveAt(index);
+            values.RemoveAt(index); 
+
+            return true; 
+        }
+
+        public bool TryGetValue(string key, out float value)
+        {
+            value = 0f; 
+            if (!keys.Contains(key)) 
+                return false; 
+            
+            value = values[keys.IndexOf(key)]; 
+            return true; 
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            for (int i = 0; i < Count; i++) {
+                yield return new KeyValuePair<string, float>(keys[i], values[i]);
+            }        
+        }
+    }
+
+
+}

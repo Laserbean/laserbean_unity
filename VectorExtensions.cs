@@ -106,6 +106,9 @@ public static class VectorExtensions
         return new Vector2Int((int)v.x, (int) v.y); 
     }
 
+    public static Vector2Int RoundToVector2Int(this Vector2 v){        
+        return new Vector2Int(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y)); 
+    }
 
     public static Vector2Int RoundToVector2Int(this Vector3 v){        
         return new Vector2Int(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y)); 

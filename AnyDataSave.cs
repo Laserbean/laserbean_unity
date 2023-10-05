@@ -326,8 +326,8 @@ public struct SpecialData {
         ISerializationCallbackReceiver
 
     {
-        public List<string> keys; 
-        public List<float> values; 
+        public List<string> keys = new(); 
+        public List<float> values = new(); 
         public ICollection<string> Keys => keys;
         public ICollection<float> Values => values;
 

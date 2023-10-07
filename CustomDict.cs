@@ -101,18 +101,20 @@ namespace Laserbean.SpecialData
             }
         }
 
+        void UpdateKeysAndValues() {
+            keys.Clear();
+            values.Clear(); 
+            foreach(var kvp in keyValueList) {
+                if (keys.Contains(kvp.Key))
+                    Debug.LogError("Dictionary already contains key: " + kvp.Key);
+                
+                keys.Add(kvp.Key);
+                values.Add(kvp.Value); 
+            }
+        }
             public void OnAfterDeserialize()
             {
-                keys.Clear();
-                values.Clear(); 
-                foreach(var kvp in keyValueList) {
-                    if (keys.Contains(kvp.Key))
-                        Debug.LogError("Dictionary already contains key: " + kvp.Key);
-                    
-                    keys.Add(kvp.Key);
-                    values.Add(kvp.Value); 
-                }
-
+                UpdateKeysAndValues();
             }
 
             public void OnBeforeSerialize()
@@ -126,7 +128,7 @@ namespace Laserbean.SpecialData
 
             public void OnDeserialization(object sender)
             {
-                
+                UpdateKeysAndValues();
             }
 
         public bool Remove(KeyValuePair<Tkey, Tvalue> item)
@@ -238,7 +240,8 @@ public class CustomDictionaryProperty : PropertyDrawer
         for (int i = 0; i < keyValuePairs.arraySize; i++)
         {
             SerializedProperty pair = keyValuePairs.GetArrayElementAtIndex(i);
-            totalheight += pair.isExpanded ? lineHeight * 3 : lineHeight; 
+            // totalheight += pair.isExpanded ? lineHeight * 3 : lineHeight; 
+            totalheight += EditorGUI.GetPropertyHeight(pair);
         }
         
 

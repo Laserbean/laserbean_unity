@@ -157,7 +157,7 @@ namespace Laserbean.SpecialData
 
         public bool TryGetValue(Tkey key, out Tvalue value)
         { 
-            value = default(Tvalue);
+            value = default;
             if (!keys.Contains(key)) 
                 return false; 
             
@@ -193,63 +193,63 @@ public struct SerializedKeyValuePair<TKey, TValue>
 
 
 
-[CustomPropertyDrawer(typeof(CustomDictionary<,>))]
-public class CustomDictionaryProperty : PropertyDrawer 
-{
-    const string propname = "keyValueList";
+// // [CustomPropertyDrawer(typeof(CustomDictionary<,>))]
+// // public class CustomDictionaryProperty : PropertyDrawer 
+// // {
+// //     const string propname = "keyValueList";
 
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        EditorGUI.BeginProperty(position, label, property);
+// //     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+// //     {
+// //         EditorGUI.BeginProperty(position, label, property);
 
-        // Calculate the height of a single line
-        float lineHeight = EditorGUIUtility.singleLineHeight;
+// //         // Calculate the height of a single line
+// //         float lineHeight = EditorGUIUtility.singleLineHeight;
 
-        // Draw a label for the list
+// //         // Draw a label for the list
 
-        // EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
-
-
-        SerializedProperty keyValuePairs = property.FindPropertyRelative(propname);
+// //         // EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
 
-        EditorGUI.PropertyField(position, keyValuePairs, label, true);
+// //         SerializedProperty keyValuePairs = property.FindPropertyRelative(propname);
 
 
-        // EditorGUI.LabelField(position, "Fish");
-        EditorGUI.EndProperty();
-
-    }
+// //         EditorGUI.PropertyField(position, keyValuePairs, label, true);
 
 
-    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-    {
-        float lineHeight = EditorGUIUtility.singleLineHeight;
-        float totalheight = 0f; 
+// //         // EditorGUI.LabelField(position, "Fish");
+// //         EditorGUI.EndProperty();
 
-        totalheight += lineHeight*1; 
+// //     }
 
-        SerializedProperty keyValuePairs = property.FindPropertyRelative(propname);
 
-        if (!keyValuePairs.isExpanded) {
-            return totalheight; 
-        }
+// //     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+// //     {
+// //         float lineHeight = EditorGUIUtility.singleLineHeight;
+// //         float totalheight = 0f; 
 
-        totalheight += lineHeight*3; 
+// //         totalheight += lineHeight*1; 
 
-        for (int i = 0; i < keyValuePairs.arraySize; i++)
-        {
-            SerializedProperty pair = keyValuePairs.GetArrayElementAtIndex(i);
-            // totalheight += pair.isExpanded ? lineHeight * 3 : lineHeight; 
-            totalheight += EditorGUI.GetPropertyHeight(pair);
-        }
+// //         SerializedProperty keyValuePairs = property.FindPropertyRelative(propname);
+
+// //         if (!keyValuePairs.isExpanded) {
+// //             return totalheight; 
+// //         }
+
+// //         totalheight += lineHeight*3; 
+
+// //         for (int i = 0; i < keyValuePairs.arraySize; i++)
+// //         {
+// //             SerializedProperty pair = keyValuePairs.GetArrayElementAtIndex(i);
+// //             // totalheight += pair.isExpanded ? lineHeight * 3 : lineHeight; 
+// //             totalheight += EditorGUI.GetPropertyHeight(pair);
+// //         }
         
 
-        return totalheight;
-    }
+// //         return totalheight;
+// //     }
 
 
-}
+// // }
 
 
 

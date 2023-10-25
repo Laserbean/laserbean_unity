@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class DisableToRemove : MonoBehaviour, IDestroyOrDisable
 {
+
+    // [SerializeField] GameObject GameObjectToDisable; 
     void IDestroyOrDisable.DestroyOrDisable()
     {
         gameObject.SetActive(false); 

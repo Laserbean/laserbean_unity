@@ -86,7 +86,7 @@ public class TickTimer {
 
 
 //usage:
-// GlobalTickSystem.OnTick += delegate (object sender, GlobalTickSystem.OnTickEventArgs e) {
+// TimeTickSystem.OnTick += delegate (object sender, TimeTickSystem.OnTickEventArgs e) {
 // //DO stuff
 //}
 

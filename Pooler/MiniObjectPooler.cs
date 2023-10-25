@@ -8,7 +8,7 @@ namespace Laserbean.General
 
 public class MiniObjectPooler {
 
-    readonly Transform Parent; 
+    Transform Parent; 
 	public ObjectPoolItem itemToPool;
 
 	public List<GameObject> pooledObjectList = new (); 
@@ -16,6 +16,18 @@ public class MiniObjectPooler {
 
 
     public MiniObjectPooler(ObjectPoolItem item, Transform _parent) { 
+        Parent = _parent; 
+        itemToPool = item; 
+
+        if (item != null)
+            AddPooledObject();
+    }
+
+    public void SetPoolItem(ObjectPoolItem item, Transform _parent) {
+        try {
+            Object.Destroy(itemToPool.objectToPool);
+        } catch {}
+
         Parent = _parent; 
         itemToPool = item; 
         AddPooledObject();
@@ -53,6 +65,13 @@ public class MiniObjectPooler {
         return go;
     }
 
+
+    public void DestroyAllPooledObjects() {
+        for(int i = pooledObjectList.Count-1; i >= 0; i--) {
+            Object.Destroy(pooledObjectList[i]); 
+        }
+        pooledObjectList.Clear(); 
+    }
     
 }
 

@@ -87,7 +87,10 @@ public static class MoreExtensions {
     }
 
 
-    public static System.Collections.IEnumerator DoAnimationTotalTime(this SpriteRenderer spriteRenderer, List<Sprite> sprites, float total_time) {
+    // <summary> 
+    // NOTE: Start with Coroutine
+    // </summary>
+    public static System.Collections.IEnumerator DoAnimationTotalTime(this SpriteRenderer spriteRenderer, List<Sprite> sprites, float total_time) {       
         yield return DoAnimation(spriteRenderer, sprites, total_time/sprites.Count);
     }
 

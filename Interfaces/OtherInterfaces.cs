@@ -12,8 +12,6 @@ namespace Laserbean.General.OtherInterfaces
     }
 
 
-
-
     public interface IHealth
     {
         int Health { get; }

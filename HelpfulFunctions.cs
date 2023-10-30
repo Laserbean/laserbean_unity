@@ -67,6 +67,19 @@ public static class HelpfulFunctions {
     //     array = newArray; 
     // }
 
+
+    public static void ResizeSpriteToFollowRect(GameObject gameObject) {
+        // var sprender =  this.GetComponent<SpriteRenderer>(); 
+
+        var parent = gameObject.transform as RectTransform;
+        var sprite = gameObject.GetComponent<SpriteRenderer>().sprite;
+        parent.localScale = parent.rect.size / sprite.rect.size * sprite.pixelsPerUnit;
+
+
+
+    }
+        
+
 }
 
 

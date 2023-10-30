@@ -8,6 +8,19 @@ namespace Laserbean.General
 public static class VectorExtensions
 {
 
+    public static float CalculateAbsoluteAngle(float angle1, float angle2) {
+        angle1 = (angle1 + 360) % 360;
+        angle2 = (angle2 + 360) % 360;
+
+        float angleDifference = Mathf.Abs(angle1 - angle2);
+
+        if (angleDifference > 180) {
+            // Adjust for angles that wrap around
+            angleDifference = 360 - angleDifference;
+        }
+
+        return angleDifference;
+    }
 
     public static float CalculateAngle(Vector3 from, Vector3 to) {
         return Quaternion.FromToRotation(Vector3.up, to - from).eulerAngles.z;

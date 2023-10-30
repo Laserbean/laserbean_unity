@@ -7,6 +7,10 @@ namespace Laserbean.CoreSystem {
     {
         protected Core core;
 
+        public Core GetCore() {
+            return core; 
+        }
+
         protected virtual void Awake()
         {
             if (transform.parent != null) {

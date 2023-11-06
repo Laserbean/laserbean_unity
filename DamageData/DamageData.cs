@@ -9,9 +9,9 @@ namespace Laserbean.General.DamageInterfaces {
 [System.Serializable]
 public class DamageData
 {
-    public float Amount { get; private set;}
-    public WeaponType Weapon_Type{ get; private set;} 
-    public DamageType Damage_Type{ get; private set;} 
+    [field:SerializeField] public float Amount { get; private set;}
+    [field:SerializeField] public WeaponType Weapon_Type{ get; private set;} 
+    [field:SerializeField] public DamageType Damage_Type{ get; private set;} 
 
     public GameObject Source { get; private set;}
 

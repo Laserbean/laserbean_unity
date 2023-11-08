@@ -71,7 +71,7 @@ namespace Laserbean.General
         public static void SaveJson<T>(T thing, string savePath, string thingName, string extension = "json")
         {
             if (!savePath.EndsWith("/")) savePath += "/";
-            if (extension.StartsWith(".")) extension = extension.Substring(1, extension.Length - 1);
+            if (extension.StartsWith(".")) extension = extension[1..];
 
             if (!Directory.Exists(savePath))
                 Directory.CreateDirectory(savePath);

@@ -33,10 +33,13 @@ namespace Laserbean.General {
         }
 
         public GameObject GetPooledMob(string name) {
+            if (!enabled) return null;
+
             return MobPool[MobNameDict[name]].GetPooledObject(); 
         }
 
         public GameObject GetNewGroundItem() {
+            if (!enabled) return null;
             return ItemPool.GetPooledObject(); 
         }
     }

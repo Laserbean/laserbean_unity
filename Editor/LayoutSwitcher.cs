@@ -28,6 +28,12 @@ public static class LayoutSwitcherTool
         OpenLayout("Profile"); 
     }
 
+    [Shortcut("LayoutSwitcher/Layout4", KeyCode.Alpha4, ShortcutModifiers.Alt)]
+    public static void Layout4MenuItem() {
+        OpenLayout("Layout4"); 
+    }
+
+
     static bool OpenLayout(string name) {
         string path = GetWindowLayoutPath(name); 
         if (string.IsNullOrEmpty(path)) return false; 

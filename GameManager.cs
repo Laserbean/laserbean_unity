@@ -21,7 +21,7 @@ public class GameManager : Singleton<GameManager>
     public string AppPath {
         get {
             if (_appPath == "") {
-                if (Application.isEditor ^ isDebugPath) {
+                if (Application.isEditor && isDebugPath) {
                     _appPath = "/unity_projects/Debug";
                 }
                 else {

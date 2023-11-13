@@ -1,0 +1,18 @@
+{
+    "name": "Laserbean_editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:eadd00cbdb6cf744a846403ec8829696"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

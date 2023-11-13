@@ -1,10 +1,16 @@
-using UnityEditor;
 using UnityEngine;
 
 #if UNITY_EDITOR
+
+using UnityEditor;
+
+#endif
+
 public class ShowOnlyAttribute : PropertyAttribute
 {
 }
+
+#if UNITY_EDITOR
 
 [CustomPropertyDrawer(typeof(ShowOnlyAttribute))]
 public class ShowOnlyDrawer : PropertyDrawer
@@ -13,8 +19,7 @@ public class ShowOnlyDrawer : PropertyDrawer
     {
         string valueStr;
 
-        switch (prop.propertyType)
-        {
+        switch (prop.propertyType) {
             case SerializedPropertyType.Integer:
                 valueStr = prop.intValue.ToString();
                 break;
@@ -36,7 +41,7 @@ public class ShowOnlyDrawer : PropertyDrawer
                 break;
         }
 
-        EditorGUI.LabelField(position,label.text, valueStr);
+        EditorGUI.LabelField(position, label.text, valueStr);
     }
 }
 #endif

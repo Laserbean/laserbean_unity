@@ -54,6 +54,7 @@ public class MultistateGuiController : MonoBehaviour
         rectTransform.anchoredPosition = targetWindowInfo.Position;
         canvasGroup.alpha = targetWindowInfo.Opacity; 
         canvasGroup.interactable = targetWindowInfo.Interactable; 
+        canvasGroup.blocksRaycasts = targetWindowInfo.BlocksRaycast; 
 
 
         target_window_position = targetWindowInfo.Position; 
@@ -69,6 +70,8 @@ public class MultistateGuiController : MonoBehaviour
         target_window_ind = number; 
 
         canvasGroup.interactable = targetWindowInfo.Interactable; 
+        canvasGroup.blocksRaycasts = targetWindowInfo.BlocksRaycast; 
+
         target_window_position = targetWindowInfo.Position; 
         timer = 0f; 
     }

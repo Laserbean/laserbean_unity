@@ -8,15 +8,33 @@ using EasyButtons;
 using UnityEngine.SceneManagement;
 
 
+using System;
+using Laserbean.General;
 
 public class GameManager : Singleton<GameManager>
 {
 
     private GameState curstate;
-
     public GameObject player = null;
 
     public bool isDebugPath = false;
+    public bool debug = true;
+
+
+    public bool IsPaused {
+        get {
+            return curstate == GameState.Paused;
+        }
+    }
+
+    public bool IsRunning {
+        get {
+            return (curstate == GameState.Running) || debug;
+        }
+    }
+
+
+    #region GamePath
 
     public string AppPath {
         get {
@@ -46,12 +64,71 @@ public class GameManager : Singleton<GameManager>
 
     string _appPath = "";
 
-    public bool debug = true;
+    #endregion
 
-    private void Awake()
+
+    public Func<IEnumerator> OnStartMenuLoadHandler;
+    public Action OnFinishMenuLoad;
+
+    public Func<IEnumerator> OnNewGameHandler;
+    // public Action OnFinishNewGame;
+
+    public Func<IEnumerator> OnGameLoadHandler;
+    public Action OnFinishGameLoad;
+
+    public Action OnStartGame;
+    public Action OnStopGame;
+    public Action OnPauseGame;
+    public Action OnUnpauseGame;
+
+    public Action OnSaveGame;
+
+    private void OnDestroy()
     {
-        curstate = GameState.Menu;
+        OnStartMenuLoadHandler = null;
+        OnFinishMenuLoad = null;
+        OnNewGameHandler = null;
+        OnGameLoadHandler = null;
+        OnFinishGameLoad = null;
+        OnStartGame = null;
+        OnStopGame = null;
+        OnPauseGame = null;
+        OnUnpauseGame = null;
+        OnSaveGame = null;
+    }
 
+
+    private IEnumerator Start()
+    {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(MenuSetup());
+        curstate = GameState.MenuLoad;
+    }
+
+
+    IEnumerator MenuSetup()
+    {
+        Debug.Log("Start setup".DebugColor(Color.blue));
+        yield return OnStartMenuLoadHandler?.InvokeAndWait(gameObject);
+        Debug.Log("MenuSetup Finished".DebugColor(Color.green));
+        OnFinishMenuLoad?.Invoke();
+    }
+
+    IEnumerator GameSetup()
+    {
+        Debug.Log("Start Game Load".DebugColor(Color.blue));
+        yield return OnGameLoadHandler?.InvokeAndWait(gameObject);
+        Debug.Log("Game Loaded".DebugColor(Color.green));
+        OnFinishGameLoad?.Invoke();
+    }
+
+
+    IEnumerator NewGameSetup()
+    {
+        Debug.Log("Start New Game".DebugColor(Color.blue));
+        yield return OnNewGameHandler?.InvokeAndWait(gameObject);
+        Debug.Log("Game Created".DebugColor(Color.green));
+        OnFinishGameLoad?.Invoke();
     }
 
 
@@ -66,29 +143,55 @@ public class GameManager : Singleton<GameManager>
     }
 
 
+    [Button]
+    public void StartLoadGame()
+    {
+        StartCoroutine(GameSetup());
+    }
+
+    [Button]
+    public void StartNewGame()
+    {
+        StartCoroutine(NewGameSetup());
+    }
+
+    [Button]
+    public void SaveGame()
+    {
+        OnSaveGame?.Invoke();
+    }
+
 
     [Button]
     public void StartGame()
     {
         curstate = GameState.Running;
         RecalculateGraph();
+        OnStartGame?.Invoke();
     }
-
 
     public void PauseGame()
     {
-        curstate = GameState.Paused;
+        if (curstate == GameState.Running) {
+            curstate = GameState.Paused;
+            Time.timeScale = 0f;
+            OnPauseGame?.Invoke();
+        }
     }
 
     public void UnPauseGame()
     {
-        curstate = GameState.Running;
+        if (curstate == GameState.Paused) {
+            curstate = GameState.Running;
+            Time.timeScale = 1f;
+            OnUnpauseGame?.Invoke();
+        }
     }
-
 
     public void StopGame()
     {
         curstate = GameState.Menu;
+        OnStopGame?.Invoke();
     }
 
     [Button]
@@ -99,29 +202,14 @@ public class GameManager : Singleton<GameManager>
 
     public void Pause(bool paused)
     {
-        if (curstate == GameState.Running && !paused) {
-            curstate = GameState.Paused;
-            Time.timeScale = 0f;
-            // Actions.OnPause(); 
+        if (!paused) {
+            PauseGame();
         }
-        else if (curstate == GameState.Paused && paused) {
-            curstate = GameState.Running;
-            Time.timeScale = 1f;
-            // Actions.OnPause(); 
+        else {
+            UnPauseGame();
         }
     }
 
-    public bool IsPaused {
-        get {
-            return curstate == GameState.Paused;
-        }
-    }
-
-    public bool IsRunning {
-        get {
-            return (curstate == GameState.Running) || debug;
-        }
-    }
 
 
 
@@ -129,6 +217,11 @@ public class GameManager : Singleton<GameManager>
 
 public enum GameState
 {
-    Running, Paused, Menu, Intro
+    MenuLoad,
+    Menu,
+
+    GameLoad,
+    Running,
+    Paused
 }
 

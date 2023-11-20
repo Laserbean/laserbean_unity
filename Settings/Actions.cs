@@ -5,6 +5,5 @@ using System;
 
 public static class Actions
 {
-    public static Action OnPause; 
     public static Action OnSettingsChange; 
 }

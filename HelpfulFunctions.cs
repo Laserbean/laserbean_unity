@@ -101,6 +101,20 @@ namespace Laserbean.General
         }
 
 
+        // public delegate System.Collections.IEnumerator OnLoad();
+
+
+
+        public static System.Collections.IEnumerator InvokeAndWait<OnLoad>(this OnLoad ThisThing, GameObject referenceobject) where OnLoad : System.Delegate
+        {
+            if (ThisThing != null) {
+                foreach (OnLoad handler in ThisThing.GetInvocationList().Cast<OnLoad>()) {
+                    yield return handler.DynamicInvoke();
+                }
+            }
+
+            yield break;
+        }
     }
 
 

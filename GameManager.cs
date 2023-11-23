@@ -14,6 +14,7 @@ using Laserbean.General;
 public class GameManager : Singleton<GameManager>
 {
 
+    [SerializeField] int TargetFrameRate = 30;
     private GameState curstate;
     public GameObject player = null;
 
@@ -100,6 +101,7 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator Start()
     {
+        Application.targetFrameRate = TargetFrameRate; 
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(MenuSetup());
         curstate = GameState.MenuLoad;

@@ -30,7 +30,7 @@ public class SettingsManager : Singleton<SettingsManager>
 
     Dictionary<string, SettingsSlot> slotsdict = new();
 
-    private void Start()
+    private void Awake()
     {
         // Settings loaded = LoadSettings(); 
         Loadtest();

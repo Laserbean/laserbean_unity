@@ -1,27 +1,30 @@
 using UnityEngine;
 
 
-namespace Laserbean.CoreSystem {
+namespace Laserbean.CoreSystem
+{
 
     public abstract class CoreComponent : MonoBehaviour, ILogicUpdate
     {
         protected Core core;
 
-        public Core GetCore() {
-            return core; 
+        public Core GetCore()
+        {
+            return core;
         }
 
         protected virtual void Awake()
         {
             if (transform.parent != null) {
                 core = transform.parent.GetComponent<Core>();
-            } else {
+            }
+            else {
                 core = transform.GetComponent<Core>();
             }
 
 
-            if(core == null) { 
-                Debug.LogError("There is no Core on the parent" + gameObject); 
+            if (core == null) {
+                Debug.LogError("There is no Core on the parent" + gameObject);
             }
             core.AddComponent(this);
         }
@@ -32,6 +35,10 @@ namespace Laserbean.CoreSystem {
 
 
         public virtual void LogicUpdate() { }
+
+        public virtual void ResetComponent()
+        {
+        }
 
     }
 

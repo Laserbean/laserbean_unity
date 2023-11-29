@@ -39,6 +39,7 @@ public class SettingsManager : Singleton<SettingsManager>
             if (settings_so.list[i].name == "header") {
                 GameObject go2 = Instantiate(header_prefab, content.transform.position + new Vector3(0, -i * yspace, 0) + offset, content.transform.rotation);
                 go2.transform.SetParent(content.transform);
+                go2.transform.localScale = Vector3.one;
                 go2.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = settings_so.list[i].displayname;
                 continue;
             }
@@ -51,6 +52,7 @@ public class SettingsManager : Singleton<SettingsManager>
 
             GameObject go = Instantiate(settings_prefab, content.transform.position + new Vector3(0, -i * yspace, 0) + offset, content.transform.rotation);
             go.transform.SetParent(content.transform);
+            go.transform.localScale = Vector3.one;
             go.GetComponent<SettingItemController>().Init(settings_so.list[i].name, settings_so.list[i].type, settings_so.list[i].displayname, settings_so.list[i].description);
         }
         Ready = true;

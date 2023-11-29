@@ -12,6 +12,9 @@ public class FpsCounter : MonoBehaviour
     {
         textMeshPro = GetComponent<TMPro.TextMeshProUGUI>();
     }
+    [SerializeField] string Prefix = "FPS: ";
+
+    [SerializeField] float targetFps = 30;
 
     const int buffersize = 50;
 
@@ -27,17 +30,20 @@ public class FpsCounter : MonoBehaviour
         int curfps = CalculateFPS();
 
         Color curcolor;
-        if (curfps >= 55) {
+        if (curfps >= 0.90 * targetFps) {
             curcolor = Color.green;
         }
-        else if (curfps >= 25) {
+        else if (curfps >= 0.8 * targetFps) {
+            curcolor = new Color(1f, 0.5f, 0.016f, 1f);
+        }
+        else if (curfps >= 0.7 * targetFps) {
             curcolor = Color.yellow;
         }
         else {
             curcolor = Color.red;
         }
 
-        textMeshPro.text = "FPS : " + curfps.ToString().DebugColor(curcolor);
+        textMeshPro.text = Prefix + curfps.ToString().DebugColor(curcolor);
 
     }
 

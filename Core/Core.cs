@@ -5,7 +5,8 @@ using System.Linq;
 
 //Based on bardent's core system. 
 
-namespace Laserbean.CoreSystem {
+namespace Laserbean.CoreSystem
+{
     public class Core : MonoBehaviour
     {
         private readonly List<CoreComponent> CoreComponents = new List<CoreComponent>();
@@ -38,9 +39,15 @@ namespace Laserbean.CoreSystem {
             value = GetCoreComponent<T>();
             return value;
         }
+
+        public void ResetComponents()
+        {
+            foreach (var corecomponent in CoreComponents) {
+                corecomponent.ResetComponent(); 
+            }
+        }
     }
 }
 
 
 
-    

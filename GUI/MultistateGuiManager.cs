@@ -24,6 +24,7 @@ namespace Laserbean.CustomGUI
 
         [SerializeField]
         int cur_state = 0;
+        int previous_state = 0;
 
         [System.Serializable]
         public class Column
@@ -124,6 +125,7 @@ namespace Laserbean.CustomGUI
 
                 col.reference_object?.GetComponent<MultistateGuiController>()?.StartGuiLerpAt(col.rows[num]);
             }
+            previous_state = cur_state;
             cur_state = num;
         }
 
@@ -138,8 +140,21 @@ namespace Laserbean.CustomGUI
             foreach (var col in columns) {
                 col.reference_object?.GetComponent<MultistateGuiController>()?.ShowGuiAt(col.rows[num]);
             }
+            previous_state = cur_state;
             cur_state = num;
         }
+
+        public void UndoState()
+        {
+            DoState(previous_state);
+        }
+
+        public void UndoStateInstant()
+        {
+            DoStateInstant(previous_state);
+        }
+
+
     }
 
 

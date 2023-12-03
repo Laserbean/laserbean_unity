@@ -102,8 +102,8 @@ namespace Laserbean.General
 
         public override void SearchPath()
         {
-
-
+            if (!this.enabled) return; 
+            if (!gameObject.activeInHierarchy) return; 
             pathPending = true;
             seeker.StartPath(this.transform.position, destination, OnPathComplete);
             curSeekerIndex = 0;

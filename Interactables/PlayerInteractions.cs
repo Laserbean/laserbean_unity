@@ -22,6 +22,7 @@ public class PlayerInteractions : MonoBehaviour
     public void OnInteract() {
 
         // GameObject closest = GetClosestInteractable(); 
+        Debug.Log("interact button");
 
         closestInteractable?.GetComponent<IInteractable>()?.Interact(this.gameObject); 
         closestInteractable = null; 

@@ -76,6 +76,54 @@ namespace Laserbean.General
             return v;
         }
 
+        public static Vector3 Rotate(this Vector3 v, float degrees, RotationAxis axis)
+        {
+            float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
+            float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);
+
+            switch (axis) {
+                case RotationAxis.X:
+                    RotateAroundX(ref v, sin, cos);
+                    break;
+
+                case RotationAxis.Y:
+                    RotateAroundY(ref v, sin, cos);
+                    break;
+
+                case RotationAxis.Z:
+                    RotateAroundZ(ref v, sin, cos);
+                    break;
+
+                default:
+                    // Just in case you try something weird
+                    break;
+            }
+
+            return v;
+        }
+
+        private static void RotateAroundX(ref Vector3 v, float sin, float cos)
+        {
+            float ty = v.y;
+            v.y = (cos * v.y) - (sin * v.z);
+            v.z = (sin * ty) + (cos * v.z);
+        }
+
+        private static void RotateAroundY(ref Vector3 v, float sin, float cos)
+        {
+            float tx = v.x;
+            v.x = (cos * v.x) + (sin * v.z);
+            v.z = -(sin * tx) + (cos * v.z);
+        }
+
+        private static void RotateAroundZ(ref Vector3 v, float sin, float cos)
+        {
+            float tx = v.x;
+            v.x = (cos * v.x) - (sin * v.y);
+            v.y = (sin * tx) + (cos * v.y);
+        }
+
+
         public static Vector2 Snap(this Vector2 v)
         {
 
@@ -279,4 +327,10 @@ namespace Laserbean.General
     }
 
 
+    public enum RotationAxis
+    {
+        X,
+        Y,
+        Z
+    }
 }

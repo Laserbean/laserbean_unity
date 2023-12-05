@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+//https://forum.unity.com/threads/can-i-stop-auto-compile-after-edit-create-or-remove-a-script.1268315/
 
 public static class CustomScriptReload
 {

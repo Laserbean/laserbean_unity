@@ -122,6 +122,39 @@ namespace Laserbean.General
 
 
 
+        public static string GetUniqueFileName(string path, string filename, string extension)
+        {
+            if (!path.EndsWith("/")) path += "/";
+            if (extension.StartsWith(".")) extension = extension[1..];
+
+            string newfilename = filename + "." + extension;
+
+            string fullFilePath = Path.Combine(path, newfilename);
+
+            int count = 1;
+            while (File.Exists(fullFilePath)) {
+                newfilename = filename + count + "." + extension;
+                count++;
+            }
+            return newfilename;
+        }
+
+        public static string GetUniqueFileNameFullPath(string path, string filename, string extension)
+        {
+            if (!path.EndsWith("/")) path += "/";
+            if (extension.StartsWith(".")) extension = extension[1..];
+            string fullFilePath = Path.Combine(path, filename + "." + extension);
+            int count = 1;
+
+            while (File.Exists(fullFilePath)) {
+                fullFilePath = Path.Combine(path, filename + count + "." + extension);
+                count++;
+            }
+
+            return fullFilePath;
+        }
+
+
 
     }
 

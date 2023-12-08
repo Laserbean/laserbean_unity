@@ -2,40 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Holds all the entities. 
+using Laserbean.CoreSystem;
 
-using Laserbean.CoreSystem; 
-
-namespace Laserbean.HFiniteStateMachine {
-
-public abstract class Entity : MonoBehaviour
+namespace Laserbean.HFiniteStateMachine
 {
-    public Animator Animator { get; private set; }
-	public FiniteStateMachine StateMachine;
 
-    [HideInInspector]
-    public Core Core; 
-
-	protected virtual void Awake() {
-		Core = GetComponentInChildren<Core>();
-
-		Animator = GetComponent<Animator>();
-		StateMachine = new FiniteStateMachine();
-	}
-
-    private void Update()
+    public abstract class Entity : MonoBehaviour
     {
-		Core.LogicUpdate();
+        public Animator Animator { get; private set; }
+        public FiniteStateMachine StateMachine;
 
-        StateMachine.CurrentState?.OnUpdate();
-    }
+        [HideInInspector]
+        public Core Core;
 
-    private void FixedUpdate()
-    {
-        if (StateMachine == null || StateMachine.CurrentState == null|| StateMachine.CurrentState.HasExit) return;
-        StateMachine.CurrentState?.OnFixedUpdate();
+        protected virtual void Awake()
+        {
+            Core = GetComponentInChildren<Core>();
+
+            Animator = GetComponent<Animator>();
+            StateMachine = new FiniteStateMachine();
+        }
+
+        private void Update()
+        {
+            Core.LogicUpdate();
+
+            StateMachine.CurrentState?.OnUpdate();
+        }
+
+        private void FixedUpdate()
+        {
+            if (StateMachine == null || StateMachine.CurrentState == null || StateMachine.CurrentState.HasExit) return;
+            StateMachine.CurrentState?.OnFixedUpdate();
+        }
     }
-}
 
 }
 

@@ -53,6 +53,11 @@ namespace Laserbean.CustomGUI.ModalWindow
 
         public void DisableStuff()
         {
+            OnConfirmCallback = null;
+            OnDeclineCallback = null;
+            OnOtherCallback = null;
+
+
             headerText.gameObject.SetActive(false);
             headerIcon.gameObject.SetActive(false);
             verticalContentText.gameObject.SetActive(false);
@@ -78,7 +83,7 @@ namespace Laserbean.CustomGUI.ModalWindow
         public ModalWindowBuilder(ModalWindowController target)
         {
             modalwindow = target;
-            modalwindow.DisableStuff(); 
+            modalwindow.DisableStuff();
         }
 
         public ModalWindowBuilder SetTitle(string title)
@@ -127,16 +132,17 @@ namespace Laserbean.CustomGUI.ModalWindow
             return this;
         }
 
-
-        // confirmButton;
-        // declineButton;
-        // otherButton;
-
         public ModalWindowBuilder SetConfirmButton(string text, Action OnButtonClick)
         {
             modalwindow.confirmButton.GetComponentInChildren<TextMeshProUGUI>().text = text;
             modalwindow.OnConfirmCallback += OnButtonClick;
             modalwindow.confirmButton.gameObject.SetActive(true);
+            return this;
+        }
+
+        public ModalWindowBuilder AddConfirmAction(Action OnButtonClick)
+        {
+            modalwindow.OnConfirmCallback += OnButtonClick;
             return this;
         }
 
@@ -146,6 +152,12 @@ namespace Laserbean.CustomGUI.ModalWindow
             modalwindow.declineButton.GetComponentInChildren<TextMeshProUGUI>().text = text;
             modalwindow.OnDeclineCallback += OnButtonClick;
             modalwindow.declineButton.gameObject.SetActive(true);
+            return this;
+        }
+
+        public ModalWindowBuilder AddDeclineAction(Action OnButtonClick)
+        {
+            modalwindow.OnDeclineCallback += OnButtonClick;
             return this;
         }
 
@@ -165,6 +177,12 @@ namespace Laserbean.CustomGUI.ModalWindow
             modalwindow.otherButton.gameObject.SetActive(true);
             return this;
         }
+        public ModalWindowBuilder AddOtherAction(Action OnButtonClick)
+        {
+            modalwindow.OnOtherCallback += OnButtonClick;
+            return this;
+        }
+
 
 
         public ModalWindowBuilder Show()

@@ -51,7 +51,7 @@ namespace Laserbean.CustomGUI.ModalWindow
             DisableStuff();
         }
 
-        void DisableStuff()
+        public void DisableStuff()
         {
             headerText.gameObject.SetActive(false);
             headerIcon.gameObject.SetActive(false);
@@ -78,6 +78,7 @@ namespace Laserbean.CustomGUI.ModalWindow
         public ModalWindowBuilder(ModalWindowController target)
         {
             modalwindow = target;
+            modalwindow.DisableStuff(); 
         }
 
         public ModalWindowBuilder SetTitle(string title)

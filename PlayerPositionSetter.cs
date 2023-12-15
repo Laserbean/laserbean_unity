@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Laserbean.General.PlayerUtils
 {
@@ -16,11 +18,15 @@ namespace Laserbean.General.PlayerUtils
             rigidbody2D = GetComponent<Rigidbody2D>();
 
             PlayerPosition.Sensitivity = FuturePositionSensitivity;
+
         }
 
         private void Update()
         {
             PlayerPosition.AddCurrentVelocity(rigidbody2D.velocity);
+
+            if (PlayerPosition.PlayerTransform != transform)
+                PlayerPosition.PlayerTransform = transform;
         }
 
 #if UNITY_EDITOR
@@ -48,7 +54,13 @@ namespace Laserbean.General.PlayerUtils
 
 
         public static Vector3 Position {
-            get => PlayerTransform.position;
+            get {
+                if (PlayerTransform == null) {
+                    return Vector3.zero;
+                }
+                return PlayerTransform.position;
+            }
+
         }
 
 

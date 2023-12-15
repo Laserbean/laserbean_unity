@@ -42,8 +42,7 @@ public class GameManager : Singleton<GameManager>
             if (_appPath == "") {
                 if (Application.isEditor && isDebugPath) {
                     _appPath = "/unity_projects/Debug";
-                }
-                else {
+                } else {
                     _appPath = Application.persistentDataPath;
                 }
             }
@@ -101,7 +100,7 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator Start()
     {
-        Application.targetFrameRate = TargetFrameRate; 
+        Application.targetFrameRate = TargetFrameRate;
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(MenuSetup());
         curstate = GameState.MenuLoad;
@@ -206,12 +205,10 @@ public class GameManager : Singleton<GameManager>
     {
         if (!paused) {
             PauseGame();
-        }
-        else {
+        } else {
             UnPauseGame();
         }
     }
-
 
 
 

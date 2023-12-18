@@ -10,8 +10,8 @@ using System.Linq;
 [InitializeOnLoad]
 public static class HierarchyIconDisplay
 {
-    static bool _hierarchyHasFocus = false; 
-    static EditorWindow _hierarchyEditorWindow; 
+    static bool _hierarchyHasFocus = false;
+    static EditorWindow _hierarchyEditorWindow;
 
     static HierarchyIconDisplay()
     {
@@ -22,7 +22,7 @@ public static class HierarchyIconDisplay
 
     private static void OnEditorUpdate()
     {
-        if(_hierarchyEditorWindow == null)
+        if (_hierarchyEditorWindow == null)
             _hierarchyEditorWindow = EditorWindow.GetWindow(System.Type.GetType("UnityEditor.SceneHierarchyWindow,UnityEditor"));
 
         _hierarchyHasFocus = EditorWindow.focusedWindow != null && EditorWindow.focusedWindow == _hierarchyEditorWindow;
@@ -46,6 +46,11 @@ public static class HierarchyIconDisplay
         //NOTE Can add custom priority
         Component component = components.Length > 1 ? components[1] : components[0];
 
+        if (component == null && components.Length > 1) {
+            component = components[0];
+        } else if (component == null) {
+            return; 
+        }
         Type type = component.GetType();
 
         GUIContent content = EditorGUIUtility.ObjectContent(component, type);
@@ -56,7 +61,7 @@ public static class HierarchyIconDisplay
             return;
 
 
-        bool isSelected = Selection.instanceIDs.Contains(instanceID); 
+        bool isSelected = Selection.instanceIDs.Contains(instanceID);
         bool isHovering = selectionRect.Contains(Event.current.mousePosition);
         bool isInfocus = _hierarchyHasFocus;
 
@@ -100,15 +105,12 @@ public static class UnityEditorBackgroundColor
         if (isSelected) {
             if (isWindowFocused) {
                 return EditorGUIUtility.isProSkin ? k_selectedProColor : k_selectedColor;
-            }
-            else {
+            } else {
                 return EditorGUIUtility.isProSkin ? k_selectedUnFocusedProColor : k_selectedUnFocusedColor;
             }
-        }
-        else if (isHovered) {
+        } else if (isHovered) {
             return EditorGUIUtility.isProSkin ? k_hoveredProColor : k_hoveredColor;
-        }
-        else {
+        } else {
             return EditorGUIUtility.isProSkin ? k_defaultProColor : k_defaultColor;
         }
     }

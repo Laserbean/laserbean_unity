@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 using System;
 using Laserbean.General;
+using UnityEngine.Events;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -74,14 +75,18 @@ public class GameManager : Singleton<GameManager>
     // public Action OnFinishNewGame;
 
     public Func<IEnumerator> OnGameLoadHandler;
-    public Action OnFinishGameLoad;
+    public event Action OnFinishGameLoad;
+    public event Action OnStartGame;
+    public event Action OnStopGame;
+    public event Action OnPauseGame;
+    public event Action OnUnpauseGame;
+    public event Action OnSaveGame;
+    public event Action OnSceneLoaded;
 
-    public Action OnStartGame;
-    public Action OnStopGame;
-    public Action OnPauseGame;
-    public Action OnUnpauseGame;
-
-    public Action OnSaveGame;
+    private void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoad;
+    }
 
     private void OnDestroy()
     {
@@ -95,6 +100,13 @@ public class GameManager : Singleton<GameManager>
         OnPauseGame = null;
         OnUnpauseGame = null;
         OnSaveGame = null;
+        SceneManager.sceneLoaded -= OnSceneLoad;
+
+    }
+
+    private void OnSceneLoad(Scene arg0, LoadSceneMode arg1)
+    {
+        OnSceneLoaded?.Invoke(); 
     }
 
 
@@ -198,7 +210,7 @@ public class GameManager : Singleton<GameManager>
     [Button]
     public void RecalculateGraph()
     {
-        AstarPath.active.Scan();
+        AstarPath.active?.Scan();
     }
 
     public void Pause(bool paused)

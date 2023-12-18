@@ -448,6 +448,7 @@ GameObject:
   - component: {fileID: 7923756809709021369}
   - component: {fileID: 4197992257871002251}
   - component: {fileID: 3397564306278890433}
+  - component: {fileID: 6007009626354837868}
   m_Layer: 0
   m_Name: Dialog
   m_TagString: Untagged
@@ -595,6 +596,18 @@ MonoBehaviour:
   defaultSpeed: 1
   fastSpeed: 1.5
   slowSpeed: 0.2
+--- !u!114 &6007009626354837868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4504747133703687714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 851d9078fe1307145a4ec4db30e08f73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4630086301720752840
 GameObject:
   m_ObjectHideFlags: 0

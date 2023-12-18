@@ -192,4 +192,17 @@ namespace Laserbean.CustomGUI.ModalWindow
         }
 
     }
+
+
+    [System.Serializable]
+    public class ModalWindowBasicInfo
+    {
+        public string Title;
+
+        [TextArea(4, 20)]
+        public string Text;
+        public Sprite Image; 
+    }
+
 }
+

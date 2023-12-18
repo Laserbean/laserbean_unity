@@ -81,7 +81,7 @@ public class GameManager : Singleton<GameManager>
     public event Action OnPauseGame;
     public event Action OnUnpauseGame;
     public event Action OnSaveGame;
-    public event Action OnSceneLoaded;
+    public event Action<string> OnSceneLoaded;
 
     private void Awake()
     {
@@ -104,9 +104,9 @@ public class GameManager : Singleton<GameManager>
 
     }
 
-    private void OnSceneLoad(Scene arg0, LoadSceneMode arg1)
+    private void OnSceneLoad(Scene scene, LoadSceneMode arg1)
     {
-        OnSceneLoaded?.Invoke(); 
+        OnSceneLoaded?.Invoke(scene.name); 
     }
 
 
@@ -189,6 +189,7 @@ public class GameManager : Singleton<GameManager>
             curstate = GameState.Paused;
             Time.timeScale = 0f;
             OnPauseGame?.Invoke();
+            Debug.Log("Pause".Color(Color.red)); 
         }
     }
 
@@ -198,6 +199,8 @@ public class GameManager : Singleton<GameManager>
             curstate = GameState.Running;
             Time.timeScale = 1f;
             OnUnpauseGame?.Invoke();
+            Debug.Log("Unpause".Color(Color.red)); 
+
         }
     }
 

@@ -128,7 +128,7 @@ namespace Laserbean.CustomGUI.DialogBoxes
                     case CharState.Normal:
                         tempText += ccc;
                         dialogField.text += ccc;
-                        yield return new WaitForSeconds(curspeed);
+                        yield return new WaitForSecondsRealtime(curspeed);
                         break;
 
                     case CharState.RichFormat:
@@ -149,7 +149,7 @@ namespace Laserbean.CustomGUI.DialogBoxes
                         if (index >= richWordStart && index < richWordEnd) {
                             curRichText += ccc;
                             dialogField.text = tempText + curRichPrefix + curRichText + curRichSuffix;
-                            yield return new WaitForSeconds(curspeed);
+                            yield return new WaitForSecondsRealtime(curspeed);
                         }
 
 
@@ -168,7 +168,7 @@ namespace Laserbean.CustomGUI.DialogBoxes
                     break;
                 }
             }
-            isPlaying = false; 
+            isPlaying = false;
             yield break;
         }
 
@@ -198,7 +198,12 @@ namespace Laserbean.CustomGUI.DialogBoxes
                 Skip();
                 return;
             }
-            OnContinueCallback.Invoke();
+            if (OnContinueCallback != null) {
+                OnContinueCallback.Invoke();
+            } else {
+                gameObject.SetActive(false);
+            }
+
         }
 
         internal void Play()

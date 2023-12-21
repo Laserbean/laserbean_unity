@@ -115,7 +115,6 @@ public class GameManager : Singleton<GameManager>
         Application.targetFrameRate = TargetFrameRate;
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(MenuSetup());
-        curstate = GameState.MenuLoad;
     }
 
 
@@ -178,6 +177,7 @@ public class GameManager : Singleton<GameManager>
     [Button]
     public void StartGame()
     {
+        Debug.Log("StartGame");
         curstate = GameState.Running;
         RecalculateGraph();
         OnStartGame?.Invoke();

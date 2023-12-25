@@ -13,18 +13,32 @@ MonoBehaviour:
   m_Name: SettingsObject
   m_EditorClassIdentifier: 
   <ComponentData>k__BackingField:
-  - rid: 2429809116707029001
-  - rid: 2429809116707029002
+  - rid: 2429809116707029019
+  - rid: 2429809116707029018
   references:
     version: 2
     RefIds:
-    - rid: 2429809116707029001
-      type: {class: BoolSettingsCompData, ns: Laserbean.General.NewSettings, asm: laserbean}
+    - rid: 2429809116707029018
+      type: {class: IntSetting, ns: Laserbean.General.NewSettings, asm: laserbean}
       data:
-        name: BoolSettingsCompData
-        fish: 0
-    - rid: 2429809116707029002
-      type: {class: BoolSettingsCompData, ns: Laserbean.General.NewSettings, asm: laserbean}
+        name: IntSetting
+        Name: 
+        DisplayName: TestInt
+        Description: Testing fish chicken
+        UIPrefab: {fileID: 2585724448977551877, guid: 74b53e12a0510ef489c6411d1bc2949c,
+          type: 3}
+        def_value:
+          Name: 
+          Value: 0
+    - rid: 2429809116707029019
+      type: {class: Header, ns: Laserbean.General.NewSettings, asm: laserbean}
       data:
-        name: BoolSettingsCompData
-        fish: 0
+        name: Header
+        Name: 
+        DisplayName: Fish
+        Description: 
+        UIPrefab: {fileID: 2585724448977551877, guid: e20cbf7edbbe57f468427639e5ad15eb,
+          type: 3}
+        def_value:
+          Name: 
+        Size: 1

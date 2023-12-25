@@ -8,47 +8,41 @@ using System.Linq;
 
 namespace Laserbean.General.GenericStuff
 {
-    public abstract class ComponentsDataScriptableObject : ScriptableObject
+    public abstract class ComponentsDataScriptableObject : ModuleDataScriptableObject
     {
         [field: SerializeField] public Sprite Icon { get; set; }
         [field: SerializeField] public string Name { get; private set; }
         [field: SerializeField] public string Description { get; private set; }
 
-        [field: SerializeReference] public List<ComponentData> ComponentData { get; private set; }
-
-        public T GetData<T>()
-        {
-            return ComponentData.OfType<T>().FirstOrDefault();
-        }
-
         public List<Type> GetAllDependencies()
         {
-            return ComponentData.Select(component => component.ComponentDependency).ToList();
+            return ComponentData.Select(component => (component as ComponentData).ComponentDependency).ToList();
         }
 
-        public void AddData(ComponentData data)
+        public override Type GetComponentDataType()
         {
-            if (ComponentData.FirstOrDefault(t => t.GetType() == data.GetType()) != null)
-                return;
-            ComponentData.Add(data);
+            return typeof(ComponentData);
         }
-
     }
 
-    [Serializable]
-    public abstract class ComponentData
+    public abstract class ComponentsDataScriptableObject<TComponent> : ComponentsDataScriptableObject where TComponent : ComponentData
     {
-        [SerializeField, HideInInspector] private string name;
+        public override Type GetComponentDataType()
+        {
+            return typeof(TComponent);
+        }
+    }
 
+
+    [Serializable]
+    public abstract class ComponentData : ModuleData
+    {
         public Type ComponentDependency { get; protected set; }
 
-        public ComponentData()
+        public ComponentData() : base()
         {
-            SetComponentName();
             SetComponentDependency();
         }
-
-        public void SetComponentName() => name = GetType().Name;
         protected abstract void SetComponentDependency();
     }
 

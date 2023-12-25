@@ -31,7 +31,6 @@ RectTransform:
   m_Children:
   - {fileID: 7880061447914040858}
   m_Father: {fileID: 2585724449725179680}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -131,7 +130,6 @@ RectTransform:
   - {fileID: 2585724448393395981}
   - {fileID: 2585724449336324162}
   m_Father: {fileID: 2585724448634609338}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -189,7 +187,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2585724448977551879}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SettingItemController, Assembly-CSharp
         m_MethodName: OnSliderChange
         m_Mode: 0
@@ -232,7 +230,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2585724449276188490}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -307,7 +304,6 @@ RectTransform:
   m_Children:
   - {fileID: 2585724449224474266}
   m_Father: {fileID: 2585724448076795431}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
@@ -345,7 +341,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2585724449097623625}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -481,7 +476,6 @@ RectTransform:
   - {fileID: 2585724449725179680}
   - {fileID: 2585724448076795431}
   m_Father: {fileID: 2585724448977551876}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -520,7 +514,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2585724449097623625}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -558,7 +551,8 @@ MonoBehaviour:
   m_text: Enter text...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 34b8afe056a1ae24c8e0f46d3cf9ce45, type: 2}
-  m_sharedMaterial: {fileID: -3111310032661863576, guid: 34b8afe056a1ae24c8e0f46d3cf9ce45, type: 2}
+  m_sharedMaterial: {fileID: -3111310032661863576, guid: 34b8afe056a1ae24c8e0f46d3cf9ce45,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -653,7 +647,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2585724448977551876}
-  - component: {fileID: 2585724448977551879}
+  - component: {fileID: 7613459080384406077}
   m_Layer: 0
   m_Name: Setting
   m_TagString: Untagged
@@ -678,14 +672,13 @@ RectTransform:
   - {fileID: 195825832334028241}
   - {fileID: 2585724448634609338}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2585724448977551879
+--- !u!114 &7613459080384406077
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -694,7 +687,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2585724448977551877}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64ac1de1170062f4b9228d79a2ce5524, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c4bf233a4206ce4f96fdf9aef232f90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   label: {fileID: 2585724449909105987}
@@ -734,7 +727,6 @@ RectTransform:
   - {fileID: 2585724448844631537}
   - {fileID: 2585724448477077442}
   m_Father: {fileID: 2585724449725179680}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -786,7 +778,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2585724448393395981}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
@@ -863,7 +854,6 @@ RectTransform:
   m_Children:
   - {fileID: 2585724448318919830}
   m_Father: {fileID: 2585724449723126063}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -938,7 +928,6 @@ RectTransform:
   m_Children:
   - {fileID: 2585724449904053519}
   m_Father: {fileID: 2585724448076795431}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -976,7 +965,6 @@ RectTransform:
   m_Children:
   - {fileID: 2585724449276188490}
   m_Father: {fileID: 2585724448634609338}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -1030,7 +1018,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2585724448977551879}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SettingItemController, Assembly-CSharp
         m_MethodName: OnBoolChanged
         m_Mode: 0
@@ -1077,7 +1065,6 @@ RectTransform:
   - {fileID: 176262901207680058}
   - {fileID: 2585724449097623625}
   m_Father: {fileID: 2585724448634609338}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -1184,7 +1171,7 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2585724448977551879}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SettingItemController, Assembly-CSharp
         m_MethodName: OnStringDeselect
         m_Mode: 0
@@ -1205,7 +1192,7 @@ MonoBehaviour:
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2585724448977551879}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SettingItemController, Assembly-CSharp
         m_MethodName: OnStringDeselect
         m_Mode: 0
@@ -1226,7 +1213,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2585724448977551879}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SettingItemController, Assembly-CSharp
         m_MethodName: OnStringDeselect
         m_Mode: 0
@@ -1287,7 +1274,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2585724449336324162}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
@@ -1363,7 +1349,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2585724448977551876}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 1}
@@ -1400,8 +1385,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: aaaaaaaaaa
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 34b8afe056a1ae24c8e0f46d3cf9ce45, type: 2}
-  m_sharedMaterial: {fileID: -3111310032661863576, guid: 34b8afe056a1ae24c8e0f46d3cf9ce45, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1498,7 +1483,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2585724448076795431}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
@@ -1574,7 +1558,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2585724448977551876}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1651,7 +1634,6 @@ RectTransform:
   m_Children:
   - {fileID: 1082305725515336837}
   m_Father: {fileID: 176262901207680058}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -1727,7 +1709,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7880061447914040858}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1803,7 +1784,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2585724448977551876}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -1840,8 +1820,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: aaaaaaaaaa
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 34b8afe056a1ae24c8e0f46d3cf9ce45, type: 2}
-  m_sharedMaterial: {fileID: -3111310032661863576, guid: 34b8afe056a1ae24c8e0f46d3cf9ce45, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

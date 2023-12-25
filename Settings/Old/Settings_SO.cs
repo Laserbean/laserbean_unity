@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Laserbean.General.OldSettings
 {
-    [CreateAssetMenu(fileName = "Settings_SO", menuName = "ZombieGame/Settings_SO", order = 0)]
+    [CreateAssetMenu(fileName = "Settings", menuName = "Laserbean/OldSettings/Settings", order = 0)]
     public class Settings_SO : ScriptableObject
     {
 

@@ -8,30 +8,30 @@ using System.Linq;
 
 namespace Laserbean.General.GenericStuff
 {
-    public abstract class ModuleDataScriptableObject : ScriptableObject
+    public abstract class ComponentDataBaseScriptableObject : ScriptableObject
     {
-        [field: SerializeReference] public List<ModuleData> ComponentData { get; private set; }
+        [field: SerializeReference] public List<ComponentDataBase> ComponentData { get; private set; }
 
         public T GetData<T>()
         {
             return ComponentData.OfType<T>().FirstOrDefault();
         }
 
-        public void AddData(ModuleData data)
+        public virtual void AddData(ComponentDataBase data)
         {
-            if (ComponentData.FirstOrDefault(t => t.GetType() == data.GetType()) != null)
-                return;
+            // if (ComponentData.FirstOrDefault(t => t.GetType() == data.GetType()) != null)
+            //     return;
             ComponentData.Add(data);
         }
 
         public virtual Type GetComponentDataType()
         {
-            return typeof(ModuleData);
+            return typeof(ComponentDataBase);
         }
 
     }
 
-    public abstract class ModuleDataScriptableObject<TComponent> : ModuleDataScriptableObject where TComponent : ModuleData
+    public abstract class ComponentDataBaseScriptableObject<TComponent> : ComponentDataBaseScriptableObject where TComponent : ComponentDataBase
     {
         public override Type GetComponentDataType()
         {
@@ -41,12 +41,12 @@ namespace Laserbean.General.GenericStuff
 
 
     [Serializable]
-    public abstract class ModuleData
+    public abstract class ComponentDataBase
     {
         [SerializeField, HideInInspector] protected string name;
         public void SetComponentName() => name = GetType().Name;
 
-        public ModuleData()
+        public ComponentDataBase()
         {
             SetComponentName();
         }

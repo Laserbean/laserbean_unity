@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Laserbean.General.GenericStuff
 {
-    public abstract class ComponentsDataScriptableObject : ModuleDataScriptableObject
+    public abstract class ComponentsDataScriptableObject : ComponentDataBaseScriptableObject
     {
         [field: SerializeField] public Sprite Icon { get; set; }
         [field: SerializeField] public string Name { get; private set; }
@@ -23,6 +23,13 @@ namespace Laserbean.General.GenericStuff
         {
             return typeof(ComponentData);
         }
+
+        public override void AddData(ComponentDataBase data)
+        {
+            if (ComponentData.FirstOrDefault(t => t.GetType() == data.GetType()) != null)
+                return;
+            ComponentData.Add(data);
+        }
     }
 
     public abstract class ComponentsDataScriptableObject<TComponent> : ComponentsDataScriptableObject where TComponent : ComponentData
@@ -35,7 +42,7 @@ namespace Laserbean.General.GenericStuff
 
 
     [Serializable]
-    public abstract class ComponentData : ModuleData
+    public abstract class ComponentData : ComponentDataBase
     {
         public Type ComponentDependency { get; protected set; }
 

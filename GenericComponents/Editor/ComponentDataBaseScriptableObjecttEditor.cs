@@ -13,19 +13,19 @@ using UnityEditor.Callbacks;
 namespace Laserbean.General.GenericStuff
 {
 
-    [CustomEditor(typeof(ModuleDataScriptableObject), true)]
-    public class ModuleDataScriptableObjectEditor : Editor
+    [CustomEditor(typeof(ComponentDataBaseScriptableObject), true)]
+    public class ComponentDataBaseScriptableObjecttEditor : Editor
     {
         private static List<Type> dataCompTypes = new();
 
-        private ModuleDataScriptableObject dataSO;
+        private ComponentDataBaseScriptableObject dataSO;
 
         private bool showForceUpdateButtons;
         private bool showAddComponentButtons;
 
         private void OnEnable()
         {
-            dataSO = target as ModuleDataScriptableObject;
+            dataSO = target as ComponentDataBaseScriptableObject;
         }
 
         public override void OnInspectorGUI()
@@ -46,7 +46,7 @@ namespace Laserbean.General.GenericStuff
                     if (!dataCompType.IsSubclassOf(curcomponentdatatype)) continue;
 
                     if (GUILayout.Button(dataCompType.Name)) {
-                        if (Activator.CreateInstance(dataCompType) is not ModuleData comp)
+                        if (Activator.CreateInstance(dataCompType) is not ComponentDataBase comp)
                             return;
 
                         // comp.InitializeAttackData(dataSO.NumberOfAttacks);
@@ -74,7 +74,7 @@ namespace Laserbean.General.GenericStuff
         [DidReloadScripts]
         private static void OnRecompile()
         {
-            var componentdatatype = typeof(ModuleData);
+            var componentdatatype = typeof(ComponentDataBase);
             // var componentdatatype = dataSO.GetComponentDataType(); 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var types = assemblies.SelectMany(assembly => assembly.GetTypes());

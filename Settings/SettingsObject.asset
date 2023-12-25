@@ -13,11 +13,17 @@ MonoBehaviour:
   m_Name: SettingsObject
   m_EditorClassIdentifier: 
   <ComponentData>k__BackingField:
-  - rid: 2429809116707028998
+  - rid: 2429809116707029001
+  - rid: 2429809116707029002
   references:
     version: 2
     RefIds:
-    - rid: 2429809116707028998
+    - rid: 2429809116707029001
+      type: {class: BoolSettingsCompData, ns: Laserbean.General.NewSettings, asm: laserbean}
+      data:
+        name: BoolSettingsCompData
+        fish: 0
+    - rid: 2429809116707029002
       type: {class: BoolSettingsCompData, ns: Laserbean.General.NewSettings, asm: laserbean}
       data:
         name: BoolSettingsCompData

@@ -6,25 +6,22 @@ using UnityEngine.UI;
 using Laserbean.General.OldSettings;
 using Laserbean.General.NewSettings.UI_Viewer;
 
-namespace Laserbean.General.NewSettings.UI_Viewer
+namespace Laserbean.General.NewSettings.UI_Viewers
 {
-    public class FloatSettingsItem : BasicSettingsItem
+    public class SliderSettingsItem : BasicSettingsItem
     {
-        [SerializeField] TMPro.TMP_InputField textinput;
+        [SerializeField] Slider slider;
 
         public override void SetSettingsComponentData(SettingsComponentData data)
         {
             base.SetSettingsComponentData(data);
-
-            textinput.contentType = TMPro.TMP_InputField.ContentType.DecimalNumber;
-            textinput.interactable = false;
         }
 
 
         public override void UpdateValue(SettingData value)
         {
             if (value is ValueData<float> bval)
-                textinput.text = "" + bval.Value;
+                slider.value = bval.Value;
         }
 
     }

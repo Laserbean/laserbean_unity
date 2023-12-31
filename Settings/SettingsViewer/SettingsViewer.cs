@@ -4,35 +4,64 @@ using UnityEngine;
 
 using Laserbean.General.NewSettings;
 using System;
+using Laserbean.General.NewSettings.Presenter;
 
 
 namespace Laserbean.General.NewSettings.UI_Viewer
 {
     public class SettingsViewer : MonoBehaviour
     {
-        [SerializeField] SettingsObject settings;
 
         [SerializeField] Transform content_transform;
 
+        Dictionary<string, ISettingsGuiItem> guiItemDict = new();
 
-        private void Start()
+
+
+        internal void UpdateSettingData(string name, SettingData value)
         {
-            InitializeSettings();
+            guiItemDict[name].UpdateValue(value);
         }
 
-        private void InitializeSettings()
+        internal void AddSettingComponentData(SettingsComponentData settingsComponentData)
         {
             if (content_transform == null) return;
 
-            foreach (var fish in settings.ComponentData) {
-                SettingsComponentData settingsComponentData = fish as SettingsComponentData;
-                GameObject go = Instantiate(settingsComponentData.UIPrefab);
-                go?.transform.SetParent(content_transform);
-                go.transform.localScale = Vector3.one; 
-                go.transform.localPosition = Vector3.zero; 
+            GameObject go = Instantiate(settingsComponentData.UIPrefab);
+            go?.transform.SetParent(content_transform);
+            go.transform.localScale = Vector3.one;
+            go.transform.localPosition = Vector3.zero;
 
-                go.GetComponentInChildren<ISettingsItem>()?.SetSettingsComponentData(settingsComponentData);
-            }
+            ISettingsGuiItem settingsGuiItem = go.GetComponentInChildren<ISettingsGuiItem>();
+            settingsGuiItem?.SetSettingsComponentData(settingsComponentData);
+            settingsGuiItem.FloatChangeCallback += FloatChangeCallback;
+            settingsGuiItem.IntChangeCallback += IntChangeCallback;
+            settingsGuiItem.BoolChangeCallback += BoolChangeCallback;
+            settingsGuiItem.StringChangeCallback += StringChangeCallback;
+
+            guiItemDict.Add(settingsComponentData.Name, settingsGuiItem);
         }
+
+        private void StringChangeCallback(string arg1, string arg2)
+        {
+            SettingsPresenter.Instance.StringChangeCallback(arg1, arg2);
+        }
+
+        private void BoolChangeCallback(string arg1, bool arg2)
+        {
+            SettingsPresenter.Instance.BoolChangeCallback(arg1, arg2);
+        }
+
+        private void IntChangeCallback(string arg1, int arg2)
+        {
+            SettingsPresenter.Instance.IntChangeCallback(arg1, arg2);
+        }
+
+        private void FloatChangeCallback(string arg1, float arg2)
+        {
+            SettingsPresenter.Instance.FloatChangeCallback(arg1, arg2);
+        }
+
+
     }
 }

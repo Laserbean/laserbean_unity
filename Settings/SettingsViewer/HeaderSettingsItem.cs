@@ -6,24 +6,36 @@ using UnityEngine.UI;
 
 using Laserbean.General.NewSettings.UI_Viewer;
 using Laserbean.General.NewSettings;
+using System;
 
-public class HeaderSettingsItem : MonoBehaviour, ISettingsItem
+namespace Laserbean.General.NewSettings.UI_Viewer
 {
-    [SerializeField] TMPro.TextMeshProUGUI label;
-
-
-    void SetHeader(string val)
+    public class HeaderSettingsItem : MonoBehaviour, ISettingsGuiItem
     {
-        label.text = val;
-    }
+        [SerializeField] TMPro.TextMeshProUGUI label;
 
-    public void SetSettingsData(SettingData settingData)
-    {
-    }
+        public event Action<string, string> StringChangeCallback;
+        public event Action<string, int> IntChangeCallback;
+        public event Action<string, float> FloatChangeCallback;
+        public event Action<string, bool> BoolChangeCallback;
 
-    public void SetSettingsComponentData(SettingsComponentData data)
-    {
-        if (!(data is Header)) return;
-        SetHeader(data.DisplayName);
+        void SetHeader(string val)
+        {
+            label.text = val;
+        }
+
+        public void SetSettingsData(SettingData settingData)
+        {
+        }
+
+        public void SetSettingsComponentData(SettingsComponentData data)
+        {
+            if (!(data is Header)) return;
+            SetHeader(data.DisplayName);
+        }
+
+        public void UpdateValue(SettingData settingData)
+        {
+        }
     }
 }

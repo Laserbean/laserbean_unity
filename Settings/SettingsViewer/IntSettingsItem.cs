@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Laserbean.General.OldSettings;
 using Laserbean.General.NewSettings.UI_Viewer;
 
-namespace Laserbean.General.NewSettings
+namespace Laserbean.General.NewSettings.UI_Viewer
 {
     public class IntSettingsItem : BasicSettingsItem
     {
@@ -21,5 +21,13 @@ namespace Laserbean.General.NewSettings
             textinput.interactable = false;
 
         }
+
+
+        public override void UpdateValue(SettingData value)
+        {
+            if (value is ValueData<int> bval)
+                textinput.text = "" + bval.Value;
+        }
+
     }
 }

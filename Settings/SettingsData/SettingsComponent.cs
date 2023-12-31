@@ -21,9 +21,11 @@ namespace Laserbean.General.NewSettings
     [Serializable]
     public class HeaderData : SettingData
     {
+        public override void UpdateValue<T>(T value)
+        {
+            //Nothing; 
+        }
     }
-
-
 
     [Serializable]
     public abstract class ValueSetting<T> : SettingsComponentData<ValueData<T>>
@@ -38,16 +40,26 @@ namespace Laserbean.General.NewSettings
         }
     }
 
-    [Serializable]
-    public class ValueData<T> : SettingData
+    public class IntSetting : ValueSetting<int>
     {
-        public T Value;
+        public Vector2Int bounds = Vector2Int.up;
+    }
+
+    public class FloatSetting : ValueSetting<float>
+    {
+        public Vector2 bounds = Vector2.up;
+    }
+
+    public class StringSetting : ValueSetting<string>
+    {
+
+    }
+
+    public class BoolSetting : ValueSetting<bool>
+    {
 
     }
 
 
 
-    public class IntSetting : ValueSetting<int> { }
-    public class FloatSetting : ValueSetting<float> { }
-    public class StringSetting : ValueSetting<string> { }
 }

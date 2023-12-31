@@ -4,6 +4,8 @@ using Laserbean.General.GenericStuff;
 using UnityEngine;
 
 using System;
+using UnityEngine.Search;
+using Laserbean.General.NewSettings.UI_Viewer;
 
 namespace Laserbean.General.NewSettings
 {
@@ -16,9 +18,15 @@ namespace Laserbean.General.NewSettings
         public string Description;
         public abstract Type GetSettingType();
 
-        public GameObject UIPrefab; 
+        [SearchContext("t:prefab *Setting", "asset")]
+        public GameObject UIPrefab;
 
         public abstract SettingData GetDefaultSettingData();
+
+        public abstract void SetValueName(string name);
+        public abstract string GetValueName();
+
+
     }
 
 
@@ -32,13 +40,24 @@ namespace Laserbean.General.NewSettings
             this.def_value = new();
         }
 
+        public override string GetValueName()
+        {
+            return def_value.Name;
+        }
+
+        public override void SetValueName(string name)
+        {
+            def_value.Name = name;
+        }
+
         public override Type GetSettingType()
         {
             return typeof(TSettingData);
         }
 
-        public override SettingData GetDefaultSettingData() {
-            return def_value; 
+        public override SettingData GetDefaultSettingData()
+        {
+            return def_value.Copy();
         }
     }
 

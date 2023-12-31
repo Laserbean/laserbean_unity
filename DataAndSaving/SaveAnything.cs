@@ -68,7 +68,7 @@ namespace Laserbean.General
 
         }
 
-        public static void SaveJson<T>(T thing, string savePath, string thingName, string extension = "json")
+        public static void SaveJson<T>(T thing, string savePath, string thingName, string extension = "json", bool prettyprint = true)
         {
             if (!savePath.EndsWith("/")) savePath += "/";
             if (extension.StartsWith(".")) extension = extension[1..];
@@ -79,7 +79,7 @@ namespace Laserbean.General
             ISaveCallback myObj = thing as ISaveCallback;
             myObj?.OnBeforeSave();
 
-            string json = JsonUtility.ToJson(thing);
+            string json = JsonUtility.ToJson(thing, prettyPrint: prettyprint);
 
             //Write the JSON string to a file on disk.
             File.WriteAllText(savePath + thingName + "." + extension, json);

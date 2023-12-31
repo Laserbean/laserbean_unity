@@ -12,6 +12,7 @@ using Laserbean.SpecialData;
 namespace Laserbean.General.NewSettings
 {
 
+    [Serializable]
     public class SettingData
     {
         public string Name;
@@ -38,10 +39,10 @@ namespace Laserbean.General.NewSettings
 
 
     [Serializable]
-    public class ValueData<T> : SettingData
+    public abstract class ValueData<T> : SettingData
     {
         public T Value { get => value; }
-        [SerializeField] T value;
+        [SerializeField] protected T value;
 
         public ValueData() : base()
         {
@@ -54,10 +55,6 @@ namespace Laserbean.General.NewSettings
             valuestring = "" + data.value;
         }
 
-        public override SettingData Copy()
-        {
-            return new ValueData<T>(this);
-        }
 
         public override void UpdateValue<T1>(T1 val)
         {
@@ -73,5 +70,71 @@ namespace Laserbean.General.NewSettings
     {
         ValueData<T> Data;
     }
+
+    [Serializable]
+    public class FloatValueData : ValueData<float>
+    {
+        public FloatValueData() : base(){ }
+
+        public FloatValueData(FloatValueData data) : base(data)
+        {
+            value = data.value;
+            valuestring = "" + data.value;
+        }
+
+        public override SettingData Copy()
+        {
+            return new FloatValueData(this);
+        }
+
+    }
+    public class IntValueData : ValueData<int>
+    {
+        public IntValueData() : base(){ }
+
+        public IntValueData(IntValueData data) : base(data)
+        {
+            value = data.value;
+            valuestring = "" + data.value;
+        }
+
+        public override SettingData Copy()
+        {
+            return new IntValueData(this);
+        }
+    }
+
+    public class BoolValueData : ValueData<bool>
+    {
+        public BoolValueData() : base(){ }
+
+        public BoolValueData(BoolValueData data) : base(data)
+        {
+            value = data.value;
+            valuestring = "" + data.value;
+        }
+
+        public override SettingData Copy()
+        {
+            return new BoolValueData(this);
+        }
+    }
+    public class StringValueData : ValueData<string>
+    {
+        public StringValueData() : base(){ }
+
+
+        public StringValueData(StringValueData data) : base(data)
+        {
+            value = data.value;
+            valuestring = "" + data.value;
+        }
+
+        public override SettingData Copy()
+        {
+            return new StringValueData(this);
+        }
+    }
+
 
 }

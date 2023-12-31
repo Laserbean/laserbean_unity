@@ -12,10 +12,6 @@ namespace Laserbean.General.NewSettings
     public class Header : SettingsComponentData<HeaderData>
     {
         public int Size = 1;
-        public override Type GetSettingType()
-        {
-            return typeof(HeaderData);
-        }
     }
 
     [Serializable]
@@ -27,39 +23,26 @@ namespace Laserbean.General.NewSettings
         }
     }
 
-    [Serializable]
-    public abstract class ValueSettingData<T> : SettingsComponentData<ValueData<T>>
-    {
-        protected ValueSettingData() : base()
-        {
-        }
 
-        public override Type GetSettingType()
-        {
-            return typeof(ValueData<T>);
-        }
-    }
-
-    public class IntSettingData : ValueSettingData<int>
+    public class IntSettingData : SettingsComponentData<IntValueData>
     {
         public Vector2Int bounds = Vector2Int.up;
     }
 
-    public class FloatSettingData : ValueSettingData<float>
+    public class FloatSettingData : SettingsComponentData<FloatValueData>
     {
         public Vector2 bounds = Vector2.up;
     }
 
-    public class StringSettingData : ValueSettingData<string>
+    public class StringSettingData : SettingsComponentData<StringValueData>
     {
 
     }
 
-    public class BoolSettingData : ValueSettingData<bool>
+    public class BoolSettingData : SettingsComponentData<BoolValueData>
     {
 
     }
-
 
 
 }

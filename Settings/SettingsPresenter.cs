@@ -22,6 +22,9 @@ namespace Laserbean.General.NewSettings.Presenter
 
         [SerializeField] SettingsData settings;
 
+        string SettingsPath { get => GameManager.Instance.AppPath; }
+        const string SettingsFileName = "Settings";
+
 
         void Awake()
         {
@@ -33,6 +36,11 @@ namespace Laserbean.General.NewSettings.Presenter
             InitializeSettings();
             InitializeSettingsViewer();
 
+            UpdateSettingsViewer();
+        }
+
+        void UpdateSettingsViewer()
+        {
             foreach (var kvp in settings.Data) {
                 Viewer.UpdateSettingData(kvp.Key, kvp.Value);
             }
@@ -60,13 +68,26 @@ namespace Laserbean.General.NewSettings.Presenter
             }
         }
 
+        [EasyButtons.Button]
+        void SaveSettings()
+        {
+            SaveAnything.SaveJson(settings, SettingsPath, SettingsFileName);
+        }
+
+        [EasyButtons.Button]
+        void LoadSettings()
+        {
+            settings = SaveAnything.LoadJson<SettingsData>(SettingsPath, SettingsFileName);
+            UpdateSettingsViewer();
+        }
+
 
         public T GetValue<T>(string name)
         {
             var fish = settings.GetValueData(name);
-            if (fish is ValueData<T> vdata) 
+            if (fish is ValueData<T> vdata)
                 return vdata.Value;
-            throw new Exception("" + name + " is not a " + typeof(T) + " ValueData"); 
+            throw new Exception("" + name + " is not a " + typeof(T) + " ValueData");
         }
 
         public void StringChangeCallback(string arg1, string arg2)

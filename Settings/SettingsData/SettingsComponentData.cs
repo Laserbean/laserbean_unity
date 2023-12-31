@@ -16,7 +16,6 @@ namespace Laserbean.General.NewSettings
         public string Name;
         public string DisplayName;
         public string Description;
-        public abstract Type GetSettingType();
 
         [SearchContext("t:prefab *Setting", "asset")]
         public GameObject UIPrefab;
@@ -50,10 +49,6 @@ namespace Laserbean.General.NewSettings
             def_value.Name = name;
         }
 
-        public override Type GetSettingType()
-        {
-            return typeof(TSettingData);
-        }
 
         public override SettingData GetDefaultSettingData()
         {

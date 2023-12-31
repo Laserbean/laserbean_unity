@@ -13,7 +13,9 @@ namespace Laserbean.General.NewSettings
     public abstract class SettingsComponentData : ComponentDataBase
     {
 
+        [RedIfEmpty]
         public string Name;
+        
         public string DisplayName;
         public string Description;
 

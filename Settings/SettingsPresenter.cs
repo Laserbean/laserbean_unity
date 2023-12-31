@@ -12,7 +12,7 @@ using System;
 
 namespace Laserbean.General.NewSettings.Presenter
 {
-    public class SettingsPresenter : Singleton<SettingsPresenter>
+    public class SettingsPresenter : MonoBehaviour
     {
         public static Action<string> OnSettingChange;
 
@@ -20,15 +20,17 @@ namespace Laserbean.General.NewSettings.Presenter
 
         public SettingsViewer Viewer;
 
-        [SerializeField] SettingsData settings;
+        // [SerializeField] SettingsData settings;
 
         string SettingsPath { get => GameManager.Instance.AppPath; }
         const string SettingsFileName = "Settings";
 
+        SettingsData GlobalSettings { get => Settings.settings; set => Settings.settings = value; }
+
 
         void Awake()
         {
-            settings = new();
+            GlobalSettings = new();
         }
 
         void Start()
@@ -41,14 +43,14 @@ namespace Laserbean.General.NewSettings.Presenter
 
         void UpdateSettingsViewer()
         {
-            foreach (var kvp in settings.Data) {
+            foreach (var kvp in GlobalSettings.Data) {
                 Viewer.UpdateSettingData(kvp.Key, kvp.Value);
             }
         }
 
         public void UpdateSetting<T>(string name, ValueData<T> value)
         {
-            settings.UpdateValueData(name, value.Value);
+            GlobalSettings.UpdateValueData(name, value.Value);
             Viewer.UpdateSettingData(name, value);
         }
 
@@ -56,7 +58,7 @@ namespace Laserbean.General.NewSettings.Presenter
         void InitializeSettings()
         {
             foreach (SettingsComponentData fish in settingsObject.ComponentData.Cast<SettingsComponentData>()) {
-                settings.AddDefaultSettingsData(fish.GetDefaultSettingData());
+                GlobalSettings.AddDefaultSettingsData(fish.GetDefaultSettingData());
             }
 
         }
@@ -69,22 +71,22 @@ namespace Laserbean.General.NewSettings.Presenter
         }
 
         [EasyButtons.Button]
-        void SaveSettings()
+        public void SaveSettings()
         {
-            SaveAnything.SaveJsonPretty(settings, SettingsPath, SettingsFileName);
+            SaveAnything.SaveJsonPretty(GlobalSettings, SettingsPath, SettingsFileName);
         }
 
         [EasyButtons.Button]
-        void LoadSettings()
+        public void LoadSettings()
         {
-            settings = SaveAnything.LoadJson<SettingsData>(SettingsPath, SettingsFileName);
+            GlobalSettings = SaveAnything.LoadJson<SettingsData>(SettingsPath, SettingsFileName);
             UpdateSettingsViewer();
         }
 
 
         public T GetValue<T>(string name)
         {
-            var fish = settings.GetValueData(name);
+            var fish = GlobalSettings.GetValueData(name);
             if (fish is ValueData<T> vdata)
                 return vdata.Value;
             throw new Exception("" + name + " is not a " + typeof(T) + " ValueData");
@@ -92,25 +94,25 @@ namespace Laserbean.General.NewSettings.Presenter
 
         public void StringChangeCallback(string arg1, string arg2)
         {
-            settings.UpdateValueData(arg1, arg2);
+            GlobalSettings.UpdateValueData(arg1, arg2);
             OnSettingChange?.Invoke(arg1);
         }
 
         public void BoolChangeCallback(string arg1, bool arg2)
         {
-            settings.UpdateValueData(arg1, arg2);
+            GlobalSettings.UpdateValueData(arg1, arg2);
             OnSettingChange?.Invoke(arg1);
         }
 
         public void IntChangeCallback(string arg1, int arg2)
         {
-            settings.UpdateValueData(arg1, arg2);
+            GlobalSettings.UpdateValueData(arg1, arg2);
             OnSettingChange?.Invoke(arg1);
         }
 
         public void FloatChangeCallback(string arg1, float arg2)
         {
-            settings.UpdateValueData(arg1, arg2);
+            GlobalSettings.UpdateValueData(arg1, arg2);
             OnSettingChange?.Invoke(arg1);
         }
 

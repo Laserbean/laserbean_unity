@@ -16,14 +16,11 @@ namespace Laserbean.General.NewSettings.Model
     {
         public CustomDictionary<string, SettingData> Data { get => _Data; }
 
-        public CustomDictionary<string, string> testsave = new(); 
-
         [SerializeField, HideInInspector]
         CustomDictionary<string, SettingData> _Data = new();
 
         public SettingsData()
         {
-            testsave.Add("fish", "fish"); 
         }
 
         public SettingData GetValueData(string name)
@@ -50,5 +47,10 @@ namespace Laserbean.General.NewSettings.Model
             }
             _Data.Add(settingdata.Name, settingdata);
         }
+    }
+
+    public static class Settings
+    {
+        public static SettingsData settings; 
     }
 }

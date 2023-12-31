@@ -12,23 +12,16 @@ namespace Laserbean.General
     public static class SaveAnything
     {
 
-        public static bool FileExists(string loadPath, string thingName, string extension = "bin")
+        public static bool FileExists(string path, string thingName, string extension = "bin")
         {
-            if (!loadPath.EndsWith("/")) loadPath += "/";
-            if (extension.StartsWith(".")) extension = extension[1..];
-
-            return File.Exists(loadPath + thingName + "." + extension);
+            PathChecks(ref path, ref extension);
+            return File.Exists(path + thingName + "." + extension);
         }
 
         public static void SaveThing<T>(T thing, string savePath, string thingName, string extension = "bin") where T : class
         {
-
-            if (!savePath.EndsWith("/")) savePath += "/";
-            if (extension.StartsWith(".")) extension = extension[1..];
-
-            if (!Directory.Exists(savePath))
-                Directory.CreateDirectory(savePath);
-
+            PathChecks(ref savePath, ref extension);
+            EnsureDirectoryExists(savePath);
 
             ISaveCallback myObj = thing as ISaveCallback;
             myObj?.OnBeforeSave();
@@ -44,9 +37,7 @@ namespace Laserbean.General
 
         public static T LoadThing<T>(string loadPath, string thingName, string extension = "bin") where T : class
         {
-            if (!loadPath.EndsWith("/")) loadPath += "/";
-            if (extension.StartsWith(".")) extension = extension[1..];
-
+            PathChecks(ref loadPath, ref extension);
 
             loadPath = loadPath + thingName + "." + extension;
             // Check if a save exists for the name we were passed.
@@ -68,40 +59,47 @@ namespace Laserbean.General
 
         }
 
-        public static void SaveJson<T>(T thing, string savePath, string thingName, string extension = "json", bool prettyprint = true)
+        static void PathChecks(ref string path, ref string extension)
         {
-            if (!savePath.EndsWith("/")) savePath += "/";
-            if (extension.StartsWith(".")) extension = extension[1..];
+            if (!path.EndsWith("/"))
+                path += "/";
+            if (extension.StartsWith("."))
+                extension = extension[1..];
+        }
 
-            if (!Directory.Exists(savePath))
-                Directory.CreateDirectory(savePath);
+        static void EnsureDirectoryExists(string path)
+        {
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+        }
+
+        public static void SaveJson<T>(T thing, string savePath, string thingName, string extension = "json", bool prettyprint = false)
+        {
+            PathChecks(ref savePath, ref extension);
+            EnsureDirectoryExists(savePath);
 
             ISaveCallback myObj = thing as ISaveCallback;
             myObj?.OnBeforeSave();
 
             string json = JsonUtility.ToJson(thing, prettyPrint: prettyprint);
-
-            //Write the JSON string to a file on disk.
             File.WriteAllText(savePath + thingName + "." + extension, json);
+        }
+
+        public static void SaveJsonPretty<T>(T thing, string savePath, string thingName, string extension = "json")
+        {
+            SaveJson(thing, savePath, thingName, extension, true); 
         }
 
 
         public static T LoadJson<T>(string loadPath, string thingName, string extension = "json") where T : class
         {
-
-            if (!loadPath.EndsWith("/")) loadPath += "/";
-            if (extension.StartsWith(".")) extension = extension[1..];
+            PathChecks(ref loadPath, ref extension);
 
             loadPath = loadPath + thingName + "." + extension;
 
             if (File.Exists(loadPath)) {
-
-                //Get the JSON string from the file on disk.
                 string savedJson = File.ReadAllText(loadPath);
-
-                //Convert the JSON string back to a ConfigData object.
                 T jsonthing = JsonUtility.FromJson<T>(savedJson);
-
 
                 ISaveCallback myObj = jsonthing as ISaveCallback;
                 myObj?.OnAfterLoad();
@@ -110,12 +108,12 @@ namespace Laserbean.General
             return null;
         }
 
-        public static string ToJson<T>(T thing)
+        public static string ToJson<T>(this T thing)
         {
             return JsonUtility.ToJson(thing);
         }
 
-        public static T FromJson<T>(string thing)
+        public static T FromJson<T>(this string thing)
         {
             return JsonUtility.FromJson<T>(thing);
         }
@@ -124,8 +122,7 @@ namespace Laserbean.General
 
         public static string GetUniqueFileName(string path, string filename, string extension)
         {
-            if (!path.EndsWith("/")) path += "/";
-            if (extension.StartsWith(".")) extension = extension[1..];
+            PathChecks(ref path, ref extension);
 
             string newfilename = filename + "." + extension;
 
@@ -141,8 +138,8 @@ namespace Laserbean.General
 
         public static string GetUniqueFileNameFullPath(string path, string filename, string extension)
         {
-            if (!path.EndsWith("/")) path += "/";
-            if (extension.StartsWith(".")) extension = extension[1..];
+            PathChecks(ref path, ref extension);
+
             string fullFilePath = Path.Combine(path, filename + "." + extension);
             int count = 1;
 

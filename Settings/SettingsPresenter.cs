@@ -71,7 +71,7 @@ namespace Laserbean.General.NewSettings.Presenter
         [EasyButtons.Button]
         void SaveSettings()
         {
-            SaveAnything.SaveJson(settings, SettingsPath, SettingsFileName);
+            SaveAnything.SaveJsonPretty(settings, SettingsPath, SettingsFileName);
         }
 
         [EasyButtons.Button]

@@ -28,9 +28,9 @@ namespace Laserbean.General.NewSettings
     }
 
     [Serializable]
-    public abstract class ValueSetting<T> : SettingsComponentData<ValueData<T>>
+    public abstract class ValueSettingData<T> : SettingsComponentData<ValueData<T>>
     {
-        protected ValueSetting() : base()
+        protected ValueSettingData() : base()
         {
         }
 
@@ -40,22 +40,22 @@ namespace Laserbean.General.NewSettings
         }
     }
 
-    public class IntSetting : ValueSetting<int>
+    public class IntSettingData : ValueSettingData<int>
     {
         public Vector2Int bounds = Vector2Int.up;
     }
 
-    public class FloatSetting : ValueSetting<float>
+    public class FloatSettingData : ValueSettingData<float>
     {
         public Vector2 bounds = Vector2.up;
     }
 
-    public class StringSetting : ValueSetting<string>
+    public class StringSettingData : ValueSettingData<string>
     {
 
     }
 
-    public class BoolSetting : ValueSetting<bool>
+    public class BoolSettingData : ValueSettingData<bool>
     {
 
     }

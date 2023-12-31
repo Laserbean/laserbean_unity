@@ -14,26 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ComponentData>k__BackingField:
   - rid: 2429809116707029019
-  - rid: 2429809166915993607
-  - rid: 2429809116707029018
-  - rid: 2429809241521913894
+  - rid: 2429809254006521856
+  - rid: 2429809254006521857
+  - rid: 2429809254006521858
   references:
     version: 2
     RefIds:
-    - rid: 2429809116707029018
-      type: {class: IntSetting, ns: Laserbean.General.NewSettings, asm: laserbean}
-      data:
-        name: IntSetting
-        Name: int11
-        DisplayName: TestInt
-        Description: Testing fish chicken
-        UIPrefab: {fileID: 2585724448977551877, guid: 74b53e12a0510ef489c6411d1bc2949c,
-          type: 3}
-        def_value:
-          Name: int11
-          valuestring: 
-          value: 0
-        bounds: {x: 0, y: 1}
     - rid: 2429809116707029019
       type: {class: Header, ns: Laserbean.General.NewSettings, asm: laserbean}
       data:
@@ -47,30 +33,45 @@ MonoBehaviour:
           Name: Header11
           valuestring: 
         Size: 1
-    - rid: 2429809166915993607
-      type: {class: FloatSetting, ns: Laserbean.General.NewSettings, asm: laserbean}
+    - rid: 2429809254006521856
+      type: {class: FloatSettingData, ns: Laserbean.General.NewSettings, asm: laserbean}
       data:
-        name: FloatSetting
-        Name: float11
-        DisplayName: Slider
+        name: FloatSettingData
+        Name: Fish
+        DisplayName: Fish
+        Description: 
+        UIPrefab: {fileID: 2585724448977551877, guid: 93c2a53e0aaf8ef49af5ab3c3f6c0ffd,
+          type: 3}
+        def_value:
+          Name: Fish
+          valuestring: 
+          value: 0
+        bounds: {x: 0, y: 1}
+    - rid: 2429809254006521857
+      type: {class: FloatSettingData, ns: Laserbean.General.NewSettings, asm: laserbean}
+      data:
+        name: FloatSettingData
+        Name: Chicken
+        DisplayName: Chicken
         Description: 
         UIPrefab: {fileID: 2585724448977551877, guid: df4bc40cd07a9404c9851f698e86bea7,
           type: 3}
         def_value:
-          Name: float11
+          Name: Chicken
           valuestring: 
-          value: 0.3
-        bounds: {x: 0, y: 1}
-    - rid: 2429809241521913894
-      type: {class: BoolSetting, ns: Laserbean.General.NewSettings, asm: laserbean}
+          value: 0
+        bounds: {x: 0, y: 5}
+    - rid: 2429809254006521858
+      type: {class: IntSettingData, ns: Laserbean.General.NewSettings, asm: laserbean}
       data:
-        name: BoolSetting
-        Name: dasf
-        DisplayName: 
+        name: IntSettingData
+        Name: IntSlider
+        DisplayName: IntSlider
         Description: 
-        UIPrefab: {fileID: 2585724448977551877, guid: 27fbc6d8bfbe54c49a2457a980c26aba,
+        UIPrefab: {fileID: 2585724448977551877, guid: df4bc40cd07a9404c9851f698e86bea7,
           type: 3}
         def_value:
-          Name: dasf
+          Name: IntSlider
           valuestring: 
           value: 1
+        bounds: {x: 0, y: 5}

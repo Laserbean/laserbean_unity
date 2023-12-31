@@ -12,11 +12,19 @@ using Laserbean.SpecialData;
 namespace Laserbean.General.NewSettings.Model
 {
     [Serializable]
-    public class Settings
+    public class SettingsData
     {
         public CustomDictionary<string, SettingData> Data { get => _Data; }
 
         CustomDictionary<string, SettingData> _Data = new();
+
+        public SettingData GetValueData(string name)
+        {
+            if (!Data.ContainsKey(name)) {
+                throw new KeyNotFoundException("Key of " + name + " not found in Settings Data");
+            }
+            return Data[name];
+        }
 
         public void UpdateValueData<T>(string name, T value)
         {

@@ -14,13 +14,13 @@ namespace Laserbean.General.NewSettings.Presenter
 {
     public class SettingsPresenter : Singleton<SettingsPresenter>
     {
-        public static Action<string> OnSettingChange; 
+        public static Action<string> OnSettingChange;
 
         [SerializeField] SettingsObject settingsObject;
 
         public SettingsViewer Viewer;
 
-        [SerializeField] Settings settings;
+        [SerializeField] SettingsData settings;
 
 
         void Awake()
@@ -33,7 +33,7 @@ namespace Laserbean.General.NewSettings.Presenter
             InitializeSettings();
             InitializeSettingsViewer();
 
-            foreach(var kvp in settings.Data) {
+            foreach (var kvp in settings.Data) {
                 Viewer.UpdateSettingData(kvp.Key, kvp.Value);
             }
         }
@@ -60,6 +60,14 @@ namespace Laserbean.General.NewSettings.Presenter
             }
         }
 
+
+        public T GetValue<T>(string name)
+        {
+            var fish = settings.GetValueData(name);
+            if (fish is ValueData<T> vdata) 
+                return vdata.Value;
+            throw new Exception("" + name + " is not a " + typeof(T) + " ValueData"); 
+        }
 
         public void StringChangeCallback(string arg1, string arg2)
         {

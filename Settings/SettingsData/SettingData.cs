@@ -68,4 +68,10 @@ namespace Laserbean.General.NewSettings
         }
     }
 
+    [Serializable]
+    public struct ValueDataTest<T>
+    {
+        ValueData<T> Data;
+    }
+
 }

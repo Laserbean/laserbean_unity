@@ -12,7 +12,7 @@ using System;
 
 namespace Laserbean.General.NewSettings.Presenter
 {
-    public class SettingsPresenter : MonoBehaviour
+    public class SettingsPresenter : Singleton<SettingsPresenter>
     {
         public static Action<string> OnSettingChange;
 

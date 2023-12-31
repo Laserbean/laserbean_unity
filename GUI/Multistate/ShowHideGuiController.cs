@@ -1,5 +1,6 @@
 
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Laserbean.General;
@@ -9,6 +10,7 @@ using UnityEngine.PlayerLoop;
 
 namespace Laserbean.CustomGUI
 {
+    [Obsolete("use the Multistate GUI stuff")]
     public class ShowHideGuiController : MonoBehaviour
     {
         public GUI_Window_Info ShowInfo;

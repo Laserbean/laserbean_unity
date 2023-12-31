@@ -22,12 +22,16 @@ namespace Laserbean.General.NewSettings.UI_Viewers
             if (data is FloatSettingData fdata) {
                 slider.minValue = fdata.bounds.x;
                 slider.maxValue = fdata.bounds.y;
+
+                if (fdata.HideSliderValue) value_text.gameObject.SetActive(false); 
             }
 
             if (data is IntSettingData idata) {
                 slider.minValue = idata.bounds.x;
                 slider.maxValue = idata.bounds.y;
                 slider.wholeNumbers = true;
+                
+                if (idata.HideSliderValue) value_text.gameObject.SetActive(false); 
             }
         }
 

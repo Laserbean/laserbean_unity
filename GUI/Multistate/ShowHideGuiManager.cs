@@ -22,6 +22,7 @@ namespace Laserbean.CustomGUI
         public void DoStateInstant(int num);
     }
 
+    [Obsolete("use the Multistate GUI stuff")]
     public class ShowHideGuiManager : MonoBehaviour, IGuiManager
     {
         [HideInInspector]

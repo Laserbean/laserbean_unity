@@ -14,7 +14,7 @@ namespace Laserbean.General.NewSettings.Presenter
 {
     public class SettingsPresenter : Singleton<SettingsPresenter>
     {
-        public static Action<string> OnSettingChange;
+        public static Action<string> OnSettingChange { get => Settings.OnSettingChange; set => Settings.OnSettingChange = value; }
 
         [SerializeField] SettingsObject settingsObject;
 
@@ -95,25 +95,21 @@ namespace Laserbean.General.NewSettings.Presenter
         public void StringChangeCallback(string arg1, string arg2)
         {
             GlobalSettings.UpdateValueData(arg1, arg2);
-            OnSettingChange?.Invoke(arg1);
         }
 
         public void BoolChangeCallback(string arg1, bool arg2)
         {
             GlobalSettings.UpdateValueData(arg1, arg2);
-            OnSettingChange?.Invoke(arg1);
         }
 
         public void IntChangeCallback(string arg1, int arg2)
         {
             GlobalSettings.UpdateValueData(arg1, arg2);
-            OnSettingChange?.Invoke(arg1);
         }
 
         public void FloatChangeCallback(string arg1, float arg2)
         {
             GlobalSettings.UpdateValueData(arg1, arg2);
-            OnSettingChange?.Invoke(arg1);
         }
 
 

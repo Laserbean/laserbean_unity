@@ -27,11 +27,13 @@ namespace Laserbean.General.NewSettings
     public class IntSettingData : SettingsComponentData<IntValueData>
     {
         public Vector2Int bounds = Vector2Int.up;
+        public bool HideSliderValue = false; 
     }
 
     public class FloatSettingData : SettingsComponentData<FloatValueData>
     {
         public Vector2 bounds = Vector2.up;
+        public bool HideSliderValue = false; 
     }
 
     public class StringSettingData : SettingsComponentData<StringValueData>

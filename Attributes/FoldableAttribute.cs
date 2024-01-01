@@ -69,7 +69,7 @@ namespace Laserbean.General.EditorAttributes
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (property.type == "UnityEvent") {
+            if (property.type.StartsWith("UnityEvent")) {
                 isUnityEvent = true;
             }
 

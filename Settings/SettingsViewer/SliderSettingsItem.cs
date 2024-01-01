@@ -23,15 +23,15 @@ namespace Laserbean.General.NewSettings.UI_Viewers
                 slider.minValue = fdata.bounds.x;
                 slider.maxValue = fdata.bounds.y;
 
-                if (fdata.HideSliderValue) value_text.gameObject.SetActive(false); 
+                if (fdata.HideSliderValue) value_text.gameObject.SetActive(false);
             }
 
             if (data is IntSettingData idata) {
                 slider.minValue = idata.bounds.x;
                 slider.maxValue = idata.bounds.y;
                 slider.wholeNumbers = true;
-                
-                if (idata.HideSliderValue) value_text.gameObject.SetActive(false); 
+
+                if (idata.HideSliderValue) value_text.gameObject.SetActive(false);
             }
         }
 
@@ -44,8 +44,12 @@ namespace Laserbean.General.NewSettings.UI_Viewers
             value_text.text = "" + currentvalue.ToString("0.##");
         }
 
-
         public void OnSliderRelease()
+        {
+            OnSliderReleaseInternal();
+        }
+
+        void OnSliderReleaseInternal()
         {
             if (slider.wholeNumbers) {
                 OnValueChange(Mathf.RoundToInt(currentvalue));
@@ -53,8 +57,8 @@ namespace Laserbean.General.NewSettings.UI_Viewers
                 OnValueChange(currentvalue);
             }
             slider.value = currentvalue;
-        }
 
+        }
 
 
 

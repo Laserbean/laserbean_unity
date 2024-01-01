@@ -36,8 +36,9 @@ namespace Laserbean.General.NewSettings.Model
             if (!Data.ContainsKey(name)) {
                 throw new KeyNotFoundException("Key of " + name + " not found in Settings Data");
             }
-            Settings.OnSettingChange?.Invoke(name);
             Data[name].UpdateValue(value);
+
+            Settings.OnSettingChange?.Invoke(name);
         }
 
         public void AddDefaultSettingsData(SettingData settingdata)
@@ -47,6 +48,7 @@ namespace Laserbean.General.NewSettings.Model
                 return;
             }
             _Data.Add(settingdata.Name, settingdata);
+            Settings.OnSettingChange?.Invoke(settingdata.Name);
         }
     }
 

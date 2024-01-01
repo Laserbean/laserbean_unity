@@ -8,6 +8,7 @@ using Laserbean.General.NewSettings.Model;
 using Laserbean.General.NewSettings.UI_Viewer;
 using System.Linq;
 using System;
+using Laserbean.General.EditorAttributes;
 
 
 namespace Laserbean.General.NewSettings.Presenter
@@ -16,6 +17,7 @@ namespace Laserbean.General.NewSettings.Presenter
     {
         public static Action<string> OnSettingChange { get => Settings.OnSettingChange; set => Settings.OnSettingChange = value; }
 
+        [Expandable]
         [SerializeField] SettingsObject settingsObject;
 
         public SettingsViewer Viewer;

@@ -34,7 +34,9 @@ namespace Laserbean.General.EditorAttributes
             if (property.isExpanded = EditorGUI.Foldout(position, property.isExpanded, label)) {
                 EditorGUI.indentLevel++;
 
-                EditorGUILayout.BeginVertical(GUI.skin.box);
+                var rect = EditorGUILayout.BeginVertical(GUI.skin.box);
+                CustomPropertyExtra.DrawOutlineBox(rect, Color.blue, 1);
+
 
                 position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 

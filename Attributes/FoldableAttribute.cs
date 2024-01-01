@@ -16,7 +16,43 @@ namespace Laserbean.General.EditorAttributes
     [AttributeUsage(AttributeTargets.Field)]
     public class FoldableAttribute : PropertyAttribute
     {
+        public Color? color { get => GetColor(); }
 
+        Colour colour;
+        public int lineSize { get; private set; }
+
+        public FoldableAttribute()
+        {
+            this.colour = Colour.None;
+            lineSize = 0;
+        }
+
+        public FoldableAttribute(Colour colour, int line = 1)
+        {
+            this.colour = colour;
+            lineSize = line;
+        }
+
+        Color? GetColor()
+        {
+            return colour switch {
+                Colour.None => null,
+                Colour.Red => (Color?)Color.red,
+                Colour.Green => (Color?)Color.green,
+                Colour.Blue => (Color?)Color.blue,
+                Colour.Yellow => (Color?)Color.yellow,
+                Colour.Magenta => (Color?)Color.magenta,
+                Colour.Cyan => (Color?)Color.cyan,
+                Colour.White => (Color?)Color.white,
+                Colour.Black => (Color?)Color.black,
+                _ => null,
+            };
+        }
+
+        public enum Colour
+        {
+            None, Red, Green, Blue, Yellow, Magenta, Cyan, White, Black
+        }
     }
 
 #if UNITY_EDITOR
@@ -40,10 +76,14 @@ namespace Laserbean.General.EditorAttributes
             if (eventDrawer == null)
                 eventDrawer = new UnityEventDrawer();
 
+            FoldableAttribute foldable = attribute as FoldableAttribute;
+
             // position.y += EditorGUIUtility.standardVerticalSpacing;
 
-            Rect rect = new(position.x, position.y, position.width, GetPropertyHeight(property, label));
-            CustomPropertyExtra.DrawOutlineBox(rect, Color.blue, 1);
+            if (foldable.color != null) {
+                Rect rect = new(position.x - 0.5f, position.y, position.width + 1f, GetPropertyHeight(property, label));
+                CustomPropertyExtra.DrawOutlineBox(rect, Color.blue, foldable.lineSize);
+            }
 
             Rect foldoutpos = new(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
 

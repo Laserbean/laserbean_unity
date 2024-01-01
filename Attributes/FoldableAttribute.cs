@@ -51,9 +51,7 @@ namespace Laserbean.General.EditorAttributes
                 EditorGUI.indentLevel++;
                 position.y += EditorGUIUtility.singleLineHeight;
 
-                EditorGUILayout.BeginVertical(GUI.skin.box);
-
-
+                // EditorGUILayout.BeginVertical(GUI.skin.box);
 
                 if (isUnityEvent) {
                     eventDrawer.OnGUI(position, property, label);
@@ -61,7 +59,7 @@ namespace Laserbean.General.EditorAttributes
                     EditorGUI.PropertyField(position, property, label, true);
                 }
 
-                EditorGUILayout.EndVertical();
+                // EditorGUILayout.EndVertical();
 
                 // EditorGUI.LabelField(position, "FISH");
 

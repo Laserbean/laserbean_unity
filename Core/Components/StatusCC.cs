@@ -27,10 +27,11 @@ namespace Laserbean.CoreSystem.BasicComponents
         public int Value = 0;
         public Vector2Int Bounds = Vector2Int.zero;
 
-        public event Action OnMin;
-        public event Action OnMax;
-        public event Action OnDecrease;
-        public event Action OnIncrease;
+        public event Action<Status> OnMin;
+        public event Action<Status> OnMax;
+        public event Action<Status> OnDecrease;
+        public event Action<Status> OnIncrease;
+        public event Action<Status> OnChange;
 
         bool IsAtBounds = false;
 
@@ -41,6 +42,7 @@ namespace Laserbean.CoreSystem.BasicComponents
             OnMax = null;
             OnDecrease = null;
             OnIncrease = null;
+            OnChange = null;
             IsAtBounds = false;
             Bounds = Vector2Int.zero;
         }
@@ -51,8 +53,8 @@ namespace Laserbean.CoreSystem.BasicComponents
 
             if (!IsAtBounds && (Value == Bounds.x || Value == Bounds.y)) {
                 IsAtBounds = true;
-                if (Value >= Bounds.y) OnMax?.Invoke();
-                if (Value <= Bounds.x) OnMin?.Invoke();
+                if (Value >= Bounds.y) OnMax?.Invoke(this);
+                if (Value <= Bounds.x) OnMin?.Invoke(this);
             } else if (Value > Bounds.x && Value < Bounds.y) {
                 IsAtBounds = false;
             }
@@ -62,7 +64,8 @@ namespace Laserbean.CoreSystem.BasicComponents
         {
             if (a.Value >= a.Bounds.y) return a;
             a.Value += b;
-            a.OnIncrease?.Invoke();
+            a.OnIncrease?.Invoke(a);
+            a.OnChange?.Invoke(a);
             a.DoChecks();
             return a;
         }
@@ -71,11 +74,26 @@ namespace Laserbean.CoreSystem.BasicComponents
         {
             if (a.Value <= a.Bounds.x) return a;
             a.Value -= b;
-            a.OnDecrease?.Invoke();
+            a.OnDecrease?.Invoke(a);
+            a.OnChange?.Invoke(a);
             a.DoChecks();
             return a;
         }
 
+    }
+
+    public struct StatusValue
+    {
+        public int Value;
+        public Vector2Int Bounds;
+
+        public StatusValue(Status _status)
+        {
+            Value = _status.Value;
+            Bounds = _status.Bounds;
+        }
+
+        public float Percentage { get => Value / (Bounds.y - Bounds.x); }
     }
 
 }

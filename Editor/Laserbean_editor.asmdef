@@ -2,7 +2,7 @@
     "name": "Laserbean_editor",
     "rootNamespace": "",
     "references": [
-        "GUID:bfd60175d1fa08246b6ae53074aab0dc"
+        "GUID:75b80200e67af854ebab87fe4b636b50"
     ],
     "includePlatforms": [
         "Editor"

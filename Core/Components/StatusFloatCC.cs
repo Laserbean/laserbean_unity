@@ -9,33 +9,32 @@ using Laserbean.CoreSystem;
 namespace Laserbean.CoreSystem.BasicComponents
 {
 
-    public class StatusCC : CoreComponent
+    public class StatusFloatCC : CoreComponent
     {
-        public CustomDictionary<string, Status> Statuses = new();
+        public CustomDictionary<string, StatusFloat> Statuses = new();
 
         [EasyButtons.Button]
         void TestAdd(string nme)
         {
-            Statuses.Add(nme, new Status());
+            Statuses.Add(nme, new StatusFloat());
         }
     }
 
-
     [Serializable]
-    public class Status
+    public class StatusFloat
     {
-        public int Value = 0;
+        public float Value = 0;
         public Vector2Int Bounds = Vector2Int.zero;
 
-        public event Action<Status> OnMin;
-        public event Action<Status> OnMax;
-        public event Action<Status> OnDecrease;
-        public event Action<Status> OnIncrease;
-        public event Action<Status> OnChange;
+        public event Action<StatusFloat> OnMin;
+        public event Action<StatusFloat> OnMax;
+        public event Action<StatusFloat> OnDecrease;
+        public event Action<StatusFloat> OnIncrease;
+        public event Action<StatusFloat> OnChange;
 
         bool IsAtBounds = false;
 
-        public Status()
+        public StatusFloat()
         {
             Value = 0;
             OnMin = null;
@@ -60,7 +59,7 @@ namespace Laserbean.CoreSystem.BasicComponents
             }
         }
 
-        public static Status operator +(Status a, int b)
+        public static StatusFloat operator +(StatusFloat a, float b)
         {
             if (a.Value >= a.Bounds.y) return a;
             a.Value += b;
@@ -70,7 +69,7 @@ namespace Laserbean.CoreSystem.BasicComponents
             return a;
         }
 
-        public static Status operator -(Status a, int b)
+        public static StatusFloat operator -(StatusFloat a, float b)
         {
             if (a.Value <= a.Bounds.x) return a;
             a.Value -= b;
@@ -82,12 +81,12 @@ namespace Laserbean.CoreSystem.BasicComponents
 
     }
 
-    public struct StatusValue
+    public struct StatusFloatValue
     {
-        public int Value;
+        public float Value;
         public Vector2Int Bounds;
 
-        public StatusValue(Status _status)
+        public StatusFloatValue(StatusFloat _status)
         {
             Value = _status.Value;
             Bounds = _status.Bounds;

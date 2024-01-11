@@ -6,30 +6,30 @@ using UnityEngine;
 
 namespace Laserbean.CoreSystem.BasicComponents
 {
-    [RequireComponent(typeof(StatusCC))]
+    [RequireComponent(typeof(StatusFloatCC))]
     public class StatusObserverSubject : ObserverSubjectSerialized
     {
 
-        public StatusCC statusCC;
+        public StatusFloatCC statusFloatCC;
 
         void Awake()
         {
-            statusCC = this.GetComponent<StatusCC>();
+            statusFloatCC = this.GetComponent<StatusFloatCC>();
 
-            foreach (var kvp in statusCC.Statuses) {
+            foreach (var kvp in statusFloatCC.Statuses) {
                 if (kvp.Key == StatusToObserve)
                     kvp.Value.OnChange += OnStatusChange;
             }
         }
         [SerializeField] string StatusToObserve = "";
 
-        private void OnStatusChange(Status _status)
+        private void OnStatusChange(StatusFloat _status)
         {
             status = _status;
             NotifyObservers();
         }
 
-        Status status = null;
+        StatusFloat status = null;
         public override void NotifyObservers()
         {
             if (status == null) return;
@@ -40,7 +40,7 @@ namespace Laserbean.CoreSystem.BasicComponents
 
         protected override void NotifyObserver(IObserver observer)
         {
-            observer.UpdateObserver(new StatusValue(status));
+            observer.UpdateObserver(new StatusFloatValue(status));
         }
 
     }

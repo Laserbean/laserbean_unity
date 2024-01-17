@@ -50,13 +50,23 @@ namespace Laserbean.Colliders
     public static class GizmoHelper
     {
 
-        public static void Draw(this PolygonCollider2D polygonCollider, Color color, Transform parent = null)
+        static void SetTransformGizmo(Transform thistransform = null)
+        {
+
+            if (thistransform != null) {
+                if (thistransform.parent != null) {
+                    Gizmos.matrix = thistransform.parent.localToWorldMatrix;
+                } else {
+                    // Gizmos.matrix = thistransform.localToWorldMatrix;
+                }
+            }
+        }
+
+        public static void Draw(this PolygonCollider2D polygonCollider, Color color, Transform thistransform = null)
         {
             Vector2 origin = polygonCollider.offset;
-            if (parent != null) {
-                // origin = parent.position; 
-                Gizmos.matrix = parent.localToWorldMatrix;
-            }
+            SetTransformGizmo(thistransform);
+
             Gizmos.color = color;
             for (int i = 0; i < polygonCollider.pathCount; i++) {
                 Vector2[] points = polygonCollider.GetPath(i);
@@ -70,11 +80,7 @@ namespace Laserbean.Colliders
         public static void Draw(this BoxCollider2D boxCollider, Color color, Transform parent = null)
         {
             Vector2 origin = Vector2.zero;
-            if (parent != null) {
-                // origin = parent.position;  
-                Gizmos.matrix = parent.localToWorldMatrix;
-            }
-
+            SetTransformGizmo(parent);
 
             Gizmos.color = color;
             Vector2 size = boxCollider.size;
@@ -95,10 +101,7 @@ namespace Laserbean.Colliders
         public static void Draw(this CircleCollider2D circleCollider, Color color, Transform parent = null)
         {
             Vector2 origin = Vector2.zero;
-            if (parent != null) {
-                // origin = parent.position;  
-                Gizmos.matrix = parent.localToWorldMatrix;
-            }
+            SetTransformGizmo(parent);
 
             Gizmos.color = color;
             Vector2 position = circleCollider.offset + origin;
@@ -130,13 +133,9 @@ namespace Laserbean.Colliders
                 Debug.LogWarning("Ugh! Senpai, the EdgeCollider2D is null! You're so careless!");
                 return;
             }
-
-            if (parent != null) {
-                Gizmos.matrix = parent.localToWorldMatrix;
-            }
+            SetTransformGizmo(parent);
 
             Gizmos.color = color;
-
 
             Vector2[] points = edgeCollider.points;
 
@@ -150,26 +149,23 @@ namespace Laserbean.Colliders
             }
         }
 
-        public static void Draw(this Collider2D collider, Color color, Transform parent = null)
+        public static void Draw(this Collider2D collider, Color color, Transform thistransform = null)
         {
             if (collider is BoxCollider2D col) {
-                col.Draw(color, parent);
+                col.Draw(color, thistransform);
             }
 
             if (collider is CircleCollider2D col1) {
-                col1.Draw(color, parent);
+                col1.Draw(color, thistransform);
             }
             if (collider is PolygonCollider2D col2) {
-                col2.Draw(color, parent);
+                col2.Draw(color, thistransform);
             }
 
             if (collider is EdgeCollider2D col3) {
-                col3.Draw(color, parent);
+                col3.Draw(color, thistransform);
             }
         }
-
-
-
 
         public static void DrawPolygon(List<Vector2> points, Color color)
         {

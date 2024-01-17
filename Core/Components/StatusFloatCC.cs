@@ -5,6 +5,7 @@ using UnityEngine;
 using System;
 using Laserbean.SpecialData;
 using Laserbean.CoreSystem;
+using Laserbean.General.Observers;
 
 namespace Laserbean.CoreSystem.BasicComponents
 {
@@ -81,7 +82,7 @@ namespace Laserbean.CoreSystem.BasicComponents
 
     }
 
-    public struct StatusFloatValue
+    public struct StatusFloatValue : IObserverEvent
     {
         public float Value;
         public Vector2Int Bounds;

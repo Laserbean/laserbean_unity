@@ -1,25 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using AYellowpaper;
 using UnityEngine;
 
 namespace Laserbean.General.Observers
 {
-    public abstract class ObserverSubject : MonoBehaviour, IObserverSubject
+    public class ObserverSubjectSerialized : MonoBehaviour, IObserverSubject
     {
 
-        private List<IObserver> observers = new List<IObserver>();
+        public List<IObserver> Observers {
+            get {
+                return observerObjects.Cast<IObserver>().ToList();
+            }
+        }
 
-        [HideInInspector]
-        public List<IObserver> Observers => observers;
+        [SerializeField]
+        [RequireInterface(typeof(IObserver))]
+        private List<UnityEngine.Object> observerObjects = new();
 
         public void AddObserver(IObserver observer)
         {
-            observers.Add(observer);
+            observerObjects.Add((observer as UnityEngine.Object));
         }
 
         public void RemoveObserver(IObserver observer)
         {
-            observers.Remove(observer);
+            observerObjects.Remove((observer as UnityEngine.Object));
         }
 
         public virtual void NotifyObservers()
@@ -32,7 +39,6 @@ namespace Laserbean.General.Observers
         protected virtual void NotifyObserver(IObserver observer)
         {
             observer.UpdateObserver();
-
         }
     }
 

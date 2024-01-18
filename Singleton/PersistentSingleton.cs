@@ -1,9 +1,11 @@
 using UnityEngine;
 
-// copied from: https://github.com/adammyhre/Unity-Utils/blob/master/Assets/_Project/Scripts/Singleton/Singleton.cs
+// copied from: https://github.com/adammyhre/Unity-Utils/blob/master/Assets/_Project/Scripts/Singleton
 
-public class Singleton<T> : MonoBehaviour where T : Component
+public class PersistentSingleton<T> : MonoBehaviour where T : Component
 {
+    public bool AutoUnparentOnAwake = true;
+
     protected static T instance;
 
     public static bool HasInstance => instance != null;
@@ -35,6 +37,17 @@ public class Singleton<T> : MonoBehaviour where T : Component
     {
         if (!Application.isPlaying) return;
 
-        instance = this as T;
+        if (AutoUnparentOnAwake) {
+            transform.SetParent(null);
+        }
+
+        if (instance == null) {
+            instance = this as T;
+            DontDestroyOnLoad(gameObject);
+        } else {
+            if (instance != this) {
+                Destroy(gameObject);
+            }
+        }
     }
 }

@@ -6,14 +6,11 @@ namespace Laserbean.General.Observers
 {
     public interface IObserver
     {
-        void UpdateObserver(ObserverEvent observerEvent);
+        void UpdateObserver(IObserverEvent observerEvent);
+        void UpdateObserver();
 
     }
 
-    public abstract class ObserverEvent
-    {
-
-    }
 
     public interface IObserverSubject
     {
@@ -21,6 +18,12 @@ namespace Laserbean.General.Observers
         void AddObserver(IObserver observer);
         void RemoveObserver(IObserver observer);
         void NotifyObservers();
+    }
+
+
+    public interface IObserverEvent
+    {
+
     }
 
     // public class Subject

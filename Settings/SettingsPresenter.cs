@@ -13,7 +13,7 @@ using Laserbean.General.EditorAttributes;
 
 namespace Laserbean.General.NewSettings.Presenter
 {
-    public class SettingsPresenter : Singleton<SettingsPresenter>
+    public class SettingsPresenter : RegulatorSingleton<SettingsPresenter>
     {
         public static Action<string> OnSettingChange { get => Settings.OnSettingChange; set => Settings.OnSettingChange = value; }
 
@@ -30,8 +30,9 @@ namespace Laserbean.General.NewSettings.Presenter
         SettingsData GlobalSettings { get => Settings.settings; set => Settings.settings = value; }
 
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             GlobalSettings = new();
         }
 

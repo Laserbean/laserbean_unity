@@ -32,7 +32,7 @@ namespace Laserbean.General.NewSettings.UI_Viewer
             go.transform.localScale = Vector3.one;
             go.transform.localPosition = Vector3.zero;
 
-            ISettingsGuiItem settingsGuiItem = go.GetComponentInChildren<ISettingsGuiItem>();
+            ISettingsGuiItem settingsGuiItem = go.GetComponentInChildren<ISettingsGuiItem>() ?? throw new Exception("Isettings gui is null?");
             settingsGuiItem?.SetSettingsComponentData(settingsComponentData);
             settingsGuiItem.FloatChangeCallback += FloatChangeCallback;
             settingsGuiItem.IntChangeCallback += IntChangeCallback;

@@ -10,8 +10,7 @@ namespace Laserbean.CoreSystem.BasicComponents
     public class StatusObserverSubject : ObserverSubjectSerialized
     {
 
-        public StatusFloatCC statusFloatCC;
-
+        StatusFloatCC statusFloatCC;
         void Awake()
         {
             statusFloatCC = this.GetComponent<StatusFloatCC>();

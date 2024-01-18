@@ -12,7 +12,7 @@ using System;
 using Laserbean.General;
 using UnityEngine.Events;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : PersistentSingleton<GameManager>
 {
 
     [SerializeField] int TargetFrameRate = 30;
@@ -83,8 +83,9 @@ public class GameManager : Singleton<GameManager>
     public event Action OnSaveGame;
     public event Action<string> OnSceneLoaded;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake(); 
         SceneManager.sceneLoaded += OnSceneLoad;
     }
 

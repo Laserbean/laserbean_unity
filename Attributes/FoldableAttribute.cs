@@ -10,6 +10,7 @@ namespace Laserbean.General.EditorAttributes
 #if UNITY_EDITOR
 
     using UnityEditor;
+    using UnityEngine.Profiling;
 
 #endif
 
@@ -21,16 +22,24 @@ namespace Laserbean.General.EditorAttributes
         Colour colour;
         public int lineSize { get; private set; }
 
+        internal FoldableInstance Instance = new();
+
+        public string ID { get; private set; }
+
+
         public FoldableAttribute()
         {
             this.colour = Colour.None;
             lineSize = 0;
+            ID = RandomStatic.GenerateRandomString(5);
         }
 
         public FoldableAttribute(Colour colour, int line = 1)
         {
             this.colour = colour;
             lineSize = line;
+
+            ID = RandomStatic.GenerateRandomString(5);
         }
 
         Color? GetColor()
@@ -55,6 +64,27 @@ namespace Laserbean.General.EditorAttributes
         }
     }
 
+    internal class FoldableInstance
+    {
+        public bool IsUnityEvent = false;
+
+        UnityEventDrawer eventDrawer = null;
+
+        public UnityEventDrawer EventDrawer {
+            get {
+                if (eventDrawer == null) {
+                    eventDrawer = new UnityEventDrawer();
+                }
+                return eventDrawer;
+            }
+        }
+
+        public float lastUpdateTime = 0f;
+        public bool isExpanded = false;
+    }
+
+
+
 #if UNITY_EDITOR
 
     [CustomPropertyDrawer(typeof(FoldableAttribute))]
@@ -62,68 +92,68 @@ namespace Laserbean.General.EditorAttributes
     {
         Editor m_editor = null;
 
-        private UnityEventDrawer eventDrawer;
+        private const float updateDelay = 0.1f;  // Set your desired delay here
 
-        bool isUnityEvent = false;
-
+        FoldableAttribute foldable;
+        public void OnEnable()
+        {
+            foldable = attribute as FoldableAttribute;
+        }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (property.type.StartsWith("UnityEvent")) {
-                isUnityEvent = true;
-            }
+            foldable ??= attribute as FoldableAttribute;
 
-            if (eventDrawer == null)
-                eventDrawer = new UnityEventDrawer();
+            if (foldable == null) return;
 
-            FoldableAttribute foldable = attribute as FoldableAttribute;
+            foldable.Instance.IsUnityEvent = property.type.StartsWith("UnityEvent");
 
-            // position.y += EditorGUIUtility.standardVerticalSpacing;
 
-            if (foldable.color != null) {
-                Rect rect = new(position.x - 0.5f, position.y, position.width + 1f, GetPropertyHeight(property, label));
-                CustomPropertyExtra.DrawOutlineBox(rect, Color.blue, foldable.lineSize);
-            }
+            EditorGUI.BeginChangeCheck();
 
+            Rect boundingRect = new(position.x - 0.5f, position.y, position.width + 1f, GetPropertyHeight(property, label));
             Rect foldoutpos = new(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
 
-            if (property.isExpanded = EditorGUI.Foldout(foldoutpos, property.isExpanded, label)) {
+            if (foldable.Instance.isExpanded = EditorGUI.Foldout(foldoutpos, foldable.Instance.isExpanded, label)) {
                 EditorGUI.indentLevel++;
                 position.y += EditorGUIUtility.singleLineHeight;
 
-                // EditorGUILayout.BeginVertical(GUI.skin.box);
-
-                if (isUnityEvent) {
-                    eventDrawer.OnGUI(position, property, label);
+                if (foldable.Instance.IsUnityEvent) {
+                    foldable.Instance.EventDrawer.OnGUI(position, property, label);
                 } else {
                     EditorGUI.PropertyField(position, property, label, true);
                 }
 
-                // EditorGUILayout.EndVertical();
-
-                // EditorGUI.LabelField(position, "FISH");
-
-
                 EditorGUI.indentLevel--;
             }
 
+            if (EditorGUI.EndChangeCheck()) {
+                foldable.Instance.lastUpdateTime = Time.realtimeSinceStartup + updateDelay;
+            }
 
+            if (Time.realtimeSinceStartup > foldable.Instance.lastUpdateTime && foldable.Instance.isExpanded) {
+            // if (foldable.Instance.isExpanded) {
+                if (foldable.color != null)
+                    CustomPropertyExtra.DrawOutlineBox(boundingRect, (Color)foldable.color, foldable.lineSize);
+            }
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            if (eventDrawer == null) eventDrawer = new UnityEventDrawer();
+            foldable ??= attribute as FoldableAttribute;
 
             float height = 0;
             // height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             height += EditorGUIUtility.singleLineHeight;
 
-            if (property.isExpanded) {
-                if (isUnityEvent) {
-                    height += eventDrawer.GetPropertyHeight(property, label);
+            if (foldable.Instance.isExpanded) {
+                if (foldable.Instance.IsUnityEvent) {
+                    height += foldable.Instance.EventDrawer.GetPropertyHeight(property, label);
                 } else {
                     height += EditorGUI.GetPropertyHeight(property, GUIContent.none, true);
                 }
+
+
                 height += EditorGUIUtility.standardVerticalSpacing;
 
             }

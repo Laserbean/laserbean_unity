@@ -32,8 +32,9 @@ namespace Laserbean.General.OldSettings
 
         Dictionary<string, SettingsSlot> slotsdict = new();
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             // Settings loaded = LoadSettings(); 
             Loadtest();
             for (int i = 0; i < settings_so.list.Count; i++) {

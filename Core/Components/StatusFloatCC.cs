@@ -82,12 +82,12 @@ namespace Laserbean.CoreSystem.BasicComponents
 
     }
 
-    public struct StatusFloatValue : IObserverEvent
+    public struct StatusFloatValueObEvent : IObserverEvent
     {
         public float Value;
         public Vector2Int Bounds;
 
-        public StatusFloatValue(StatusFloat _status)
+        public StatusFloatValueObEvent(StatusFloat _status)
         {
             Value = _status.Value;
             Bounds = _status.Bounds;

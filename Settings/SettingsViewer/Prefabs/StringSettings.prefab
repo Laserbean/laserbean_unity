@@ -646,7 +646,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2585724448977551876}
-  - component: {fileID: 8354070121123690013}
+  - component: {fileID: 5567493883153954555}
   m_Layer: 0
   m_Name: StringSettings
   m_TagString: Untagged
@@ -677,7 +677,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8354070121123690013
+--- !u!114 &5567493883153954555
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -686,7 +686,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2585724448977551877}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7bb6f4fb3023f746a2223b17c65a7e3, type: 3}
+  m_Script: {fileID: 11500000, guid: d2ad6acaad284e642b27267ae919976a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   label: {fileID: 2585724449909105987}
@@ -1210,7 +1210,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8354070121123690013}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Laserbean.General.NewSettings.UI_Viewer.BasicSettingsItem,
           laserbean
         m_MethodName: OnValueChange

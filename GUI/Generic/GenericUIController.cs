@@ -12,6 +12,7 @@ public class GenericUIController : Singleton<GenericUIController>
     [field: SerializeField] public ModalWindowController ModalWindow { get; internal set; }
     [field: SerializeField] public VisualNovelDialogWindowController DialogWindow { get; internal set; }
 
+    [Header("Testing: ")]
     [SerializeField] InputActionReference inputActionReference;
 
     private void OnEnable()

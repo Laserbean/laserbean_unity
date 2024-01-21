@@ -8,7 +8,20 @@ namespace Laserbean.General.Observers
     {
         void UpdateObserver(IObserverEvent observerEvent);
         void UpdateObserver();
+    }
 
+
+    public abstract class Observer<T> : MonoBehaviour, IObserver where T : IObserverEvent
+    {
+        public abstract void UpdateObserver();
+
+        protected abstract void UpdateObserver(T observerEvent);
+
+        void IObserver.UpdateObserver(IObserverEvent observerEvent)
+        {
+            if (observerEvent is not T evnt) return;
+            UpdateObserver(evnt);
+        }
     }
 
 
@@ -18,6 +31,7 @@ namespace Laserbean.General.Observers
         void AddObserver(IObserver observer);
         void RemoveObserver(IObserver observer);
         void NotifyObservers();
+        void NotifyObservers(IObserverEvent @event);
     }
 
 

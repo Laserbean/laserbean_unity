@@ -1,25 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using AYellowpaper;
 using UnityEngine;
 
 namespace Laserbean.General.Observers
 {
-    public abstract class ObserverSubject : MonoBehaviour, IObserverSubject
+    public class ObserverSubject : MonoBehaviour, IObserverSubject
     {
 
-        private List<IObserver> observers = new List<IObserver>();
+        public List<IObserver> Observers {
+            get {
+                return observerObjects.Cast<IObserver>().ToList();
+            }
+        }
 
-        [HideInInspector]
-        public List<IObserver> Observers => observers;
+        [SerializeField]
+        [RequireInterface(typeof(IObserver))]
+        private List<Object> observerObjects = new();
 
         public void AddObserver(IObserver observer)
         {
-            observers.Add(observer);
+            observerObjects.Add(observer as Object);
         }
 
         public void RemoveObserver(IObserver observer)
         {
-            observers.Remove(observer);
+            _ = observerObjects.Remove(observer as Object);
         }
 
         public virtual void NotifyObservers()
@@ -29,11 +36,28 @@ namespace Laserbean.General.Observers
             }
         }
 
-        protected virtual void NotifyObserver(IObserver observer)
+        protected void NotifyObserver(IObserver observer)
         {
             observer.UpdateObserver();
+        }
 
+        public virtual void NotifyObservers(IObserverEvent @event)
+        {
+            foreach (var observer in Observers) {
+                observer.UpdateObserver(@event);
+            }
         }
     }
+
+    public abstract class ObserverSubject<T_event> : ObserverSubject where T_event : IObserverEvent
+    {
+
+        public void NotifyObservers(T_event @event)
+        {
+            base.NotifyObservers(@event);
+        }
+
+    }
+
 
 }

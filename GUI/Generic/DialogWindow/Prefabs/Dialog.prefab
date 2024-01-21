@@ -67,9 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '>'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fdd125bd45939014b8a8fbdd4a897cc7, type: 2}
-  m_sharedMaterial: {fileID: 795357608605442023, guid: fdd125bd45939014b8a8fbdd4a897cc7,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -422,8 +421,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -358945157454639822, guid: d07b803c54ae9fb4ebfc1e8a13b12f4c,
-    type: 3}
+  m_Sprite: {fileID: -358945157454639822, guid: d07b803c54ae9fb4ebfc1e8a13b12f4c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -447,8 +445,8 @@ GameObject:
   - component: {fileID: 6226435467454711595}
   - component: {fileID: 7923756809709021369}
   - component: {fileID: 4197992257871002251}
-  - component: {fileID: 3397564306278890433}
-  - component: {fileID: 6007009626354837868}
+  - component: {fileID: 1795656995415844161}
+  - component: {fileID: 6706733598708485111}
   m_Layer: 0
   m_Name: Dialog
   m_TagString: Untagged
@@ -576,7 +574,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &3397564306278890433
+--- !u!114 &1795656995415844161
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -585,29 +583,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 4504747133703687714}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78df3afcc6ecca34aa94eea62f14f40b, type: 3}
+  m_Script: {fileID: 11500000, guid: 010b17efc67fb2d4e8871f8d94ced4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headerTransform: {fileID: 7813680568974734229}
+--- !u!114 &6706733598708485111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4504747133703687714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 798cb96ebe776274796925c1ed3354a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headerTransform: {fileID: 7161795625969639987}
   speakerImage: {fileID: 5200082485679582225}
   speakerName: {fileID: 5831303731030946774}
   dialogField: {fileID: 472880694616627027}
-  charTime: 0.05
+  charTime: 0.2
   defaultSpeed: 1
   fastSpeed: 1.5
-  slowSpeed: 0.2
---- !u!114 &6007009626354837868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4504747133703687714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 851d9078fe1307145a4ec4db30e08f73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  slowSpeed: 0.5
 --- !u!1 &4630086301720752840
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,8 +674,7 @@ MonoBehaviour:
   m_text: Mr. Dialog
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fdd125bd45939014b8a8fbdd4a897cc7, type: 2}
-  m_sharedMaterial: {fileID: 795357608605442023, guid: fdd125bd45939014b8a8fbdd4a897cc7,
-    type: 2}
+  m_sharedMaterial: {fileID: 795357608605442023, guid: fdd125bd45939014b8a8fbdd4a897cc7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -865,7 +862,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3397564306278890433}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Laserbean.CustomGUI.DialogBoxes.VisualNovelDialogWindowController,
           laserbean
         m_MethodName: OnContinue
@@ -1030,8 +1027,7 @@ MonoBehaviour:
     should show dialog or something. Fish food. \n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fdd125bd45939014b8a8fbdd4a897cc7, type: 2}
-  m_sharedMaterial: {fileID: 795357608605442023, guid: fdd125bd45939014b8a8fbdd4a897cc7,
-    type: 2}
+  m_sharedMaterial: {fileID: 795357608605442023, guid: fdd125bd45939014b8a8fbdd4a897cc7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

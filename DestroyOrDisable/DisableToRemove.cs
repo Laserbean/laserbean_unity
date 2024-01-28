@@ -9,12 +9,12 @@ public class DisableToRemove : MonoBehaviour, IDestroyOrDisable
 {
 
     // [SerializeField] GameObject GameObjectToDisable; 
-    void IDestroyOrDisable.DestroyOrDisable()
+    public void DestroyOrDisable()
     {
         gameObject.SetActive(false); 
     }
 
-    void IDestroyOrDisable.DestroyOrDisableNextFrame()
+    public void DestroyOrDisableNextFrame()
     {
         StartCoroutine(DisableCoroutine());
     }

@@ -41,6 +41,7 @@ namespace Laserbean.Colliders
                 if (colliderObject != null) {
                     validCollider = colliderObject.GetComponent<EdgeCollider2D>();
                     validCollider ??= colliderObject.AddComponent<EdgeCollider2D>();
+                    colliderObject.transform.position = Vector3.zero;
                     colliderObject.transform.SetParent(null);
                 } else {
                     validCollider = new GameObject("TrailCollider", typeof(EdgeCollider2D)).GetComponent<EdgeCollider2D>();
@@ -51,7 +52,7 @@ namespace Laserbean.Colliders
 
         void SetColliderPointsFromTrail(TrailRenderer trail, EdgeCollider2D collider)
         {
-            List<Vector2> points = new List<Vector2>();
+            List<Vector2> points = new();
             //avoid having default points at (-.5,0),(.5,0)
             if (trail.positionCount == 0) {
                 points.Add(transform.position);
@@ -65,10 +66,21 @@ namespace Laserbean.Colliders
 
         void OnDestroy()
         {
+            DisableCollider();
+        }
+
+        void OnDisable()
+        {
+            DisableCollider();
+        }
+
+        void DisableCollider()
+        {
             if (myCollider != null) {
                 myCollider.enabled = false;
                 unusedColliders.Add(myCollider);
             }
         }
+
     }
 }

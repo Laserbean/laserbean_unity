@@ -6,12 +6,12 @@ using UnityEngine;
 
 public class DestroyToRemove : MonoBehaviour, IDestroyOrDisable
 {
-    void IDestroyOrDisable.DestroyOrDisable()
+    public void DestroyOrDisable()
     {
         Destroy(gameObject); 
     }
 
-    void IDestroyOrDisable.DestroyOrDisableNextFrame()
+    public void DestroyOrDisableNextFrame()
     {
         StartCoroutine(DestroyCoroutine());
     }

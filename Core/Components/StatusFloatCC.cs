@@ -82,18 +82,28 @@ namespace Laserbean.CoreSystem.BasicComponents
 
     }
 
-    public struct StatusFloatValueObEvent : IObserverEvent
+    public struct StatusFloatValue
     {
         public float Value;
         public Vector2Int Bounds;
 
-        public StatusFloatValueObEvent(StatusFloat _status)
+        public StatusFloatValue(StatusFloat _status)
         {
             Value = _status.Value;
             Bounds = _status.Bounds;
         }
 
         public float Percentage { get => Value / (Bounds.y - Bounds.x); }
+    }
+
+    public struct StatusFloatValueObEvent : IObserverEvent
+    {
+        public StatusFloatValue Value; 
+
+        public StatusFloatValueObEvent(StatusFloat _status)
+        {
+            Value = new(_status); 
+        }
     }
 
 }

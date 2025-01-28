@@ -74,7 +74,7 @@ namespace Laserbean.Colliders.Hitbox2d
             var rgbd2d = go.GetComponent<Rigidbody2D>();
             rgbd2d.gravityScale = rigidbodyInfo.gravity_scale;
             rgbd2d.mass = rigidbodyInfo.mass;
-            rgbd2d.drag = rigidbodyInfo.linear_drag;
+            rgbd2d.linearDamping = rigidbodyInfo.linear_drag;
             rgbd2d.freezeRotation = rigidbodyInfo.freeze_rotation;
         }
 

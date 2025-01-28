@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Pathfinding; 
 
 using Laserbean.General;
 using Laserbean.General.GlobalTicks;
+
+#if PATHFINDING
+
+using Pathfinding; 
 
 
 public class EntityMover : MonoBehaviour 
@@ -160,3 +163,6 @@ public class EntityMover : MonoBehaviour
 
 
 }
+
+
+#endif

@@ -4,9 +4,9 @@ using UnityEngine;
 
 using Laserbean.General;
 
-using Pathfinding;
 using System;
-
+#if PATHFINDING
+using Pathfinding;
 
 
 public class TestAIPath : AIBase, IAstarAI
@@ -44,3 +44,5 @@ public class TestAIPath : AIBase, IAstarAI
         throw new NotImplementedException();
     }
 }
+
+#endif

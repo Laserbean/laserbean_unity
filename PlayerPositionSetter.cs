@@ -23,7 +23,7 @@ namespace Laserbean.General.PlayerUtils
 
         private void Update()
         {
-            PlayerPosition.AddCurrentVelocity(rigidbody2D.velocity);
+            PlayerPosition.AddCurrentVelocity(rigidbody2D.linearVelocity);
 
             if (PlayerPosition.PlayerTransform != transform)
                 PlayerPosition.PlayerTransform = transform;

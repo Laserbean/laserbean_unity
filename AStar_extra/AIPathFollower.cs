@@ -4,10 +4,13 @@ using UnityEngine;
 
 using Laserbean.General;
 
-using Pathfinding;
 using System;
 using UnityEditor;
 
+// #define USING_PATHFINDING
+
+#if USING_PATHFINDING
+using Pathfinding;
 
 namespace Laserbean.General
 {
@@ -264,3 +267,5 @@ namespace Laserbean.General
 
 #endif
 }
+
+#endif

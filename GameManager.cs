@@ -180,7 +180,7 @@ public class GameManager : PersistentSingleton<GameManager>
     {
         Debug.Log("StartGame");
         curstate = GameState.Running;
-        RecalculateGraph();
+        // RecalculateGraph();
         OnStartGame?.Invoke();
     }
 
@@ -211,11 +211,11 @@ public class GameManager : PersistentSingleton<GameManager>
         OnStopGame?.Invoke();
     }
 
-    [Button]
-    public void RecalculateGraph()
-    {
-        AstarPath.active?.Scan();
-    }
+    // [Button]
+    // public void RecalculateGraph()
+    // {
+    //     AstarPath.active?.Scan();
+    // }
 
     public void Pause(bool paused)
     {

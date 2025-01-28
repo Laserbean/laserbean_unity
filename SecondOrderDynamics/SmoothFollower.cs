@@ -40,7 +40,7 @@ namespace Laserbean.General
 
         void FixedUpdate()
         {
-            rigidbody2D.velocity = secondOrderDynamics.Step(Time.fixedDeltaTime, Relative_position, rigidbody2D.velocity);
+            rigidbody2D.linearVelocity = secondOrderDynamics.Step(Time.fixedDeltaTime, Relative_position, rigidbody2D.linearVelocity);
         }
 
     }

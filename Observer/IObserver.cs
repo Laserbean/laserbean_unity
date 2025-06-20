@@ -25,7 +25,7 @@ namespace Laserbean.General.Observers
     }
 
 
-    public interface IObserverSubject
+    public interface IObserverable
     {
         public List<IObserver> Observers { get; }
         void AddObserver(IObserver observer);

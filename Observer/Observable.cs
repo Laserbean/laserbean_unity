@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Laserbean.General.Observers
 {
-    public class ObserverSubject : MonoBehaviour, IObserverSubject
+    public class Observable : MonoBehaviour, IObserverable
     {
 
         public List<IObserver> Observers {
@@ -49,7 +49,7 @@ namespace Laserbean.General.Observers
         }
     }
 
-    public abstract class ObserverSubject<T_event> : ObserverSubject where T_event : IObserverEvent
+    public abstract class ObserverSubject<T_event> : Observable where T_event : IObserverEvent
     {
 
         public void NotifyObservers(T_event @event)

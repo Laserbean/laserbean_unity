@@ -24,7 +24,9 @@ namespace Laserbean.General.NewSettings.Presenter
 
         // [SerializeField] SettingsData settings;
 
-        string SettingsPath { get => GameManager.Instance.AppPath; }
+        [SerializeField]
+        string SettingsPath = "";
+        // string SettingsPath { get => GameManager.Instance.AppPath; }
         const string SettingsFileName = "Settings";
 
         SettingsData GlobalSettings { get => Settings.settings; set => Settings.settings = value; }

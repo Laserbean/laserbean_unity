@@ -8,11 +8,11 @@ public class PauseOnEnable : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.Instance.PauseGame();
+        // GameManager.Instance.PauseGame();
     }
 
     void OnDisable()
     {
-        GameManager.Instance.UnPauseGame();
+        // GameManager.Instance.UnPauseGame();
     }
 }

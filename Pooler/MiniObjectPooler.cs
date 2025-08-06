@@ -25,7 +25,8 @@ namespace Laserbean.General
 
         public void SetPoolItem(ObjectPoolItem item, Transform _parent)
         {
-            try {
+            try
+            {
                 Object.Destroy(itemToPool.objectToPool);
             }
             catch { }
@@ -38,16 +39,20 @@ namespace Laserbean.General
         public GameObject GetPooledObject()
         {
 
-            foreach (var go in pooledObjectList) {
-                if (!go.activeInHierarchy) {
+            foreach (var go in pooledObjectList)
+            {
+                if (!go.activeInHierarchy)
+                {
                     return go;
                 }
             }
 
-            if (pooledObjectList.Count < itemToPool.amountToPool) {
+            if (pooledObjectList.Count < itemToPool.amountToPool)
+            {
                 return AddPooledObject();
             }
-            if (itemToPool.shouldExpand) {
+            if (itemToPool.shouldExpand)
+            {
                 return AddPooledObject();
             }
             return null;
@@ -69,10 +74,19 @@ namespace Laserbean.General
             return go;
         }
 
+        public void DisableAllPooledObjects()
+        {
+            foreach (var go in pooledObjectList)
+            {
+                go.SetActive(false);
+            }
+        }
+
 
         public void DestroyAllPooledObjects()
         {
-            for (int i = pooledObjectList.Count - 1; i >= 0; i--) {
+            for (int i = pooledObjectList.Count - 1; i >= 0; i--)
+            {
                 Object.Destroy(pooledObjectList[i]);
             }
             pooledObjectList.Clear();

@@ -1,14 +1,13 @@
 using UnityEngine;
 using System;
 using System.Reflection;
-using UnityEditorInternal;
 using UnityEngine.Events;
 
 
 namespace Laserbean.General.EditorAttributes
 {
 #if UNITY_EDITOR
-
+    using UnityEditorInternal;
     using UnityEditor;
     using UnityEngine.Profiling;
 
@@ -22,7 +21,9 @@ namespace Laserbean.General.EditorAttributes
         Colour colour;
         public int lineSize { get; private set; }
 
+#if UNITY_EDITOR
         internal FoldableInstance Instance = new();
+#endif
 
         public string ID { get; private set; }
 
@@ -44,7 +45,8 @@ namespace Laserbean.General.EditorAttributes
 
         Color? GetColor()
         {
-            return colour switch {
+            return colour switch
+            {
                 Colour.None => null,
                 Colour.Red => (Color?)Color.red,
                 Colour.Green => (Color?)Color.green,
@@ -64,15 +66,19 @@ namespace Laserbean.General.EditorAttributes
         }
     }
 
+#if UNITY_EDITOR
     internal class FoldableInstance
     {
         public bool IsUnityEvent = false;
 
         UnityEventDrawer eventDrawer = null;
 
-        public UnityEventDrawer EventDrawer {
-            get {
-                if (eventDrawer == null) {
+        public UnityEventDrawer EventDrawer
+        {
+            get
+            {
+                if (eventDrawer == null)
+                {
                     eventDrawer = new UnityEventDrawer();
                 }
                 return eventDrawer;
@@ -82,6 +88,7 @@ namespace Laserbean.General.EditorAttributes
         public float lastUpdateTime = 0f;
         public bool isExpanded = false;
     }
+#endif
 
 
 
@@ -114,25 +121,31 @@ namespace Laserbean.General.EditorAttributes
             Rect boundingRect = new(position.x - 0.5f, position.y, position.width + 1f, GetPropertyHeight(property, label));
             Rect foldoutpos = new(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
 
-            if (foldable.Instance.isExpanded = EditorGUI.Foldout(foldoutpos, foldable.Instance.isExpanded, label)) {
+            if (foldable.Instance.isExpanded = EditorGUI.Foldout(foldoutpos, foldable.Instance.isExpanded, label))
+            {
                 EditorGUI.indentLevel++;
                 position.y += EditorGUIUtility.singleLineHeight;
 
-                if (foldable.Instance.IsUnityEvent) {
+                if (foldable.Instance.IsUnityEvent)
+                {
                     foldable.Instance.EventDrawer.OnGUI(position, property, label);
-                } else {
+                }
+                else
+                {
                     EditorGUI.PropertyField(position, property, label, true);
                 }
 
                 EditorGUI.indentLevel--;
             }
 
-            if (EditorGUI.EndChangeCheck()) {
+            if (EditorGUI.EndChangeCheck())
+            {
                 foldable.Instance.lastUpdateTime = Time.realtimeSinceStartup + updateDelay;
             }
 
-            if (Time.realtimeSinceStartup > foldable.Instance.lastUpdateTime && foldable.Instance.isExpanded) {
-            // if (foldable.Instance.isExpanded) {
+            if (Time.realtimeSinceStartup > foldable.Instance.lastUpdateTime && foldable.Instance.isExpanded)
+            {
+                // if (foldable.Instance.isExpanded) {
                 if (foldable.color != null)
                     CustomPropertyExtra.DrawOutlineBox(boundingRect, (Color)foldable.color, foldable.lineSize);
             }
@@ -146,10 +159,14 @@ namespace Laserbean.General.EditorAttributes
             // height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             height += EditorGUIUtility.singleLineHeight;
 
-            if (foldable.Instance.isExpanded) {
-                if (foldable.Instance.IsUnityEvent) {
+            if (foldable.Instance.isExpanded)
+            {
+                if (foldable.Instance.IsUnityEvent)
+                {
                     height += foldable.Instance.EventDrawer.GetPropertyHeight(property, label);
-                } else {
+                }
+                else
+                {
                     height += EditorGUI.GetPropertyHeight(property, GUIContent.none, true);
                 }
 

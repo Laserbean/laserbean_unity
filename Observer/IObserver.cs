@@ -6,8 +6,13 @@ namespace Laserbean.General.Observers
 {
     public interface IObserver
     {
-        void UpdateObserver(IObserverEvent observerEvent);
-        void UpdateObserver();
+        public void UpdateObserver(IObserverEvent observerEvent);
+        public void UpdateObserver();
+    }
+
+    public interface IObserver<T> : IObserver where T : IObserverEvent
+    {
+        void UpdateObserver(T observerEvent);
     }
 
 
@@ -15,7 +20,7 @@ namespace Laserbean.General.Observers
     {
         public abstract void UpdateObserver();
 
-        protected abstract void UpdateObserver(T observerEvent);
+        public abstract void UpdateObserver(T observerEvent);
 
         void IObserver.UpdateObserver(IObserverEvent observerEvent)
         {
@@ -25,7 +30,7 @@ namespace Laserbean.General.Observers
     }
 
 
-    public interface IObserverSubject
+    public interface IObserverable
     {
         public List<IObserver> Observers { get; }
         void AddObserver(IObserver observer);

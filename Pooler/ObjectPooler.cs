@@ -23,7 +23,8 @@ namespace Laserbean.General
             positions = new List<int>();
 
 
-            for (int i = 0; i < itemsToPool.Count; i++) {
+            for (int i = 0; i < itemsToPool.Count; i++)
+            {
                 ObjectPoolItemToPooledObject(i);
             }
 
@@ -34,15 +35,18 @@ namespace Laserbean.General
         {
 
             int curSize = pooledObjectsList[index].Count;
-            for (int i = positions[index] + 1; i < positions[index] + pooledObjectsList[index].Count; i++) {
+            for (int i = positions[index] + 1; i < positions[index] + pooledObjectsList[index].Count; i++)
+            {
 
-                if (!pooledObjectsList[index][i % curSize].activeInHierarchy) {
+                if (!pooledObjectsList[index][i % curSize].activeInHierarchy)
+                {
                     positions[index] = i % curSize;
                     return pooledObjectsList[index][i % curSize];
                 }
             }
 
-            if (itemsToPool[index].shouldExpand) {
+            if (itemsToPool[index].shouldExpand)
+            {
 
                 GameObject obj = (GameObject)Instantiate(itemsToPool[index].objectToPool);
                 obj.SetActive(false);
@@ -77,7 +81,8 @@ namespace Laserbean.General
             ObjectPoolItem item = itemsToPool[index];
 
             pooledObjects = new List<GameObject>();
-            for (int i = 0; i < item.amountToPool; i++) {
+            for (int i = 0; i < item.amountToPool; i++)
+            {
                 GameObject obj = (GameObject)Instantiate(item.objectToPool);
                 obj.SetActive(false);
                 // obj.transform.parent = this.transform;
@@ -87,6 +92,20 @@ namespace Laserbean.General
             pooledObjectsList.Add(pooledObjects);
             positions.Add(0);
 
+        }
+
+        public void DisableAllPooledObjects()
+        {
+            foreach (var pooledList in pooledObjectsList)
+            {
+                foreach (var obj in pooledList)
+                {
+                    if (obj != null)
+                    {
+                        obj.SetActive(false);
+                    }
+                }
+            }
         }
     }
 

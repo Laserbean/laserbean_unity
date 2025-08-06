@@ -22,7 +22,8 @@ namespace Laserbean.General
             positions = new List<int>();
 
 
-            for (int i = 0; i < itemsToPool.Count; i++) {
+            for (int i = 0; i < itemsToPool.Count; i++)
+            {
                 ObjectPoolItemToPooledObject(i);
             }
         }
@@ -32,15 +33,18 @@ namespace Laserbean.General
         {
 
             int curSize = pooledObjectsList[index].Count;
-            for (int i = positions[index] + 1; i < positions[index] + pooledObjectsList[index].Count; i++) {
+            for (int i = positions[index] + 1; i < positions[index] + pooledObjectsList[index].Count; i++)
+            {
 
-                if (!pooledObjectsList[index][i % curSize].activeInHierarchy) {
+                if (!pooledObjectsList[index][i % curSize].activeInHierarchy)
+                {
                     positions[index] = i % curSize;
                     return pooledObjectsList[index][i % curSize];
                 }
             }
 
-            if (itemsToPool[index].shouldExpand) {
+            if (itemsToPool[index].shouldExpand)
+            {
                 GameObject obj = GameObject.Instantiate(itemsToPool[index].objectToPool);
                 obj.SetActive(false);
                 obj.transform.SetParent(parent);
@@ -72,7 +76,8 @@ namespace Laserbean.General
             ObjectPoolItem item = itemsToPool[index];
 
             pooledObjects = new List<GameObject>();
-            for (int i = 0; i < item.amountToPool; i++) {
+            for (int i = 0; i < item.amountToPool; i++)
+            {
                 GameObject obj = GameObject.Instantiate(item.objectToPool);
                 obj.SetActive(false);
                 obj.transform.SetParent(parent);
@@ -81,6 +86,14 @@ namespace Laserbean.General
             pooledObjectsList.Add(pooledObjects);
             positions.Add(0);
 
+        }
+
+        public void DisablePooledObjects(int index)
+        {
+            foreach (var go in pooledObjectsList[index])
+            {
+                go.SetActive(false);
+            }
         }
     }
 

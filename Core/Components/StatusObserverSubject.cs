@@ -16,15 +16,31 @@ namespace Laserbean.CoreSystem.BasicComponents
         [SerializeField] string StatusToObserve = "";
 
 
-        [SerializeField,Foldable] UnityEvent<StatusFloatValue> StatusChanged;
-        [SerializeField,Foldable] UnityEvent<StatusFloatValue> StatusMin;
-        [SerializeField,Foldable] UnityEvent<StatusFloatValue> StatusMax;
+        [SerializeField
+#if UNITY_EDITOR 
+, Foldable
+#endif
+]
+        UnityEvent<StatusFloatValue> StatusChanged;
+        [SerializeField
+#if UNITY_EDITOR 
+, Foldable
+#endif
+]
+        UnityEvent<StatusFloatValue> StatusMin;
+        [SerializeField
+#if UNITY_EDITOR 
+, Foldable
+#endif
+]
+        UnityEvent<StatusFloatValue> StatusMax;
 
         void Awake()
         {
             statusFloatCC = GetComponent<StatusFloatCC>();
 
-            foreach (var kvp in statusFloatCC.Statuses) {
+            foreach (var kvp in statusFloatCC.Statuses)
+            {
                 if (kvp.Key != StatusToObserve) continue;
                 kvp.Value.OnChange += OnStatusChange;
                 kvp.Value.OnChange += delegate { StatusChanged.Invoke(new(kvp.Value)); };

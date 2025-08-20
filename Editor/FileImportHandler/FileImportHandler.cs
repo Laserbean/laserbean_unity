@@ -14,31 +14,65 @@ public class FileImportHandler : AssetPostprocessor
         "Assets"
     };
 
+    // static Dictionary<string, string> defaultFileLocationByExtension = new()
+    // {
+    //     {".mp4",   "Assets/StreamingAssets/"},//for IOS, movies need to be in StreamingAssets
+
+    // 	{".anim",   "Assets/Art/Animations/"},
+    //     {".mat",    "Assets/Art/Materials/"},
+    //     {".fbx",    "Assets/Art/Meshes/"},
+
+    // 	//Images has subfolders for Textures, Maps, Sprites, etc.
+    // 	// up to the user to properly sort the images folder
+    // 	{".bmp",    "Assets/Art/Images/"},
+    //     {".png",    "Assets/Art/Images/"},
+    //     {".jpg",    "Assets/Art/Images/"},
+    //     {".jpeg",   "Assets/Art/Images/"},
+    //     {".psd",    "Assets/Art/Images/"},
+
+    //     {".mixer",    "Assets/Audio/Mixers/"},
+    //     //like images, there are sub folders that the user must manage
+    // 	{".wav",    "Assets/Audio/Sources/"}, 
+
+    //     //like images, there are sub folders that the user must manage
+    // 	{".cs",     "Assets/Scripts/"},
+    //     {".shader", "Assets/Shaders/"},
+    //     {".cginc",  "Assets/Shaders/"}
+    // };
+
+
     static Dictionary<string, string> defaultFileLocationByExtension = new()
     {
-        {".mp4",   "Assets/StreamingAssets/"},//for IOS, movies need to be in StreamingAssets
+        {".mp4",   "Assets/_Assets/StreamingAssets/"},//for IOS, movies need to be in StreamingAssets
 
-		{".anim",   "Assets/Art/Animations/"},
-        {".mat",    "Assets/Art/Materials/"},
-        {".fbx",    "Assets/Art/Meshes/"},
+		{".anim",   "Assets/_Assets/Art/Animations/"},
+        {".mat",    "Assets/_Assets/Art/Materials/"},
+        {".fbx",    "Assets/_Assets/Art/Meshes/"},
 
 		//Images has subfolders for Textures, Maps, Sprites, etc.
 		// up to the user to properly sort the images folder
-		{".bmp",    "Assets/Art/Images/"},
-        {".png",    "Assets/Art/Images/"},
-        {".jpg",    "Assets/Art/Images/"},
-        {".jpeg",   "Assets/Art/Images/"},
-        {".psd",    "Assets/Art/Images/"},
+		{".bmp",    "Assets/_Assets/Art/Images/"},
+        {".png",    "Assets/_Assets/Art/Images/"},
+        {".jpg",    "Assets/_Assets/Art/Images/"},
+        {".jpeg",   "Assets/_Assets/Art/Images/"},
+        {".psd",    "Assets/_Assets/Art/Images/"},
 
-        {".mixer",    "Assets/Audio/Mixers/"},
+        {".mixer",    "Assets/_Assets/Audio/Mixers/"},
         //like images, there are sub folders that the user must manage
-		{".wav",    "Assets/Audio/Sources/"}, 
+		{".wav",    "Assets/_Assets/Audio/Sources/"}, 
 
         //like images, there are sub folders that the user must manage
-		{".cs",     "Assets/Scripts/"},
-        {".shader", "Assets/Shaders/"},
-        {".cginc",  "Assets/Shaders/"}
+		{".cs",     "Assets/_Assets/Scripts/"},
+        {".shader", "Assets/_Assets/Shaders/"},
+        {".cginc",  "Assets/_Assets/Shaders/"},
+        {".physicsMaterial2D",  "Assets/_Assets/PhysicsMaterials2D/"}
     };
+
+    // static readonly List<string> blacklistPath = new()
+    // {
+    //     {  "Assets/Scripts/"}
+    // };
+
 
 
 
@@ -47,7 +81,8 @@ public class FileImportHandler : AssetPostprocessor
         var status = EditorPrefs.GetInt("kAutoFileMove");
         if (status == 0) return;
 
-        foreach (string oldFilePath in importedAssets) {
+        foreach (string oldFilePath in importedAssets)
+        {
             string directory = Path.GetDirectoryName(oldFilePath);
             if (!pathsToMoveFrom.Contains(directory))
                 continue;
@@ -61,7 +96,8 @@ public class FileImportHandler : AssetPostprocessor
 
 
 
-            if (!AssetDatabase.IsValidFolder(newPath)) {
+            if (!AssetDatabase.IsValidFolder(newPath))
+            {
                 System.IO.Directory.CreateDirectory(newPath);
                 Debug.Log("Folder created: " + newPath);
                 AssetDatabase.Refresh();

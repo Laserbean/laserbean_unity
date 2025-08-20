@@ -14,16 +14,16 @@ namespace Laserbean.General
         const float PI = 3.141592654f;
 
 
-        public SecondOrderDynamics(float f, float z, float r, Vector3 x0)
+        public SecondOrderDynamics(float frequency, float z, float r, Vector3 x0)
         {
             // f = frequency, 
             // z = damping, 0 to 1 underdamped >1 overdamped
             // r = response; 
-            k1 = z / (PI * f);
-            k2 = 1 / ((2 * PI) * (2 * PI * f));
-            k3 = r * z / (2 * PI * f);
+            k1 = z / (PI * frequency);
+            k2 = 1 / ((2 * PI) * (2 * PI * frequency));
+            k3 = r * z / (2 * PI * frequency);
 
-            _w = 2 * PI * f;
+            _w = 2 * PI * frequency;
             _z = z;
             _d = _w * Mathf.Sqrt(Mathf.Abs(z * z - 1));
 

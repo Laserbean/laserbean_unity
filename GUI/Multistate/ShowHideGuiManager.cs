@@ -13,15 +13,6 @@ using UnityEditor.SceneManagement;
 namespace Laserbean.CustomGUI
 {
 
-    public interface IGuiManager
-    {
-        public int GetCurrentState();
-        public bool NameExists(string name);
-        public int GetStateNumber(string nme);
-        public void DoState(int num);
-        public void DoStateInstant(int num);
-    }
-
     [Obsolete("use the Multistate GUI stuff")]
     public class ShowHideGuiManager : MonoBehaviour, IGuiManager
     {

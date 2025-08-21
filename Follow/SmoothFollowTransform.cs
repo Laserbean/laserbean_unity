@@ -1,5 +1,3 @@
-using Laserbean.General;
-using Unity.Cinemachine;
 using UnityEngine;
 
 namespace Laserbean.General.Follower

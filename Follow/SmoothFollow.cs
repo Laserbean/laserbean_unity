@@ -1,17 +1,31 @@
 using System.Collections.Generic;
-using Laserbean.General;
-using Unity.Cinemachine;
 using UnityEngine;
 
 
 namespace Laserbean.General.Follower
 {
-    public abstract class SmoothFollow : MonoBehaviour
+    public abstract class SmoothFollow : MonoBehaviour, IPositionFollower
     {
-        [SerializeField] float p_const = 0.10f;
-        [SerializeField] float i_const = 0.1f;
-        [SerializeField] float d_const = 0.1f;
+        [Header("PID Constants")]
+        [SerializeField] protected float p_const = 0.10f;
+        [SerializeField] protected float i_const = 0.1f;
+        [SerializeField] protected float d_const = 0.1f;
         [SerializeField] public Transform Target;
+
+        [Header("Integral Buffer Size"), Range(0, 10000)]
+        [SerializeField] float buffer_size = 64;
+
+        [Header("Lock Axis")]
+        [SerializeField] private bool Lock_x = false;
+        [SerializeField] private bool Lock_y = false;
+        [SerializeField] private bool Lock_z = false;
+
+        [Header("Stop When Close")]
+        [SerializeField] private bool Stop_when_close = true;
+
+        [SerializeField] float distance_treshold = 0.1f;
+
+        private Queue<Vector3> total_error_buffer = new();
 
         private Vector3 Derivative
         {
@@ -24,27 +38,53 @@ namespace Laserbean.General.Follower
         Vector3 previous_error = Vector3.zero;
         Vector3 current_error = Vector3.zero;
         Vector3 total_error = Vector3.zero;
+        Vector3 target_position;
+        void Awake()
+        {
+            target_position = transform.position;
+        }
 
-        [SerializeField] private bool Lock_x = false;
-        [SerializeField] private bool Lock_y = false;
-        [SerializeField] private bool Lock_z = false;
+        Vector3 TargetPosition
+        {
+            get
+            {
+                if (Target == null)
+                {
+                    return target_position;
+                }
+                return Target.transform.position;
+            }
+        }
 
-        [SerializeField] private bool Stop_when_close = true;
+        public void SetTarget(Vector3 targetpos)
+        {
+            target_position = targetpos;
+        }
 
+        public void SetTarget(Transform target)
+        {
+            Target = target;
+        }
 
-        [SerializeField] float distance_treshold = 0.1f;
+        public void RemoveTargetTransform()
+        {
+            Target = null;
+        }
 
+        public void RemoveTargetPosition()
+        {
+            target_position = transform.position;
+        }
 
         private bool IsAtTarget
         {
             get
             {
-                return (Target.transform.position - transform.position).sqrMagnitude < distance_treshold * distance_treshold;
+                return (TargetPosition - transform.position).sqrMagnitude < distance_treshold * distance_treshold;
             }
         }
 
-        private Queue<Vector3> total_error_buffer = new();
-        [SerializeField] float buffer_size = 64;
+
 
         public void FixedUpdate()
         {

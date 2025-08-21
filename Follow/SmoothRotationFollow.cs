@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
-namespace Laserbean.General
+namespace Laserbean.General.Follower
 {
 
     public class SmoothRotationFollower : MonoBehaviour

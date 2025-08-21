@@ -13,4 +13,9 @@ namespace Laserbean.General.Follower
 
         public void RemoveTargetPosition();
     }
+
+    // public interface ILocalPositionFollower
+    // {
+    //     public void SetLocalPositionTarget(Vector3 targetpos);
+    // }
 }

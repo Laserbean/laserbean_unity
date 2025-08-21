@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Laserbean.General.Follower
 {
-    public abstract class SmoothFollow : MonoBehaviour, IPositionFollower
+    public abstract class SmoothFollow : MonoBehaviour, IPositionFollower //, ILocalPositionFollower
     {
         [Header("PID Constants")]
         [SerializeField] protected float p_const = 0.10f;
@@ -27,6 +27,9 @@ namespace Laserbean.General.Follower
 
         private Queue<Vector3> total_error_buffer = new();
 
+        // [SerializeField] bool isFollowLocalPos = false;
+        // Vector3 fixedLocalPosition = Vector3.zero;
+
         private Vector3 Derivative
         {
             get
@@ -39,15 +42,23 @@ namespace Laserbean.General.Follower
         Vector3 current_error = Vector3.zero;
         Vector3 total_error = Vector3.zero;
         Vector3 target_position;
+
+
         void Awake()
         {
             target_position = transform.position;
+
+            // fixedLocalPosition = transform.localPosition;
         }
 
         Vector3 TargetPosition
         {
             get
             {
+                // if (isFollowLocalPos)
+                // {
+                //     return transform.parent != null ? transform.parent.TransformPoint(fixedLocalPosition) : transform.TransformPoint(fixedLocalPosition);
+                // }
                 if (Target == null)
                 {
                     return target_position;
@@ -76,6 +87,11 @@ namespace Laserbean.General.Follower
             target_position = transform.position;
         }
 
+        // public void SetLocalPositionTarget(Vector3 targetpos)
+        // {
+        //     fixedLocalPosition = targetpos;
+        // }
+
         private bool IsAtTarget
         {
             get
@@ -84,18 +100,13 @@ namespace Laserbean.General.Follower
             }
         }
 
-
-
         public void FixedUpdate()
         {
-
             previous_error = current_error;
             // PID control
-            current_error = Target.position - transform.position;
+            current_error = TargetPosition - transform.position;
 
             Vector3 integral = current_error * Time.fixedDeltaTime; // Simple integral approximation
-
-
 
             if (buffer_size > 0)
             {
@@ -106,9 +117,6 @@ namespace Laserbean.General.Follower
                 total_error_buffer.Enqueue(integral);
             }
             total_error += integral;
-
-
-
 
             // Debug.Log((current_error + " " + total_error + " " + Derivative).DebugColor(Color.green));
 
@@ -128,5 +136,7 @@ namespace Laserbean.General.Follower
         {
             if (force == Vector3.zero) return;
         }
+
+
     }
 }

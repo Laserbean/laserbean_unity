@@ -17,9 +17,6 @@ namespace Laserbean.General.GenericStuff
         ComponentUser componentUser;
 
         public ComponentDataObject componentDataObject;
-
-
-
         private void Awake()
         {
             componentUser = GetComponent<ComponentUser>();
@@ -40,7 +37,7 @@ namespace Laserbean.General.GenericStuff
 
 
         [EasyButtons.Button]
-        public void ClearStuff()
+        public void ClearAddedComponents()
         {
             componentUser ??= GetComponent<ComponentUser>();
             OnComponentGenerating?.Invoke();

@@ -145,22 +145,6 @@ namespace Laserbean.CustomGUI
     }
 
 
-    [System.Serializable]
-    public class GUI_Window_Info
-    {
-        public Vector3 Position;
-
-        [Range(0f, 1f)]
-        public float Opacity;
-
-        public void SetPosition(Vector3 pos)
-        {
-            Position = pos;
-        }
-
-        public bool Interactable;
-        public bool BlocksRaycast;
-    }
 
 
 #if UNITY_EDITOR

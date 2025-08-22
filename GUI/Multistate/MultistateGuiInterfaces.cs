@@ -21,4 +21,10 @@ namespace Laserbean.CustomGUI
         public void DoState(int num);
         public void DoStateInstant(int num);
     }
+
+    public interface IGuiObject
+    {
+        public void ShowGuiAt(int number);
+        public void StartGuiLerpAt(int number);
+    }
 }

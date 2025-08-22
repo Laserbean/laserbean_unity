@@ -44,7 +44,6 @@ namespace Laserbean.CustomGUI
 
             public int Count
             {
-
                 get
                 {
                     rows ??= new();
@@ -130,8 +129,7 @@ namespace Laserbean.CustomGUI
 
             foreach (var col in columns)
             {
-
-                col.reference_object?.GetComponent<MultistateGuiController>()?.StartGuiLerpAt(col.rows[num]);
+                col.reference_object?.GetComponent<IGuiObject>()?.StartGuiLerpAt(col.rows[num]);
             }
             previous_state = cur_state;
             cur_state = num;
@@ -147,7 +145,7 @@ namespace Laserbean.CustomGUI
 
             foreach (var col in columns)
             {
-                col.reference_object?.GetComponent<MultistateGuiController>()?.ShowGuiAt(col.rows[num]);
+                col.reference_object?.GetComponent<IGuiObject>()?.ShowGuiAt(col.rows[num]);
             }
             previous_state = cur_state;
             cur_state = num;

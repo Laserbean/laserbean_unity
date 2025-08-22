@@ -9,7 +9,7 @@ using UnityEngine.PlayerLoop;
 
 namespace Laserbean.CustomGUI
 {
-    public class MultistateGuiController : MonoBehaviour
+    public class MultistateGuiController : MonoBehaviour, IGuiObject
     {
         public List<GUI_Window_Info> window_info_list = new();
 
@@ -35,7 +35,6 @@ namespace Laserbean.CustomGUI
 
         }
 
-
         private void OnValidate()
         {
             rectTransform = GetComponent<RectTransform>();
@@ -51,36 +50,26 @@ namespace Laserbean.CustomGUI
 
             cur_window_ind = target_window_ind;
             target_window_ind = number;
-
-
-
             rectTransform.anchoredPosition = targetWindowInfo.Position;
+            rectTransform.localScale = targetWindowInfo.Scale;
+
             canvasGroup.alpha = targetWindowInfo.Opacity;
             canvasGroup.interactable = targetWindowInfo.Interactable;
             canvasGroup.blocksRaycasts = targetWindowInfo.BlocksRaycast;
-
-
             target_window_position = targetWindowInfo.Position;
             timer = windowMoveDuration;
         }
-
-
-
 
         public void StartGuiLerpAt(int number)
         {
             var targetWindowInfo = window_info_list[number];
             cur_window_ind = target_window_ind;
             target_window_ind = number;
-
             canvasGroup.interactable = targetWindowInfo.Interactable;
             canvasGroup.blocksRaycasts = targetWindowInfo.BlocksRaycast;
-
             target_window_position = targetWindowInfo.Position;
             timer = 0f;
         }
-
-
 
         float timer = 0f;
         private void Update()
@@ -99,6 +88,8 @@ namespace Laserbean.CustomGUI
             rectTransform = rectTransform != null ? rectTransform : GetComponent<RectTransform>();
 
             rectTransform.anchoredPosition = Vector3.Lerp(window_info_list[cur_window_ind].Position, window_info_list[target_window_ind].Position, timer / windowMoveDuration);
+            rectTransform.localScale = Vector3.Lerp(window_info_list[cur_window_ind].Scale, window_info_list[target_window_ind].Scale, timer / windowMoveDuration);
+
             timer += Time.unscaledDeltaTime;
 
 
@@ -113,9 +104,7 @@ namespace Laserbean.CustomGUI
     [CustomEditor(typeof(MultistateGuiController))]
     public class MultistateGuiControllerEditor : Editor
     {
-
         int number_to_move = 0;
-
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();

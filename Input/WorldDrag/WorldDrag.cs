@@ -14,7 +14,7 @@ public class WorldDrag : MonoBehaviour
     private InputAction clickAction;
     private InputAction pointAction;
 
-    private Transform grabbed;
+    private Transform GrabbedObject;
     private Vector3 grabOffset;
     private Plane dragPlane;
 
@@ -63,7 +63,6 @@ public class WorldDrag : MonoBehaviour
         if (hit2D.collider != null)
         {
             hitObj2D = hit2D.collider.gameObject;
-
         }
 
         // -------- 3D hover --------
@@ -121,11 +120,15 @@ public class WorldDrag : MonoBehaviour
         Ray ray = cam.ScreenPointToRay(screenPos);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, draggableLayer))
         {
-            grabbed = hit.transform;
+
+            GrabbedObject = hit.transform;
             // define a plane orthogonal to camera through hit point
-            dragPlane = new Plane(-cam.transform.forward, hit.point);
+            var plane_origin = cam.transform.position - (cam.transform.position - hit.point).normalized * dragDistance;
+            DebugMoveToPos2 = plane_origin;
+            dragPlane = new Plane(-cam.transform.forward, plane_origin);
+
             // calculate offset from hit point to object pivot
-            grabOffset = grabbed.position - hit.point;
+            grabOffset = GrabbedObject.position - hit.point;
         }
         else
         {
@@ -133,9 +136,9 @@ public class WorldDrag : MonoBehaviour
             RaycastHit2D hit2D = Physics2D.Raycast(worldPoint, Vector2.zero, Mathf.Infinity, draggableLayer);
             if (hit2D.collider != null)
             {
-                grabbed = hit2D.transform;
+                GrabbedObject = hit2D.transform;
                 dragPlane = new Plane(-cam.transform.forward, hit2D.point);
-                grabOffset = grabbed.position - (Vector3)hit2D.point;
+                grabOffset = GrabbedObject.position - (Vector3)hit2D.point;
 
                 var clickable = hit2D.collider.gameObject.GetComponent<IWorldClickable>();
                 clickable?.OnClickPressed();
@@ -145,35 +148,59 @@ public class WorldDrag : MonoBehaviour
 
     private void OnClickReleased(InputAction.CallbackContext ctx)
     {
-        if (grabbed != null)
+        if (GrabbedObject != null)
         {
             // You can implement drop logic here (e.g., snapping, checking valid drop zone)
-
-
-            var clickable = grabbed.gameObject.GetComponent<IWorldClickable>();
+            var clickable = GrabbedObject.gameObject.GetComponent<IWorldClickable>();
             clickable?.OnClickReleased();
 
-            grabbed = null;
+            var grabbable = GrabbedObject.gameObject.GetComponent<IWorldDraggable>();
+            if (grabbable == null) { return; }
+            grabbable.DragReleased();
+
+            GrabbedObject = null;
+
         }
     }
 
+    [SerializeField] float dragDistanceFromCamera = 10f;
+
     void Update()
     {
-        if (grabbed != null)
+        if (GrabbedObject != null)
         {
-            // Debug.Log("Grabbed");
+            if (!GrabbedObject.TryGetComponent<IWorldDraggable>(out var grabbable)) { return; }
 
-            var grabbable = grabbed.GetComponent<IWorldDraggable>();
-            if (grabbable == null) { return; }
 
             Vector2 screenPos = pointAction.ReadValue<Vector2>();
             Ray ray = cam.ScreenPointToRay(screenPos);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, dragDistanceFromCamera))
+            {
+                dragPlane = new Plane(-cam.transform.forward, hit.point);
+            }
+
+
+
+
             if (dragPlane.Raycast(ray, out float enter))
             {
                 Vector3 hitPoint = ray.GetPoint(enter);
-                // grabbed.position = hitPoint + grabOffset;
+
+                DebugMoveToPos = hitPoint + grabOffset;
                 grabbable.Drag(hitPoint + grabOffset);
             }
         }
+    }
+    Vector3 DebugMoveToPos { get; set; }
+    Vector3 DebugMoveToPos2 { get; set; }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(DebugMoveToPos, 0.2f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(DebugMoveToPos2, Vector3.one * 0.2f);
+
     }
 }

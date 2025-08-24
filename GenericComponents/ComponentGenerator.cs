@@ -29,8 +29,7 @@ namespace Laserbean.General.GenericStuff
         private List<Type> componentDependencies = new();
 
 
-        [EasyButtons.Button]
-        void Generate_Components()
+        [EasyButtons.Button] public void Generate_Components()
         {
             GenerateComponents(componentDataObject);
         }

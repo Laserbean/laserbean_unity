@@ -46,6 +46,7 @@ namespace Laserbean.General.Follower
 
         void Awake()
         {
+            IsFollowing = true;
             target_position = transform.position;
 
             // fixedLocalPosition = transform.localPosition;
@@ -100,8 +101,23 @@ namespace Laserbean.General.Follower
             }
         }
 
+        [SerializeField] bool IsFollowing = true;
+
+        public void StartFollowing()
+        {
+            IsFollowing = true;
+        }
+
+        public void StopFollowing()
+        {
+            IsFollowing = false;
+        }
+
+
         public void FixedUpdate()
         {
+            if (!IsFollowing) return;
+
             previous_error = current_error;
             // PID control
             current_error = TargetPosition - transform.position;
@@ -128,7 +144,6 @@ namespace Laserbean.General.Follower
             if (Lock_x) pidForce.x = 0f;
             if (Lock_y) pidForce.y = 0f;
             if (Lock_z) pidForce.z = 0f;
-
             AddForce(pidForce);
         }
 

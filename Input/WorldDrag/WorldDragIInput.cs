@@ -1,58 +1,25 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class WorldDrag : MonoBehaviour
+public class WorldDragIInput : MonoBehaviour, IMouseInputable
 {
     [SerializeField] private Camera cam; // assign or default to Camera.main
     [SerializeField] private LayerMask draggableLayer;
     [SerializeField] private LayerMask hoverLayer; // could be same as draggableLayer or broader
-
     [SerializeField] private float dragDistance = 0f; // optional fixed distance from camera
-
     [SerializeField] private bool prefer2DHover = true;
 
-    private InputAction clickAction;
-    private InputAction pointAction;
 
     private Transform GrabbedObject;
     private Vector3 grabOffset;
     private Plane dragPlane;
 
-    void OnEnable()
-    {
-        cam = cam != null ? cam : Camera.main;
-        var inputActionAsset = ScriptableObject.CreateInstance<InputActionAsset>();
-
-        pointAction = new InputAction("point", binding: "<Pointer>/position");
-        clickAction = new InputAction("click", binding: "<Mouse>/leftButton");
-
-        clickAction.AddBinding("<Touchscreen>/touch*/press");
-
-        pointAction.Enable();
-        clickAction.Enable();
-
-        clickAction.performed += OnClickPerformed;
-        clickAction.canceled += OnClickReleased;
-        pointAction.performed += OnPointMoved; // for hover
-    }
-
-    void OnDisable()
-    {
-        clickAction.performed -= OnClickPerformed;
-        clickAction.canceled -= OnClickReleased;
-        pointAction.performed -= OnPointMoved;
-        pointAction.Disable();
-        clickAction.Disable();
-    }
-
     private GameObject lastHover; // track hover for enter/exit
 
-    private void OnPointMoved(InputAction.CallbackContext ctx)
+    void IMouseInputable.OnPointMove(Vector2 screenPos)
     {
-        Vector2 screenPos = pointAction.ReadValue<Vector2>();
         GameObject hitObj2D = null;
         GameObject hitObj3D = null;
-
 
         // -------- 2D hover --------
         // Convert screen to world point. Z is irrelevant for 2D physics (usually orthographic) so we take camera to get proper XY.
@@ -63,7 +30,6 @@ public class WorldDrag : MonoBehaviour
         {
             hitObj2D = hit2D.collider.gameObject;
         }
-
         // -------- 3D hover --------
         Ray ray = cam.ScreenPointToRay(screenPos);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, hoverLayer))
@@ -112,14 +78,13 @@ public class WorldDrag : MonoBehaviour
         }
     }
 
-    private void OnClickPerformed(InputAction.CallbackContext ctx)
+
+    void IMouseInputable.OnClickDown(Vector2 screenPos)
     {
-        Vector2 screenPos = pointAction.ReadValue<Vector2>();
         // Debug.Log("Clicked" + screenPos + "");
         Ray ray = cam.ScreenPointToRay(screenPos);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, draggableLayer))
         {
-
             GrabbedObject = hit.transform;
             // define a plane orthogonal to camera through hit point
             var plane_origin = cam.transform.position - (cam.transform.position - hit.point).normalized * dragDistance;
@@ -145,7 +110,7 @@ public class WorldDrag : MonoBehaviour
         }
     }
 
-    private void OnClickReleased(InputAction.CallbackContext ctx)
+    void IMouseInputable.OnClickUp(Vector2 ScreenPoint)
     {
         if (GrabbedObject != null)
         {
@@ -158,29 +123,24 @@ public class WorldDrag : MonoBehaviour
             grabbable.DragReleased();
 
             GrabbedObject = null;
-
         }
     }
 
     [SerializeField] float dragDistanceFromCamera = 10f;
 
-    void Update()
+    Vector2 curDragPos;
+    void IMouseInputable.OnDrag(Vector2 ScreenPoint)
     {
+        curDragPos = ScreenPoint;
+
         if (GrabbedObject != null)
         {
             if (!GrabbedObject.TryGetComponent<IWorldDraggable>(out var grabbable)) { return; }
-
-
-            Vector2 screenPos = pointAction.ReadValue<Vector2>();
-            Ray ray = cam.ScreenPointToRay(screenPos);
-
+            Ray ray = cam.ScreenPointToRay(curDragPos);
             if (Physics.Raycast(ray, out RaycastHit hit, dragDistanceFromCamera))
             {
                 dragPlane = new Plane(-cam.transform.forward, hit.point);
             }
-
-
-
 
             if (dragPlane.Raycast(ray, out float enter))
             {
@@ -191,6 +151,7 @@ public class WorldDrag : MonoBehaviour
             }
         }
     }
+
     Vector3 DebugMoveToPos { get; set; }
     Vector3 DebugMoveToPos2 { get; set; }
 
@@ -200,6 +161,6 @@ public class WorldDrag : MonoBehaviour
         Gizmos.DrawWireSphere(DebugMoveToPos, 0.2f);
         Gizmos.color = Color.red;
         Gizmos.DrawCube(DebugMoveToPos2, Vector3.one * 0.2f);
-
     }
+
 }

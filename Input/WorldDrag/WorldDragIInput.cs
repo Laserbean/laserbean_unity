@@ -6,9 +6,10 @@ public class WorldDragIInput : MonoBehaviour, IMouseInputable
     [SerializeField] private Camera cam; // assign or default to Camera.main
     [SerializeField] private LayerMask draggableLayer;
     [SerializeField] private LayerMask hoverLayer; // could be same as draggableLayer or broader
-    [SerializeField] private float dragDistance = 0f; // optional fixed distance from camera
-    [SerializeField] private bool prefer2DHover = true;
-
+    [SerializeField] private LayerMask FloorLayer; // could be same as draggableLayer or broader
+    [SerializeField] private float dragDistance = 40f; // optional fixed distance from camera
+    [SerializeField] private bool use2D = true;
+    [SerializeField] private float floatDistance = 20f;
 
     private Transform GrabbedObject;
     private Vector3 grabOffset;
@@ -18,39 +19,33 @@ public class WorldDragIInput : MonoBehaviour, IMouseInputable
 
     void IMouseInputable.OnPointMove(Vector2 screenPos)
     {
-        GameObject hitObj2D = null;
-        GameObject hitObj3D = null;
+        GameObject hitObj = null;
 
-        // -------- 2D hover --------
-        // Convert screen to world point. Z is irrelevant for 2D physics (usually orthographic) so we take camera to get proper XY.
-        Vector3 worldPoint = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, cam.nearClipPlane));
-        RaycastHit2D hit2D = Physics2D.Raycast(worldPoint, Vector2.zero, Mathf.Infinity, draggableLayer);
-
-        if (hit2D.collider != null)
+        if (use2D)
         {
-            hitObj2D = hit2D.collider.gameObject;
+            // -------- 2D hover --------
+            // Convert screen to world point. Z is irrelevant for 2D physics (usually orthographic) so we take camera to get proper XY.
+            Vector3 worldPoint = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, cam.nearClipPlane));
+            RaycastHit2D hit2D = Physics2D.Raycast(worldPoint, Vector2.zero, Mathf.Infinity, draggableLayer);
+            if (hit2D.collider != null)
+            {
+                hitObj = hit2D.collider.gameObject;
+                Debug.DrawLine(hit2D.point, hit2D.point + Vector2.up, Color.red);
+            }
         }
-        // -------- 3D hover --------
-        Ray ray = cam.ScreenPointToRay(screenPos);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, hoverLayer))
+        else
         {
-            hitObj3D = hit.transform.gameObject;
-        }
+            // -------- 3D hover --------
+            Ray ray = cam.ScreenPointToRay(screenPos);
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, hoverLayer))
+            {
+                hitObj = hit.transform.gameObject;
 
+                Debug.DrawRay(hit.point, hit.normal, Color.red, 1f);
+            }
+        }
         // Decide which to use
-        GameObject newHover = null;
-        if (hitObj2D != null && hitObj3D != null)
-        {
-            newHover = prefer2DHover ? hitObj2D : hitObj3D;
-        }
-        else if (hitObj2D != null)
-        {
-            newHover = hitObj2D;
-        }
-        else if (hitObj3D != null)
-        {
-            newHover = hitObj3D;
-        }
+        var newHover = hitObj;
 
         // Handle enter / exit
         if (newHover != lastHover)
@@ -78,7 +73,6 @@ public class WorldDragIInput : MonoBehaviour, IMouseInputable
         }
     }
 
-
     void IMouseInputable.OnClickDown(Vector2 screenPos)
     {
         // Debug.Log("Clicked" + screenPos + "");
@@ -86,7 +80,7 @@ public class WorldDragIInput : MonoBehaviour, IMouseInputable
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, draggableLayer))
         {
             GrabbedObject = hit.transform;
-            // define a plane orthogonal to camera through hit point
+            // // define a plane orthogonal to camera through hit point
             var plane_origin = cam.transform.position - (cam.transform.position - hit.point).normalized * dragDistance;
             DebugMoveToPos2 = plane_origin;
             dragPlane = new Plane(-cam.transform.forward, plane_origin);
@@ -126,9 +120,6 @@ public class WorldDragIInput : MonoBehaviour, IMouseInputable
         }
     }
 
-    [SerializeField] float dragDistanceFromCamera = 10f;
-
-    Vector2 curDragPos;
     void IMouseInputable.OnDrag(Vector2 ScreenPoint)
     {
         curDragPos = ScreenPoint;
@@ -137,28 +128,53 @@ public class WorldDragIInput : MonoBehaviour, IMouseInputable
         {
             if (!GrabbedObject.TryGetComponent<IWorldDraggable>(out var grabbable)) { return; }
             Ray ray = cam.ScreenPointToRay(curDragPos);
-            if (Physics.Raycast(ray, out RaycastHit hit, dragDistanceFromCamera))
+
+            var surfaceFloatOffset = Vector3.zero;
+
+            if (Physics.Raycast(ray, out RaycastHit hit, dragDistance, FloorLayer))
             {
-                dragPlane = new Plane(-cam.transform.forward, hit.point);
+                // dragPlane = new Plane(-cam.transform.forward, hit.point);
+                dragPlane = new Plane(hit.normal, hit.point + hit.normal * floatDistance);
+                // var vray = (-hit.point + cam.transform.position).normalized;
+                // surfaceFloatOffset = vray * floatDistance * (1 - Vector3.Dot(vray, hit.normal));
+                Debug.DrawRay(hit.point, hit.normal, Color.yellow, 1f);
+            }
+            else if (Physics.Raycast(ray, out hit, dragDistance + floatDistance, FloorLayer))
+            {
+                var plane_origin = ray.origin + ray.direction * dragDistance;
+                DebugMoveToPos2 = plane_origin;
+                dragPlane = new Plane(-cam.transform.forward, plane_origin);
+
+                var vray = (-hit.point + cam.transform.position).normalized;
+                surfaceFloatOffset = vray * floatDistance;
+                Debug.DrawRay(hit.point, hit.normal, Color.yellow, 1f);
+            }
+            else
+            {
+                // If the ray didn't hit anything, use the furthest point along the ray at dragDistance
+                var plane_origin = ray.origin + ray.direction * dragDistance;
+                DebugMoveToPos2 = plane_origin;
+                dragPlane = new Plane(-cam.transform.forward, plane_origin);
             }
 
             if (dragPlane.Raycast(ray, out float enter))
             {
                 Vector3 hitPoint = ray.GetPoint(enter);
 
-                DebugMoveToPos = hitPoint + grabOffset;
-                grabbable.Drag(hitPoint + grabOffset);
+                MoveToPos = hitPoint + grabOffset + surfaceFloatOffset;
+                grabbable.Drag(MoveToPos);
             }
         }
     }
 
-    Vector3 DebugMoveToPos { get; set; }
+    Vector2 curDragPos;
+    Vector3 MoveToPos { get; set; }
     Vector3 DebugMoveToPos2 { get; set; }
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(DebugMoveToPos, 0.2f);
+        Gizmos.DrawWireSphere(MoveToPos, 0.2f);
         Gizmos.color = Color.red;
         Gizmos.DrawCube(DebugMoveToPos2, Vector3.one * 0.2f);
     }

@@ -44,12 +44,9 @@ public class MouseInputHandler : MonoBehaviour
         clickAction.Disable();
     }
 
-    private GameObject lastHover; // track hover for enter/exit
-
     private void OnPointMoved(InputAction.CallbackContext ctx)
     {
         Vector2 screenPos = pointAction.ReadValue<Vector2>();
-
         CurDragPos = screenPos; 
 
         mouseInputable?.OnPointMove(screenPos);

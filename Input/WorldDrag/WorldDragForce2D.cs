@@ -2,18 +2,21 @@ using Laserbean.General;
 using UnityEngine;
 
 using Laserbean.General.Follower;
-public class WorldDragForce2D : SmoothFollowRigidbody2D, IWorldDraggable
-{
-    public void Drag(Vector3 mouseLocation)
+
+namespace Laserbean.Input.WorldDrag
+{    public class WorldDragForce2D : SmoothFollowRigidbody2D, IWorldDraggable
     {
-        StartFollowing();
-        SetTarget(mouseLocation);
+        public void Drag(Vector3 mouseLocation)
+        {
+            StartFollowing();
+            SetTarget(mouseLocation);
 
-    }
+        }
 
-    public void DragReleased()
-    {
-        StopFollowing();
+        public void DragReleased()
+        {
+            StopFollowing();
 
+        }
     }
 }

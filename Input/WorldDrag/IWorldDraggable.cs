@@ -1,8 +1,10 @@
 using UnityEngine;
-
-public interface IWorldDraggable
+namespace Laserbean.Input.WorldDrag
 {
-    public void Drag(Vector3 mouseLocation);
-    public void DragReleased();
+    public interface IWorldDraggable
+    {
+        public void Drag(Vector3 mouseLocation);
+        public void DragReleased();
 
+    }
 }

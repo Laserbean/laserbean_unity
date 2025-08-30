@@ -1,13 +1,16 @@
 using UnityEngine;
 
-public class SimpleWorldDrag : MonoBehaviour, IWorldDraggable
+namespace Laserbean.Input.WorldDrag
 {
-    public void Drag(Vector3 mouseLocation)
+    public class SimpleWorldDrag : MonoBehaviour, IWorldDraggable
     {
-        transform.position = mouseLocation; 
-    }
+        public void Drag(Vector3 mouseLocation)
+        {
+            transform.position = mouseLocation;
+        }
 
-    public void DragReleased()
-    {
+        public void DragReleased()
+        {
+        }
     }
 }

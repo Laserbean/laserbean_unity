@@ -28,7 +28,8 @@ namespace Laserbean.Colliders
             Vector2[] innerPoints = new Vector2[numPoints + 1];
 
             // Generate the points for the sector shape
-            for (int i = 0; i <= numPoints; i++) {
+            for (int i = 0; i <= numPoints; i++)
+            {
                 float currentAngle = startAngle + angleIncrement * i;
                 float cosAngle = Mathf.Cos(currentAngle * Mathf.Deg2Rad);
                 float sinAngle = Mathf.Sin(currentAngle * Mathf.Deg2Rad);
@@ -67,7 +68,8 @@ namespace Laserbean.Colliders
             // EdgeCollider2D edgeCollider2D = GetComponent<EdgeCollider2D>();
             Vector2[] points = new Vector2[numEdges + 1];
 
-            for (int i = 0; i < numEdges; i++) {
+            for (int i = 0; i < numEdges; i++)
+            {
                 float angle = 2 * Mathf.PI * i / numEdges;
                 float x = radius * Mathf.Cos(angle);
                 float y = radius * Mathf.Sin(angle);

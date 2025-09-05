@@ -53,10 +53,14 @@ namespace Laserbean.Colliders
         static void SetTransformGizmo(Transform thistransform = null)
         {
 
-            if (thistransform != null) {
-                if (thistransform.parent != null) {
+            if (thistransform != null)
+            {
+                if (thistransform.parent != null)
+                {
                     Gizmos.matrix = thistransform.parent.localToWorldMatrix;
-                } else {
+                }
+                else
+                {
                     // Gizmos.matrix = thistransform.localToWorldMatrix;
                 }
             }
@@ -68,9 +72,11 @@ namespace Laserbean.Colliders
             SetTransformGizmo(thistransform);
 
             Gizmos.color = color;
-            for (int i = 0; i < polygonCollider.pathCount; i++) {
+            for (int i = 0; i < polygonCollider.pathCount; i++)
+            {
                 Vector2[] points = polygonCollider.GetPath(i);
-                for (int j = 0; j < points.Length - 1; j++) {
+                for (int j = 0; j < points.Length - 1; j++)
+                {
                     Gizmos.DrawLine(points[j] + origin, points[j + 1] + origin);
                 }
                 Gizmos.DrawLine(points[points.Length - 1] + origin, points[0] + origin);
@@ -112,7 +118,8 @@ namespace Laserbean.Colliders
             Vector2 startPoint = new Vector2(radius, 0f) + position;
             Vector2 prevPoint = startPoint;
 
-            for (int i = 1; i <= segments; i++) {
+            for (int i = 1; i <= segments; i++)
+            {
                 float angle = i * angleIncrement;
                 float x = Mathf.Cos(angle) * radius + position.x;
                 float y = Mathf.Sin(angle) * radius + position.y;
@@ -129,7 +136,8 @@ namespace Laserbean.Colliders
 
         private static void Draw(this EdgeCollider2D edgeCollider, Color color, Transform parent = null)
         {
-            if (edgeCollider == null) {
+            if (edgeCollider == null)
+            {
                 Debug.LogWarning("Ugh! Senpai, the EdgeCollider2D is null! You're so careless!");
                 return;
             }
@@ -139,30 +147,36 @@ namespace Laserbean.Colliders
 
             Vector2[] points = edgeCollider.points;
 
-            if (points.Length < 2) {
+            if (points.Length < 2)
+            {
                 Debug.LogWarning("Seriously, senpai? An edge needs at least two points! Think before you code!");
                 return;
             }
 
-            for (int i = 0; i < points.Length - 1; i++) {
+            for (int i = 0; i < points.Length - 1; i++)
+            {
                 Gizmos.DrawLine(edgeCollider.transform.TransformPoint(points[i]), edgeCollider.transform.TransformPoint(points[i + 1]));
             }
         }
 
         public static void Draw(this Collider2D collider, Color color, Transform thistransform = null)
         {
-            if (collider is BoxCollider2D col) {
+            if (collider is BoxCollider2D col)
+            {
                 col.Draw(color, thistransform);
             }
 
-            if (collider is CircleCollider2D col1) {
+            if (collider is CircleCollider2D col1)
+            {
                 col1.Draw(color, thistransform);
             }
-            if (collider is PolygonCollider2D col2) {
+            if (collider is PolygonCollider2D col2)
+            {
                 col2.Draw(color, thistransform);
             }
 
-            if (collider is EdgeCollider2D col3) {
+            if (collider is EdgeCollider2D col3)
+            {
                 col3.Draw(color, thistransform);
             }
         }
@@ -170,7 +184,8 @@ namespace Laserbean.Colliders
         public static void DrawPolygon(List<Vector2> points, Color color)
         {
             Gizmos.color = color;
-            for (int i = 0; i < points.Count; i++) {
+            for (int i = 0; i < points.Count; i++)
+            {
                 var start = points[i];
                 var end = points[(i + 1) % points.Count];
                 Gizmos.DrawLine(start, end);
@@ -180,7 +195,8 @@ namespace Laserbean.Colliders
 
         public static void DrawPolygons(List<List<Vector2>> polygons, Color color)
         {
-            foreach (var polygon in polygons) {
+            foreach (var polygon in polygons)
+            {
                 DrawPolygon(polygon, color);
             }
         }

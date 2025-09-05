@@ -15,9 +15,11 @@ public class DebugInspectorButtonEditor : Editor
         var thistarget = target as DebugInspectorButton;
         base.OnInspectorGUI();
 
-        foreach (var unityeventthing in thistarget.Events) {
+        foreach (var unityeventthing in thistarget.Events)
+        {
             if (string.IsNullOrEmpty(unityeventthing.Name)) continue;
-            if (GUILayout.Button(unityeventthing.Name)) {
+            if (GUILayout.Button(unityeventthing.Name))
+            {
                 unityeventthing.unityEvent.Invoke();
             }
         }

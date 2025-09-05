@@ -18,13 +18,16 @@ public class RedIfEmptyAttributeDrawer : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty prop, GUIContent label)
     {
 
-        if (string.IsNullOrEmpty(prop.stringValue)) {
+        if (string.IsNullOrEmpty(prop.stringValue))
+        {
             var col = Color.red;
             Color prev = GUI.color;
             GUI.color = col;
             EditorGUI.PropertyField(position, prop, label, true);
             GUI.color = prev;
-        } else {
+        }
+        else
+        {
             EditorGUI.PropertyField(position, prop, label, true);
         }
 

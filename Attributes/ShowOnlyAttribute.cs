@@ -19,7 +19,8 @@ public class ShowOnlyDrawer : PropertyDrawer
     {
         string valueStr;
 
-        switch (prop.propertyType) {
+        switch (prop.propertyType)
+        {
             case SerializedPropertyType.Integer:
                 valueStr = prop.intValue.ToString();
                 break;

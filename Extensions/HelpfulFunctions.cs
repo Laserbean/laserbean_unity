@@ -19,19 +19,19 @@ namespace Laserbean.General
             List<T> res = thislist.Intersect(another).ToList<T>();
             return res;
         }
-
-
         public static void Resize<T>(ref List<T> array, int new_length, T thing = default)
         {
             List<T> newArray = new(new_length);
 
-            for (int i = 0; i < Mathf.Min(array.Count, new_length); i++) {
+            for (int i = 0; i < Mathf.Min(array.Count, new_length); i++)
+            {
                 newArray.Add(thing);
                 newArray[i] = array[i];
                 // if (array[i] != null)
                 //     newArray.Add(array[i]);
             }
-            for (int i = Mathf.Min(array.Count, new_length); i < new_length; i++) {
+            for (int i = Mathf.Min(array.Count, new_length); i < new_length; i++)
+            {
                 // newArray[i] = new T();
                 newArray.Add(thing);
             }
@@ -44,13 +44,12 @@ namespace Laserbean.General
 
             // }
 
-            if (newArray.Count != new_length) {
+            if (newArray.Count != new_length)
+            {
                 throw new System.Exception("fish");
             }
             array = newArray;
         }
-
-
 
         // public static void Resize<T>(ref T[] array, int new_length) {
         //     T[] newArray = new T[new_length];
@@ -90,9 +89,11 @@ namespace Laserbean.General
             int index = 0;
             int noOfChildren = gameObject.transform.childCount;
 
-            for (int i = 0; i < noOfChildren; i++) {
+            for (int i = 0; i < noOfChildren; i++)
+            {
                 TComp childComponent = gameObject.transform.GetChild(i).GetComponent<TComp>();
-                if (childComponent != null) {
+                if (childComponent != null)
+                {
                     Components[index] = childComponent;
                     index++;
                 }
@@ -107,8 +108,10 @@ namespace Laserbean.General
 
         public static System.Collections.IEnumerator InvokeAndWait<OnLoad>(this OnLoad ThisThing, GameObject referenceobject) where OnLoad : System.Delegate
         {
-            if (ThisThing != null) {
-                foreach (OnLoad handler in ThisThing.GetInvocationList().Cast<OnLoad>()) {
+            if (ThisThing != null)
+            {
+                foreach (OnLoad handler in ThisThing.GetInvocationList().Cast<OnLoad>())
+                {
                     yield return handler.DynamicInvoke();
                 }
             }
@@ -127,7 +130,8 @@ namespace Laserbean.General
             T asset = ScriptableObject.CreateInstance<T>();
 
             // string path = AssetDatabase.GetAssetPath(Selection.activeObject);
-            if (string.IsNullOrEmpty(path)) {
+            if (string.IsNullOrEmpty(path))
+            {
                 path = "Assets";
             }
             // else  if (Path.GetExtension(path) != "")
@@ -135,7 +139,8 @@ namespace Laserbean.General
             //     path = path.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
             // }
 
-            if (string.IsNullOrEmpty(filename)) {
+            if (string.IsNullOrEmpty(filename))
+            {
                 filename = typeof(T).ToString();
             }
             string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/ " + filename + ".asset");
@@ -153,7 +158,8 @@ namespace Laserbean.General
         {
             string[] guids = AssetDatabase.FindAssets(assetName);
 
-            foreach (string guid in guids) {
+            foreach (string guid in guids)
+            {
                 string assetPath = AssetDatabase.GUIDToAssetPath(guid);
                 if (assetPath.Contains(asset.GetType().Name))
                     return assetPath;

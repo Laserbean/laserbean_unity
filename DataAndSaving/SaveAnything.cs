@@ -41,7 +41,8 @@ namespace Laserbean.General
 
             loadPath = loadPath + thingName + "." + extension;
             // Check if a save exists for the name we were passed.
-            if (File.Exists(loadPath)) {
+            if (File.Exists(loadPath))
+            {
 
                 BinaryFormatter formatter = new();
                 FileStream stream = new(loadPath, FileMode.Open);
@@ -87,7 +88,7 @@ namespace Laserbean.General
 
         public static void SaveJsonPretty<T>(T thing, string savePath, string thingName, string extension = "json")
         {
-            SaveJson(thing, savePath, thingName, extension, true); 
+            SaveJson(thing, savePath, thingName, extension, true);
         }
 
 
@@ -97,7 +98,8 @@ namespace Laserbean.General
 
             loadPath = loadPath + thingName + "." + extension;
 
-            if (File.Exists(loadPath)) {
+            if (File.Exists(loadPath))
+            {
                 string savedJson = File.ReadAllText(loadPath);
                 T jsonthing = JsonUtility.FromJson<T>(savedJson);
 
@@ -129,7 +131,8 @@ namespace Laserbean.General
             string fullFilePath = Path.Combine(path, newfilename);
 
             int count = 1;
-            while (File.Exists(fullFilePath)) {
+            while (File.Exists(fullFilePath))
+            {
                 newfilename = filename + count + "." + extension;
                 count++;
             }
@@ -143,7 +146,8 @@ namespace Laserbean.General
             string fullFilePath = Path.Combine(path, filename + "." + extension);
             int count = 1;
 
-            while (File.Exists(fullFilePath)) {
+            while (File.Exists(fullFilePath))
+            {
                 fullFilePath = Path.Combine(path, filename + count + "." + extension);
                 count++;
             }
@@ -173,7 +177,8 @@ namespace Laserbean.General
         [SerializeField]
         public List<string> Values = new List<string>();
 
-        public string this[string index] {
+        public string this[string index]
+        {
             get => Values[Keys.IndexOf(index)];
             set => Add(index, value);
         }
@@ -181,7 +186,8 @@ namespace Laserbean.General
         public void ForceAdd(string key, string value)
         {
             if (key == null) throw new System.ArgumentNullException("Key cannot be null");
-            if (ContainsKey(key)) {
+            if (ContainsKey(key))
+            {
                 Values[Keys.IndexOf(key)] = value;
                 return;
             }

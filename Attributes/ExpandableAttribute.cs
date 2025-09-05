@@ -31,7 +31,8 @@ namespace Laserbean.General.EditorAttributes
             if (property.objectReferenceValue == null) return;
 
 
-            if (property.isExpanded = EditorGUI.Foldout(position, property.isExpanded, label)) {
+            if (property.isExpanded = EditorGUI.Foldout(position, property.isExpanded, label))
+            {
                 EditorGUI.indentLevel++;
 
                 var rect = EditorGUILayout.BeginVertical(GUI.skin.box);

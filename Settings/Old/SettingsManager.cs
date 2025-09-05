@@ -5,6 +5,7 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
+using Unity.VisualScripting;
 
 namespace Laserbean.General.OldSettings
 {
@@ -31,15 +32,19 @@ namespace Laserbean.General.OldSettings
         public Vector3 offset;
 
         Dictionary<string, SettingsSlot> slotsdict = new();
+        
+        [SerializeField] static string AppPath = "";
 
         protected override void Awake()
         {
             base.Awake();
             // Settings loaded = LoadSettings(); 
             Loadtest();
-            for (int i = 0; i < settings_so.list.Count; i++) {
+            for (int i = 0; i < settings_so.list.Count; i++)
+            {
 
-                if (settings_so.list[i].name == "header") {
+                if (settings_so.list[i].name == "header")
+                {
                     GameObject go2 = Instantiate(header_prefab, content.transform.position + new Vector3(0, -i * yspace, 0) + offset, content.transform.rotation);
                     go2.transform.SetParent(content.transform);
                     go2.transform.localScale = Vector3.one;
@@ -48,7 +53,8 @@ namespace Laserbean.General.OldSettings
                 }
                 slotsdict.Add(settings_so.list[i].name, settings_so.list[i]);
 
-                if (!settings_so.list[i].active) {
+                if (!settings_so.list[i].active)
+                {
                     continue;
                 }
 
@@ -134,7 +140,8 @@ namespace Laserbean.General.OldSettings
         {
 
             // // Set our save location and make sure we have a saves folder ready to go.
-            string savePath = GameManager.Instance.AppPath + "/";
+            // string savePath = GameManager.Instance.AppPath + "/";
+            string savePath = AppPath + "/";
 
             // // If not, create it.
             if (!Directory.Exists(savePath))
@@ -149,7 +156,8 @@ namespace Laserbean.General.OldSettings
         public static Settings LoadSettings()
         {
             // Get the path to our world saves.
-            string loadPath = GameManager.Instance.AppPath + "/";
+            // string loadPath = GameManager.Instance.AppPath + "/";
+            string loadPath = AppPath + "/";
 
             // Check if a save exists for the name we were passed.
             if (File.Exists(loadPath + "settings.json")) {

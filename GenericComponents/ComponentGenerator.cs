@@ -8,74 +8,70 @@ using System.Linq;
 namespace Laserbean.General.GenericStuff
 {
 
-    public abstract class ComponentGenerator<ThingComponentUser, ThingComponent, ThingSO> : MonoBehaviour
-        where ThingComponentUser : MonoBehaviour, IComponentUser
-        where ThingComponent : MonoBehaviour, IComponent
-        where ThingSO : ComponentsDataScriptableObject
+    public abstract class ComponentGenerator<ComponentUser, Component, ComponentDataObject> : MonoBehaviour
+        where ComponentUser : MonoBehaviour, IComponentUser
+        where Component : MonoBehaviour, IComponent
+        where ComponentDataObject : ComponentsDataScriptableObject
     {
 
-        ThingComponentUser thingUser;
+        ComponentUser componentUser;
 
-        public ThingSO thingData;
-
-
-
+        public ComponentDataObject componentDataObject;
         private void Awake()
         {
-            thingUser = this.GetComponent<ThingComponentUser>();
+            componentUser = GetComponent<ComponentUser>();
         }
 
 
-        public event Action OnWeaponGenerating;
-        private List<ThingComponent> componentsAlreadyOnObject = new();
-        private List<ThingComponent> componentsAddedToObject = new();
+        public event Action OnComponentGenerating;
+        private List<Component> componentsAlreadyOnObject = new();
+        private List<Component> componentsAddedToObject = new();
         private List<Type> componentDependencies = new();
 
 
-        [EasyButtons.Button]
-        void GenerateThing()
+        [EasyButtons.Button] public void Generate_Components()
         {
-            GenerateThingComponents(thingData);
+            GenerateComponents(componentDataObject);
         }
 
 
         [EasyButtons.Button]
-        public void ClearStuff()
+        public void ClearAddedComponents()
         {
-            thingUser ??= this.GetComponent<ThingComponentUser>();
-            OnWeaponGenerating?.Invoke();
+            componentUser ??= GetComponent<ComponentUser>();
+            OnComponentGenerating?.Invoke();
 
-            thingUser.SetIsUsable(false);
+            componentUser.SetIsUsable(false);
 
             componentsAlreadyOnObject.Clear();
             componentsAddedToObject.Clear();
             componentDependencies.Clear();
 
-            componentsAlreadyOnObject = GetComponents<ThingComponent>().ToList();
+            componentsAlreadyOnObject = GetComponents<Component>().ToList();
 
             var componentsToRemove = componentsAlreadyOnObject;
 
-            foreach (var weaponComponent in componentsToRemove) {
-                weaponComponent.BeforeDestroy();
+            foreach (var cur_component in componentsToRemove) {
+                cur_component.BeforeDestroy();
 
                 if (Application.isPlaying) {
-                    Destroy(weaponComponent);
+                    Destroy(cur_component);
                 } else {
-                    DestroyImmediate(weaponComponent);
+                    DestroyImmediate(cur_component);
                 }
             }
         }
 
 
-        public void GenerateThingComponents(ThingSO data)
+        public void GenerateComponents(ComponentDataObject data)
         {
-            thingUser ??= this.GetComponent<ThingComponentUser>();
-            OnWeaponGenerating?.Invoke();
+            componentUser ??= GetComponent<ComponentUser>();
+            OnComponentGenerating?.Invoke();
 
             // thingUser.SetComponentData(data);
 
             if (data is null) {
-                thingUser.SetIsUsable(false);
+                componentUser.SetIsUsable(false);
                 return;
             }
 
@@ -83,7 +79,7 @@ namespace Laserbean.General.GenericStuff
             componentsAddedToObject.Clear();
             componentDependencies.Clear();
 
-            componentsAlreadyOnObject = GetComponents<ThingComponent>().ToList();
+            componentsAlreadyOnObject = GetComponents<Component>().ToList();
 
             componentDependencies = data.GetAllDependencies();
 
@@ -91,20 +87,19 @@ namespace Laserbean.General.GenericStuff
                 if (componentsAddedToObject.FirstOrDefault(component => component.GetType() == dependency))
                     continue;
 
-                var weaponComponent =
-                    componentsAlreadyOnObject.FirstOrDefault(component => component.GetType() == dependency) ?? gameObject.AddComponent(dependency) as ThingComponent;
-                weaponComponent.Init();
+                var current_component = componentsAlreadyOnObject.FirstOrDefault(component => component.GetType() == dependency) ?? gameObject.AddComponent(dependency) as Component;
+                current_component.Init();
 
-                componentsAddedToObject.Add(weaponComponent);
+                componentsAddedToObject.Add(current_component);
             }
 
             var componentsToRemove = componentsAlreadyOnObject.Except(componentsAddedToObject);
 
-            foreach (var weaponComponent in componentsToRemove) {
-                Destroy(weaponComponent);
+            foreach (var cur_component in componentsToRemove) {
+                Destroy(cur_component);
             }
 
-            thingUser.SetIsUsable(true);
+            componentUser.SetIsUsable(true);
         }
     }
 

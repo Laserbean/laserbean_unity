@@ -36,14 +36,16 @@ namespace Laserbean.CustomGUI
             public Column(int num)
             {
                 rows = new(num);
-                for (int i = 0; i < num; i++) {
+                for (int i = 0; i < num; i++)
+                {
                     rows.Add(new());
                 }
             }
 
-            public int Count {
-
-                get {
+            public int Count
+            {
+                get
+                {
                     rows ??= new();
                     return rows.Count;
                 }
@@ -70,15 +72,18 @@ namespace Laserbean.CustomGUI
             if (columns.Count != ColumnNumber)
                 HelpfulFunctions.Resize(ref columns, ColumnNumber);
 
-            for (int i = 0; i < columns.Count; i++) {
-                if (columns[i] == null) {
+            for (int i = 0; i < columns.Count; i++)
+            {
+                if (columns[i] == null)
+                {
                     columns[i] = new Column(RowNumber);
                 }
                 if (columns[i].Count != RowNumber)
                     HelpfulFunctions.Resize(ref columns[i].rows, RowNumber);
             }
 
-            if (row_names.Count != RowNumber) {
+            if (row_names.Count != RowNumber)
+            {
                 HelpfulFunctions.Resize(ref row_names, RowNumber);
             }
         }
@@ -92,7 +97,8 @@ namespace Laserbean.CustomGUI
         {
             name_index_dict.Clear();
             int i = 0;
-            foreach (var name in row_names) {
+            foreach (var name in row_names)
+            {
                 name_index_dict.Add(name, i++);
             }
         }
@@ -121,9 +127,9 @@ namespace Laserbean.CustomGUI
         Debug.Log("Showing " + row_names[num] + " windows");
 #endif
 
-            foreach (var col in columns) {
-
-                col.reference_object?.GetComponent<MultistateGuiController>()?.StartGuiLerpAt(col.rows[num]);
+            foreach (var col in columns)
+            {
+                col.reference_object?.GetComponent<IGuiObject>()?.StartGuiLerpAt(col.rows[num]);
             }
             previous_state = cur_state;
             cur_state = num;
@@ -137,8 +143,9 @@ namespace Laserbean.CustomGUI
         Debug.Log("Showing " + row_names[num] + " windows");
 #endif
 
-            foreach (var col in columns) {
-                col.reference_object?.GetComponent<MultistateGuiController>()?.ShowGuiAt(col.rows[num]);
+            foreach (var col in columns)
+            {
+                col.reference_object?.GetComponent<IGuiObject>()?.ShowGuiAt(col.rows[num]);
             }
             previous_state = cur_state;
             cur_state = num;
@@ -218,13 +225,15 @@ namespace Laserbean.CustomGUI
 
             bool editingTextField = EditorGUIUtility.editingTextField;
 
-            if (!editingTextField) {
+            if (!editingTextField)
+            {
                 targetScript.UpdateArraysizes();
                 prev_col_num = column_num;
                 prev_row_num = row_num;
 
             }
-            else {
+            else
+            {
                 column_num = prev_col_num;
                 row_num = prev_row_num;
             }
@@ -243,35 +252,46 @@ namespace Laserbean.CustomGUI
             EditorGUILayout.LabelField(" Names ", GUILayout.Width(colwidth));
             EditorGUILayout.LabelField(" Reference ", GUILayout.Width(colwidth));
 
-            for (int x = 0; x < row_num; x++) {
-                try {
+            for (int x = 0; x < row_num; x++)
+            {
+                try
+                {
                     targetScript.row_names[x] = EditorGUILayout.TextField(targetScript.row_names[x], GUILayout.Width(colwidth));
                 }
-                catch {
+                catch
+                {
 
                 }
             }
             EditorGUILayout.EndVertical();
-            for (int y = 0; y < column_num; y++) {
+            for (int y = 0; y < column_num; y++)
+            {
                 EditorGUILayout.BeginVertical();
-                try {
+                try
+                {
                     targetScript.columns[y].Name = EditorGUILayout.TextField(targetScript.columns[y].Name, GUILayout.Width(colwidth));
                 }
-                catch {
-                    try {
+                catch
+                {
+                    try
+                    {
                         targetScript.columns[y].Name = EditorGUILayout.TextField(targetScript.columns[y].Name, GUILayout.Width(colwidth));
                     }
-                    catch {
+                    catch
+                    {
 
                     }
                 }
 
                 targetScript.columns[y].reference_object = (GameObject)EditorGUILayout.ObjectField("", targetScript.columns[y].reference_object, typeof(GameObject), true, GUILayout.Width(colwidth));
-                for (int x = 0; x < row_num; x++) {
-                    try {
+                for (int x = 0; x < row_num; x++)
+                {
+                    try
+                    {
                         targetScript.columns[y].rows[x] = EditorGUILayout.IntField(targetScript.columns[y].rows[x]);
                     }
-                    catch {
+                    catch
+                    {
                         EditorGUILayout.EndVertical();
                         EditorGUILayout.EndHorizontal();
                         return;
@@ -281,7 +301,8 @@ namespace Laserbean.CustomGUI
             }
             EditorGUILayout.EndHorizontal();
 
-            if (GUI.changed) {
+            if (GUI.changed)
+            {
                 EditorUtility.SetDirty(targetScript);
                 EditorSceneManager.MarkSceneDirty(targetScript.gameObject.scene);
             }

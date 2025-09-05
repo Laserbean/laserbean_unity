@@ -15,7 +15,8 @@ namespace Laserbean.General
 
             float angleDifference = Mathf.Abs(angle1 - angle2);
 
-            if (angleDifference > 180) {
+            if (angleDifference > 180)
+            {
                 // Adjust for angles that wrap around
                 angleDifference = 360 - angleDifference;
             }
@@ -81,7 +82,8 @@ namespace Laserbean.General
             float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
             float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);
 
-            switch (axis) {
+            switch (axis)
+            {
                 case RotationAxis.X:
                     RotateAroundX(ref v, sin, cos);
                     break;

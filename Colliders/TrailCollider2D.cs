@@ -33,17 +33,23 @@ namespace Laserbean.Colliders
         EdgeCollider2D GetValidCollider()
         {
             EdgeCollider2D validCollider;
-            if (unusedColliders.Count > 0) {
+            if (unusedColliders.Count > 0)
+            {
                 validCollider = unusedColliders[0];
                 validCollider.enabled = true;
                 unusedColliders.RemoveAt(0);
-            } else {
-                if (colliderObject != null) {
+            }
+            else
+            {
+                if (colliderObject != null)
+                {
                     validCollider = colliderObject.GetComponent<EdgeCollider2D>();
                     validCollider ??= colliderObject.AddComponent<EdgeCollider2D>();
                     colliderObject.transform.position = Vector3.zero;
                     colliderObject.transform.SetParent(null);
-                } else {
+                }
+                else
+                {
                     validCollider = new GameObject("TrailCollider", typeof(EdgeCollider2D)).GetComponent<EdgeCollider2D>();
                 }
             }
@@ -54,10 +60,13 @@ namespace Laserbean.Colliders
         {
             List<Vector2> points = new();
             //avoid having default points at (-.5,0),(.5,0)
-            if (trail.positionCount == 0) {
+            if (trail.positionCount == 0)
+            {
                 points.Add(transform.position);
                 points.Add(transform.position);
-            } else for (int position = 0; position < trail.positionCount; position++) {
+            }
+            else for (int position = 0; position < trail.positionCount; position++)
+                {
                     //ignores z axis when translating vector3 to vector2
                     points.Add(trail.GetPosition(position));
                 }
@@ -76,7 +85,8 @@ namespace Laserbean.Colliders
 
         void DisableCollider()
         {
-            if (myCollider != null) {
+            if (myCollider != null)
+            {
                 myCollider.enabled = false;
                 unusedColliders.Add(myCollider);
             }

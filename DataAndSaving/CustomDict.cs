@@ -39,12 +39,17 @@ namespace Laserbean.SpecialData
         public ICollection<Tkey> Keys => keys;
         public ICollection<Tvalue> Values => values;
 
-        public Tvalue this[Tkey key] {
+        public Tvalue this[Tkey key]
+        {
             get => values[keys.IndexOf(key)];
-            set {
-                if (keys.Contains(key)) {
+            set
+            {
+                if (keys.Contains(key))
+                {
                     values[keys.IndexOf(key)] = value;
-                } else {
+                }
+                else
+                {
                     values.Add(value);
                     keys.Add(key);
                 }
@@ -96,7 +101,8 @@ namespace Laserbean.SpecialData
 
         public IEnumerator<KeyValuePair<Tkey, Tvalue>> GetEnumerator()
         {
-            for (int i = 0; i < Count; i++) {
+            for (int i = 0; i < Count; i++)
+            {
                 yield return new KeyValuePair<Tkey, Tvalue>(keys[i], values[i]);
             }
         }
@@ -105,18 +111,25 @@ namespace Laserbean.SpecialData
         {
             keys.Clear();
             values.Clear();
-            foreach (var kvp in keyValueList) {
+            foreach (var kvp in keyValueList)
+            {
                 if (keys.Contains(kvp.Key))
                     Debug.LogError("Dictionary already contains key: " + kvp.Key);
 
                 keys.Add(kvp.Key);
 
-                if (kvp.Value != null) {
+                if (kvp.Value != null)
+                {
                     values.Add(kvp.Value);
-                } else {
-                    if (typeof(Tvalue).IsValueType && !typeof(Tvalue).IsClass) {
+                }
+                else
+                {
+                    if (typeof(Tvalue).IsValueType && !typeof(Tvalue).IsClass)
+                    {
                         values.Add(default(Tvalue));
-                    } else {
+                    }
+                    else
+                    {
                         values.Add(Activator.CreateInstance<Tvalue>());
                     }
                 }
@@ -131,7 +144,8 @@ namespace Laserbean.SpecialData
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
             keyValueList.Clear();
-            for (int i = 0; i < Count; i++) {
+            for (int i = 0; i < Count; i++)
+            {
                 keyValueList.Add(new SerializedKeyValuePair<Tkey, Tvalue>(keys[i], values[i]));
             }
 
@@ -178,7 +192,8 @@ namespace Laserbean.SpecialData
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (int i = 0; i < Count; i++) {
+            for (int i = 0; i < Count; i++)
+            {
                 yield return new KeyValuePair<Tkey, Tvalue>(keys[i], values[i]);
             }
         }

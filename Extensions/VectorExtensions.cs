@@ -326,6 +326,20 @@ namespace Laserbean.General
 
         #endregion
 
+        public static void Decompose(Vector2 v, Vector2 reference, out Vector2 parallel, out Vector2 perpendicular)
+        {
+            Vector2 n = reference.normalized;
+            parallel = Vector2.Dot(v, n) * n;
+            perpendicular = v - parallel;
+        }
+
+        // Overload for Vector3
+        public static void Decompose(Vector3 v, Vector3 reference, out Vector3 parallel, out Vector3 perpendicular)
+        {
+            Vector3 n = reference.normalized;
+            parallel = Vector3.Dot(v, n) * n;
+            perpendicular = v - parallel;
+        }
     }
 
 

@@ -136,5 +136,12 @@ namespace Laserbean.General
 
     }
 
+    // public static class PrefabExtensions {
+    //     public static void InstantiateAndReplace<T>(this T monobehaviour) where T : UnityEngine.Object
+    //     {
+    //         monobehaviour = UnityEngine.Object.Instantiate(monobehaviour);
+    //     }
+    // }
+
 
 }

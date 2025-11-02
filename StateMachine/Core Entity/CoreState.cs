@@ -7,19 +7,22 @@ using Laserbean.CoreSystem;
 namespace Laserbean.HFiniteStateMachine
 {
 
-    public class State
+    public class CoreState
     {
         protected FiniteStateMachine stateMachine;
-        protected Entity entity;
+        protected CoreEntity entity;
+        protected Core core;
+
         public float startTime { get; protected set; }
 
         protected string animBoolName;
 
-        public State(Entity entity, FiniteStateMachine stateMachine, string animBoolName)
+        public CoreState(CoreEntity entity, FiniteStateMachine stateMachine, string animBoolName)
         {
             this.entity = entity;
             this.stateMachine = stateMachine;
             this.animBoolName = animBoolName;
+            core = entity.Core;
             HasExit = false;
         }
 

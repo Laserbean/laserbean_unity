@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Laserbean.CoreSystem;
-
 namespace Laserbean.HFiniteStateMachine
 {
+
+    /// <summary>
+    /// Basic thing that uses the finite state machine. 
+    /// </summary>
     public abstract class Entity : MonoBehaviour
     {
         public Animator Animator { get; private set; }

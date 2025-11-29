@@ -13,13 +13,10 @@ namespace Laserbean.HFiniteStateMachine
         protected Entity entity;
         public float StartTime { get; protected set; }
 
-        protected string animBoolName;
-
-        public State(Entity entity, FiniteStateMachine stateMachine, string animBoolName)
+        public State(Entity entity, FiniteStateMachine stateMachine)
         {
             this.entity = entity;
             this.stateMachine = stateMachine;
-            this.animBoolName = animBoolName;
             HasExit = false;
         }
 
@@ -29,13 +26,11 @@ namespace Laserbean.HFiniteStateMachine
         {
             HasExit = false;
             StartTime = Time.time;
-            entity.Animator?.SetBool(animBoolName, true);
             DoChecks();
         }
 
         public virtual void OnExit()
         {
-            entity.Animator?.SetBool(animBoolName, false);
             HasExit = true;
         }
 
@@ -53,6 +48,11 @@ namespace Laserbean.HFiniteStateMachine
         public virtual void DoChecks()
         {
 
+        }
+
+        public void ChangeState(State state)
+        {
+            stateMachine.ChangeState(state);
         }
     }
 

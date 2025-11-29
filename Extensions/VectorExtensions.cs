@@ -77,22 +77,22 @@ namespace Laserbean.General
             return v;
         }
 
-        public static Vector3 Rotate(this Vector3 v, float degrees, RotationAxis axis)
+        public static Vector3 Rotate(this Vector3 v, float degrees, CardinalAxis axis)
         {
             float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
             float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);
 
             switch (axis)
             {
-                case RotationAxis.X:
+                case CardinalAxis.X:
                     RotateAroundX(ref v, sin, cos);
                     break;
 
-                case RotationAxis.Y:
+                case CardinalAxis.Y:
                     RotateAroundY(ref v, sin, cos);
                     break;
 
-                case RotationAxis.Z:
+                case CardinalAxis.Z:
                     RotateAroundZ(ref v, sin, cos);
                     break;
 
@@ -340,10 +340,27 @@ namespace Laserbean.General
             parallel = Vector3.Dot(v, n) * n;
             perpendicular = v - parallel;
         }
+
+
+        public static Vector3 Modify(this Vector3 v, float value, CardinalAxis axis)
+        {
+            switch (axis)
+            {
+                case CardinalAxis.X:
+                    return new(value, v.y, v.z);
+                case CardinalAxis.Y:
+                    return new(v.x, value, v.z);
+                case CardinalAxis.Z:
+                    return new(v.x, v.y, value);
+                default:
+                    return v;
+            }
+        }
+
     }
 
 
-    public enum RotationAxis
+    public enum CardinalAxis
     {
         X,
         Y,

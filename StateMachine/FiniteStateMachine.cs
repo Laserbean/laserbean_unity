@@ -2,25 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Laserbean.HFiniteStateMachine {
-
-public class FiniteStateMachine
+namespace Laserbean.HFiniteStateMachine
 {
-    public State CurrentState { get; private set; }
-
-    public void Initialize(State startingState)
+    public class FiniteStateMachine
     {
-        CurrentState = startingState;
-        CurrentState.OnEnter();
-    }
+        public State CurrentState { get; private set; }
 
-    public void ChangeState(State newState)
-    {
-        CurrentState.OnExit();
-        CurrentState = newState;
-        CurrentState.OnEnter();
+        public void Initialize(State startingState)
+        {
+            CurrentState = startingState;
+            CurrentState.OnEnter();
+        }
+
+        public void ChangeState(State newState)
+        {
+            CurrentState.OnExit();
+            CurrentState = newState;
+            CurrentState.OnEnter();
+        }
     }
-}
 
 }
 

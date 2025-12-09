@@ -32,7 +32,14 @@ namespace Laserbean.General.MathExtra
         }
 
 
-
+        public static float Snap(this float x, float snapAngle)
+        {
+            if (snapAngle == 0)
+            {
+                return x;
+            }
+            return Mathf.Round(x / snapAngle) * snapAngle;
+        }
 
 
     }

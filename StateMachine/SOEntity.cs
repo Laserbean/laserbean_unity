@@ -8,23 +8,19 @@ namespace Laserbean.HFiniteStateMachine
     /// <summary>
     /// Basic thing that uses the finite state machine. 
     /// </summary>
-    public abstract class Entity : MonoBehaviour
+    public abstract class SOEntity : Entity
     {
-        public Animator Animator { get; private set; }
-        public FiniteStateMachine StateMachine;
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
-            Animator = GetComponent<Animator>();
-            StateMachine = new FiniteStateMachine();
         }
 
-        protected virtual void Update()
+        protected override void Update()
         {
             StateMachine.CurrentState?.OnUpdate();
         }
 
-        protected virtual void FixedUpdate()
+        protected override void FixedUpdate()
         {
             if (StateMachine == null || StateMachine.CurrentState == null || StateMachine.CurrentState.HasExit) return;
             StateMachine.CurrentState?.OnFixedUpdate();

@@ -7,16 +7,22 @@ using Laserbean.CoreSystem;
 namespace Laserbean.HFiniteStateMachine
 {
 
-    public class State
+    public class CoreState
     {
         protected FiniteStateMachine stateMachine;
-        protected Entity entity;
-        public float StartTime { get; protected set; }
+        protected CoreEntity entity;
+        protected Core core;
 
-        public State(Entity entity, FiniteStateMachine stateMachine)
+        public float startTime { get; protected set; }
+
+        protected string animBoolName;
+
+        public CoreState(CoreEntity entity, FiniteStateMachine stateMachine, string animBoolName)
         {
             this.entity = entity;
             this.stateMachine = stateMachine;
+            this.animBoolName = animBoolName;
+            core = entity.Core;
             HasExit = false;
         }
 
@@ -25,12 +31,14 @@ namespace Laserbean.HFiniteStateMachine
         public virtual void OnEnter()
         {
             HasExit = false;
-            StartTime = Time.time;
+            startTime = Time.time;
+            entity.Animator?.SetBool(animBoolName, true);
             DoChecks();
         }
 
         public virtual void OnExit()
         {
+            entity.Animator?.SetBool(animBoolName, false);
             HasExit = true;
         }
 
@@ -48,11 +56,6 @@ namespace Laserbean.HFiniteStateMachine
         public virtual void DoChecks()
         {
 
-        }
-
-        public void ChangeState(State state)
-        {
-            stateMachine.ChangeState(state);
         }
     }
 

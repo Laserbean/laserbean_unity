@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Laserbean.HFiniteStateMachine
 {
-
     public interface IAnimator
     {
         void SetBool(string animBoolName, bool animbool);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 
 using System.Linq;
+using CitrioN.Common;
 
 namespace Laserbean.General
 {
@@ -18,7 +19,7 @@ namespace Laserbean.General
             {
                 return comp.HasTag(tag);
             }
-            return go.tag == tag;
+            return go.CompareTag(tag);
         }
 
         ///<summary>
@@ -31,6 +32,13 @@ namespace Laserbean.General
             if (comp != null)
             {
                 res = comp.GetTags().Intersect(_tags).ToList<string>();
+            }
+            else
+            {
+                if (_tags.Contains(go.tag))
+                {
+                    res.Add(go.tag);
+                }
             }
             return res;
         }

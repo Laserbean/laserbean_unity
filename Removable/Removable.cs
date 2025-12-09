@@ -2,15 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Removable : MonoBehaviour
+namespace Laserbean.Removable
 {
-    public void RemoveFromParent()
+    public class Removable : MonoBehaviour
     {
-        GetComponentInParent<IRemovable>()?.Remove();
-    }
+        public void RemoveFromParent()
+        {
+            GetComponentInParent<IRemovable>()?.Remove();
+        }
 
-    public void RemoveFromChildren()
-    {
-        GetComponentInChildren<IRemovable>()?.Remove();
+        public void RemoveFromChildren()
+        {
+            GetComponentInChildren<IRemovable>()?.Remove();
+        }
+
+        public void Remove()
+        {
+            GetComponent<IRemovable>()?.Remove();
+        }
     }
 }

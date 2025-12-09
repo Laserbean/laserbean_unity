@@ -3,17 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class DestroyToRemoveNextFrame : MonoBehaviour, IRemovable
+namespace Laserbean.Removable
 {
-    public void Remove()
+    public class DestroyToRemoveNextFrame : MonoBehaviour, IRemovable
     {
-        StartCoroutine(DestroyCoroutine());
+        public void Remove()
+        {
+            StartCoroutine(DestroyCoroutine());
 
-    }
-    IEnumerator DestroyCoroutine()
-    {
-        yield return null;
-        Destroy(gameObject);
+        }
+        IEnumerator DestroyCoroutine()
+        {
+            yield return null;
+            Destroy(gameObject);
+        }
     }
 }

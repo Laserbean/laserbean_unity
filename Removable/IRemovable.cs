@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IRemovable
+namespace Laserbean.Removable
 {
-    void Remove();
-    // void RemoveNextFrame(); 
+    public interface IRemovable
+    {
+        void Remove();
+        // void RemoveNextFrame(); 
+    }
 }

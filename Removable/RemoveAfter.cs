@@ -1,33 +1,36 @@
 using System.Collections;
 using UnityEngine;
 
-public class RemoveAfter : MonoBehaviour
+namespace Laserbean.Removable
 {
-    [SerializeField] bool StartOnEnable = false;
-    [SerializeField] float DisableAfterTime = 3f;
-
-    private void OnEnable()
+    public class RemoveAfter : MonoBehaviour
     {
-        if (StartOnEnable)
+        [SerializeField] bool StartOnEnable = false;
+        [SerializeField] float DisableAfterTime = 3f;
+
+        private void OnEnable()
         {
-            StartCoroutine(DisableAfterSeconds(DisableAfterTime));
+            if (StartOnEnable)
+            {
+                StartCoroutine(RemoveAfterSeconds(DisableAfterTime));
+            }
         }
-    }
 
-    public void StartDisableAfter()
-    {
-        StartCoroutine(DisableAfterSeconds(DisableAfterTime));
-    }
+        public void StartRemoveAfter()
+        {
+            StartCoroutine(RemoveAfterSeconds(DisableAfterTime));
+        }
 
-    public void StartDisableAfter(float seconds)
-    {
-        StartCoroutine(DisableAfterSeconds(seconds));
-    }
+        public void StartRemoveAfter(float seconds)
+        {
+            StartCoroutine(RemoveAfterSeconds(seconds));
+        }
 
-    IEnumerator DisableAfterSeconds(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-        GetComponent<IRemovable>().Remove(); 
-        // gameObject.SetActive(false);
+        IEnumerator RemoveAfterSeconds(float seconds)
+        {
+            yield return new WaitForSeconds(seconds);
+            GetComponent<IRemovable>().Remove();
+            // gameObject.SetActive(false);
+        }
     }
 }

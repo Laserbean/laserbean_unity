@@ -4,23 +4,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class DisableToRemove : MonoBehaviour, IRemovable
+namespace Laserbean.Removable
 {
-
-    // [SerializeField] GameObject GameObjectToDisable; 
-    public void Remove()
+    public class DisableToRemove : MonoBehaviour, IRemovable
     {
-        gameObject.SetActive(false); 
+
+        // [SerializeField] GameObject GameObjectToDisable; 
+        public void Remove()
+        {
+            gameObject.SetActive(false);
+        }
+
+        // public void RemoveNextFrame()
+        // {
+        //     StartCoroutine(DisableCoroutine());
+        // }
+
+        // IEnumerator DisableCoroutine() {
+        //     yield return null; 
+        //     gameObject.SetActive(false); 
+        // }
     }
-
-    // public void RemoveNextFrame()
-    // {
-    //     StartCoroutine(DisableCoroutine());
-    // }
-
-    // IEnumerator DisableCoroutine() {
-    //     yield return null; 
-    //     gameObject.SetActive(false); 
-    // }
 }

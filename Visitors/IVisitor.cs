@@ -7,17 +7,15 @@ using UnityEngine;
 public interface IVisitor
 {
     public void Visit(IVisitable visitable);
-
 }
-
 
 public interface IVisitor<T> where T : Component, IVisitable
 {
-    void Visit(T component);
+    void Visit(T visitable);
 }
 
-public interface IVisitorGeneric
-{
-    public void Visit<T>(T visitable) where T : Component, IVisitable;
-}
+// public interface IVisitorGeneric
+// {
+//     public void Visit<T>(T visitable) where T : Component, IVisitable;
+// }
 

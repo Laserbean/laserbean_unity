@@ -5,15 +5,14 @@ using UnityEngine;
 namespace Laserbean.Visitable.Example
 {
 
-    public class MyVisitor : MonoBehaviour, IVisitorGeneric
+    public class MyVisitor : MonoBehaviour, IVisitor
     {
-        public void Visit<T>(T visitable) where T : Component, IVisitable
+        public void Visit(IVisitable visitable)
         {
             // use pattern matching etc.
             if (visitable is MyComponent myComponent)
             {
                 // do stuff
-                
             }
         }
     }

@@ -133,8 +133,15 @@ namespace Laserbean.General
             }
             return false;
         }
-
+        public static T GetOrAdd<T>(this GameObject gameObject) where T : Component
+        {
+            T component = gameObject.GetComponent<T>();
+            return component != null ? component : gameObject.AddComponent<T>();
+        }
+        
     }
+
+
 
     // public static class PrefabExtensions {
     //     public static void InstantiateAndReplace<T>(this T monobehaviour) where T : UnityEngine.Object

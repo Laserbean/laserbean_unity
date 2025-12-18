@@ -12,6 +12,13 @@ namespace Laserbean.HFiniteStateMachine
         protected FiniteStateMachine stateMachine;
         protected Entity entity;
         public float StartTime { get; protected set; }
+        public float LifeTime
+        {
+            get
+            {
+                return Time.time - StartTime;
+            }
+        }
 
         public State(Entity entity, FiniteStateMachine stateMachine)
         {

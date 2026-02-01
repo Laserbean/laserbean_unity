@@ -7,7 +7,7 @@ using Laserbean.CoreSystem;
 namespace Laserbean.HFiniteStateMachine
 {
 
-    public abstract class CoreEntity : Entity
+    public abstract class CoreEntity : StateMachineEntity
     {
 
 

@@ -12,7 +12,7 @@ namespace Laserbean.HFiniteStateMachine
 
         protected string animBoolName;
 
-        public StateAnim(Entity entity, FiniteStateMachine stateMachine, string animBoolName) : base(entity, stateMachine)
+        public StateAnim(StateMachineEntity entity, FiniteStateMachine stateMachine, string animBoolName) : base(entity, stateMachine)
         {
             this.animBoolName = animBoolName;
         }

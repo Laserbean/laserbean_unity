@@ -8,7 +8,7 @@ namespace Laserbean.HFiniteStateMachine
     /// <summary>
     /// Basic thing that uses the finite state machine. 
     /// </summary>
-    public abstract class SOEntity : Entity
+    public abstract class SOEntity : StateMachineEntity
     {
 
         protected override void Awake()

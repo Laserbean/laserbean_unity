@@ -10,7 +10,7 @@ namespace Laserbean.Colliders
         public static List<Collider2D> GetOverlapCollider2D(Collider2D collider)
         {
             List<Collider2D> colliders = new();
-            ContactFilter2D filter = new ContactFilter2D().NoFilter();
+            ContactFilter2D filter = ContactFilter2D.noFilter;
             Physics2D.OverlapCollider(collider, filter, colliders);
             return colliders;
         }

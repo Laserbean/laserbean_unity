@@ -10,7 +10,7 @@ namespace Laserbean.HFiniteStateMachine
     public class State
     {
         protected FiniteStateMachine stateMachine;
-        protected Entity entity;
+        protected StateMachineEntity entity;
         public float StartTime { get; protected set; }
         public float LifeTime
         {
@@ -20,7 +20,7 @@ namespace Laserbean.HFiniteStateMachine
             }
         }
 
-        public State(Entity entity, FiniteStateMachine stateMachine)
+        public State(StateMachineEntity entity, FiniteStateMachine stateMachine)
         {
             this.entity = entity;
             this.stateMachine = stateMachine;

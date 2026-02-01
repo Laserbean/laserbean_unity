@@ -8,7 +8,7 @@ namespace Laserbean.HFiniteStateMachine
     /// <summary>
     /// Basic thing that uses the finite state machine. 
     /// </summary>
-    public abstract class Entity : MonoBehaviour
+    public abstract class StateMachineEntity : MonoBehaviour
     {
         public Animator Animator { get; private set; }
         public FiniteStateMachine StateMachine;

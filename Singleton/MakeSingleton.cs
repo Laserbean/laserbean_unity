@@ -11,7 +11,7 @@ namespace Laserbean.General
         /// Awake is called when the script instance is being loaded.
         /// </summary>
         [SerializeField] bool persistant_between_scenes;
-        void Awake()
+        protected override void Awake()
         {
             if (persistant_between_scenes) {
                 DontDestroyOnLoad(this.gameObject);

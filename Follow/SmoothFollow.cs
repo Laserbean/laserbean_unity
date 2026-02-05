@@ -46,7 +46,7 @@ namespace Laserbean.General.Follower
 
         void Awake()
         {
-            IsFollowing = true;
+            // IsFollowing = false;
             target_position = transform.position;
 
             // fixedLocalPosition = transform.localPosition;
@@ -110,13 +110,18 @@ namespace Laserbean.General.Follower
 
         public void StopFollowing()
         {
+            current_error = Vector3.zero;
+
             IsFollowing = false;
         }
 
 
         public void FixedUpdate()
         {
-            if (!IsFollowing) return;
+            if (!IsFollowing)
+            {
+                return;
+            }
 
             previous_error = current_error;
             // PID control

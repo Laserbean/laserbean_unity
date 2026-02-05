@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 542eb905547197e4289ad2fae8962ec5, type: 3}
-  m_Name: PopupInfoGameEvent
-  m_EditorClassIdentifier: 
+  m_Script: {fileID: 11500000, guid: 444b4fdaba5fa5c49b0ec990ed9cc3b7, type: 3}
+  m_Name: PopupInfoGameEvent 1
+  m_EditorClassIdentifier: Assembly-CSharp::TextPopupGameEvent
   Notes: 
   defaultValue:
-    Text: POPUP
+    Text: 
+    Lifetime: 0
     Position: {x: 0, y: 0}
-    Force: {x: 0, y: 1}
+    Force: {x: 0, y: 0}
   description: This is a PopupInfo Game Event

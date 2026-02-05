@@ -110,12 +110,16 @@ namespace Laserbean.Input.WorldDrag
         {
             if (GrabbedObject != null)
             {
-                // You can implement drop logic here (e.g., snapping, checking valid drop zone)
+                // Can implement drop logic here (e.g., snapping, checking valid drop zone)
                 var clickable = GrabbedObject.gameObject.GetComponent<IWorldClickable>();
                 clickable?.OnClickReleased();
 
                 var grabbable = GrabbedObject.gameObject.GetComponent<IWorldDraggable>();
-                if (grabbable == null) { return; }
+                if (grabbable == null)
+                {
+                    GrabbedObject = null;
+                    return;
+                }
                 grabbable.DragReleased();
 
                 GrabbedObject = null;

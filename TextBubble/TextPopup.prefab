@@ -12,9 +12,6 @@ GameObject:
   - component: {fileID: 7879687865059405880}
   - component: {fileID: 7084769570209863704}
   - component: {fileID: 1480799793015241353}
-  - component: {fileID: 2021500954385006610}
-  - component: {fileID: -6353115625007401483}
-  - component: {fileID: 6276260343202551678}
   m_Layer: 5
   m_Name: TextPopup
   m_TagString: Untagged
@@ -71,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 19e2f068502c09b44aafaa5e0198680f, type: 2}
-  m_sharedMaterial: {fileID: 5101924076454450215, guid: 19e2f068502c09b44aafaa5e0198680f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -107,6 +104,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -167,42 +165,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &2021500954385006610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2334581275869016041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98a7ec3abd84b354a98fde97080bacb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textMeshPro: {fileID: 7084769570209863704}
---- !u!114 &-6353115625007401483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2334581275869016041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c171ca96e3e340b67849e58adbfe1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StartOnEnable: 1
-  DisableAfterTime: 0.4
---- !u!114 &6276260343202551678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2334581275869016041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44185fc76a367f84583c2f501fb09cf3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

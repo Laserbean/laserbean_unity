@@ -8,20 +8,20 @@ namespace Laserbean.Input.WorldDrag
 {
     public class WorldDragForce2D : SmoothFollowRigidbody2D, IWorldDraggable
     {
-        [SerializeField] UnityEvent<Vector3> OnDragEvent;
-        [SerializeField] UnityEvent OnDragReleasedEvent;
+        [SerializeField] UnityEvent<Vector3, Transform> OnDragEvent;
+        [SerializeField] UnityEvent<Transform> OnDragReleasedEvent;
         public void Drag(Vector3 mouseLocation)
         {
             SetTarget(mouseLocation);
             StartFollowing();
-            OnDragEvent?.Invoke(mouseLocation);
+            OnDragEvent?.Invoke(mouseLocation, transform);
 
         }
 
         public void DragReleased()
         {
             StopFollowing();
-            OnDragReleasedEvent?.Invoke();
+            OnDragReleasedEvent?.Invoke(transform);
 
         }
     }

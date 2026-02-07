@@ -9,7 +9,7 @@ namespace Laserbean.Input.WorldDrag
     public class WorldDragForce3D : SmoothFollowRigidbody3D, IWorldDraggable
     {
 
-        PosFollowTarget mousetarget = new(Vector3.zero);
+        FollowTarget mousetarget = new(Vector3.zero);
 
         protected override void Awake()
         {

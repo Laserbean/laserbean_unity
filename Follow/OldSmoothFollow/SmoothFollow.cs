@@ -10,7 +10,7 @@ namespace Laserbean.General.Follower
         [SerializeField] protected float p_const = 0.10f;
         [SerializeField] protected float i_const = 0.1f;
         [SerializeField] protected float d_const = 0.1f;
-        [SerializeField] PosFollowTarget Target = new(Vector3.zero);
+        [SerializeField] FollowTarget Target = new(Vector3.zero);
 
 
         [Header("Integral Buffer Size"), Range(0, 10000)]
@@ -136,12 +136,12 @@ namespace Laserbean.General.Follower
         }
 
 
-        public void AddTarget(PosFollowTarget target)
+        public void AddTarget(FollowTarget target)
         {
             Target = target;
         }
 
-        public void RemoveTarget(PosFollowTarget target)
+        public void RemoveTarget(FollowTarget target)
         {
             Target = null;
         }
@@ -151,7 +151,7 @@ namespace Laserbean.General.Follower
             Target = null;
         }
 
-        public bool HasTarget(PosFollowTarget target)
+        public bool HasTarget(FollowTarget target)
         {
             return target == Target;
         }

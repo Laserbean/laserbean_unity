@@ -28,6 +28,9 @@ namespace Laserbean.General.Follower
 
         // [SerializeField] bool isFollowLocalPos = false;
         // Vector3 fixedLocalPosition = Vector3.zero;
+        protected virtual void Awake()
+        {
+        }
 
         private Vector3 Derivative
         {
@@ -40,16 +43,6 @@ namespace Laserbean.General.Follower
         Vector3 previous_error = Vector3.zero;
         Vector3 current_error = Vector3.zero;
         Vector3 total_error = Vector3.zero;
-        Vector3 target_position;
-
-
-        protected virtual void Awake()
-        {
-            // IsFollowing = false;
-            target_position = transform.position;
-
-            // fixedLocalPosition = transform.localPosition;
-        }
 
         Vector3 TargetPosition
         {
@@ -132,14 +125,14 @@ namespace Laserbean.General.Follower
             if (force == Vector3.zero) return;
         }
 
-        protected PosFollowTargets Targets = new();
+        protected FollowTargets Targets = new();
 
-        public void AddTarget(PosFollowTarget target)
+        public void AddTarget(FollowTarget target)
         {
             Targets.AddTarget(target);
         }
 
-        public void RemoveTarget(PosFollowTarget target)
+        public void RemoveTarget(FollowTarget target)
         {
             Targets.RemoveTarget(target);
         }
@@ -149,7 +142,7 @@ namespace Laserbean.General.Follower
             Targets.ClearTargets();
         }
 
-        public bool HasTarget(PosFollowTarget target)
+        public bool HasTarget(FollowTarget target)
         {
             return Targets.HasTarget(target);
         }

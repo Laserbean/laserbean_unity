@@ -9,7 +9,7 @@ namespace Laserbean.Input.WorldDrag
     public class WorldDragForce2D : SmoothFollowRigidbody2D, IWorldDraggable
     {
 
-        PosFollowTarget mousetarget = new(Vector3.zero);
+        FollowTarget mousetarget = new(Vector3.zero);
 
         [SerializeField] UnityEvent<Vector3, Transform> OnDragEvent;
         [SerializeField] UnityEvent<Transform> OnDragReleasedEvent;

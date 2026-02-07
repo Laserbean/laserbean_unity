@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -13,20 +14,21 @@ namespace Laserbean.General.Follower
 
     public interface IPosFollower
     {
-        public bool HasTarget(PosFollowTarget target);
-        public void AddTarget(PosFollowTarget target);
+        public bool HasTarget(FollowTarget target);
+        public void AddTarget(FollowTarget target);
 
-        public void RemoveTarget(PosFollowTarget target);
+        public void RemoveTarget(FollowTarget target);
 
         public void ClearTargets();
     }
 
     [System.Serializable]
-    public class PosFollowTargets
+    public class FollowTargets
     {
-        public List<PosFollowTarget> Targets = new();
+        public List<FollowTarget> Targets = new();
 
-        public void AddTarget(PosFollowTarget target)
+
+        public void AddTarget(FollowTarget target)
         {
             if (!Targets.Contains(target))
             {
@@ -34,7 +36,7 @@ namespace Laserbean.General.Follower
             }
         }
 
-        public void RemoveTarget(PosFollowTarget target)
+        public void RemoveTarget(FollowTarget target)
         {
             if (Targets.Contains(target))
             {
@@ -47,25 +49,38 @@ namespace Laserbean.General.Follower
             Targets.Clear();
         }
 
-        public bool HasTarget(PosFollowTarget target)
+        public bool HasTarget(FollowTarget target)
         {
             return Targets.Contains(target);
         }
 
         public Vector3 GetAveragePos(Vector3 pos)
         {
-            Vector3 averagepos = Vector3.zero;
-            float weights = 0f;
-            foreach (var target in Targets)
-            {
-                averagepos += (target.Position - pos) * target.Weight;
-                weights += target.Weight;
-            }
-            averagepos /= weights;
-            return averagepos + pos;
+            // Vector3 averagepos = Vector3.zero;
+            // float weights = 0f;
+            // foreach (var target in Targets)
+            // {
+            //     averagepos += (target.Position - pos) * target.PositionWeight;
+            //     weights += target.PositionWeight;
+            // }
+            // averagepos /= weights;
+            // return averagepos + pos;
+            List<Vector3> positions = Targets.Select(item => item.Position).ToList();
+            List<float> weights = Targets.Select(item => item.PositionWeight).ToList();
+
+            return positions.WeightedAverage(weights);
         }
 
-        internal bool TryAddTarget(PosFollowTarget mousetarget)
+        public Quaternion GetAverageRotation()
+        {
+            // Short and sweet
+            List<Quaternion> rotations = Targets.Select(item => item.Transform.rotation).ToList();
+            List<float> weights = Targets.Select(item => item.RotationWeight).ToList();
+
+            return rotations.WeightedAverage(weights);
+        }
+
+        internal bool TryAddTarget(FollowTarget mousetarget)
         {
             if (!HasTarget(mousetarget))
             {
@@ -77,15 +92,16 @@ namespace Laserbean.General.Follower
 
         internal bool HasTargets()
         {
-            return Targets.Count > 0; 
+            return Targets.Count > 0;
         }
     }
 
 
     [System.Serializable]
-    public class PosFollowTarget
+    public class FollowTarget
     {
-        public float Weight;
+        public float PositionWeight;
+        public float RotationWeight;
         Vector3 pos;
         public Vector3 Position
         {
@@ -115,16 +131,18 @@ namespace Laserbean.General.Follower
         }
         public Transform Transform;
 
-        public PosFollowTarget(Vector3 _pos, float strength = 1f)
+        public FollowTarget(Vector3 _pos, float posweight = 1f, float rotweight = 1f)
         {
             pos = _pos;
-            Weight = strength;
+            PositionWeight = posweight;
+            RotationWeight = rotweight;
         }
 
-        public PosFollowTarget(Transform _trans, float strength = 1f)
+        public FollowTarget(Transform _trans, float posweight = 1f, float rotweight = 1f)
         {
             Transform = _trans;
-            Weight = strength;
+            PositionWeight = posweight;
+            RotationWeight = rotweight;
         }
 
     }

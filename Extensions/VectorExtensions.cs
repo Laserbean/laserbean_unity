@@ -1,4 +1,6 @@
 ﻿
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Laserbean.General
@@ -357,6 +359,31 @@ namespace Laserbean.General
             }
         }
 
+
+        public static Vector3 Average(this List<Vector3> Targets)
+        {
+            Vector3 averagepos = Vector3.zero;
+            for (int i = 0; i < Targets.Count; i++)
+            {
+                averagepos += Targets[i];
+            }
+            averagepos /= Targets.Count;
+            return averagepos;
+        }
+
+
+        public static Vector3 WeightedAverage(this List<Vector3> Targets, List<float> posweights)
+        {
+            Vector3 averagepos = Vector3.zero;
+            float weights = 0f;
+            for (int i = 0; i < Targets.Count; i++)
+            {
+                averagepos += Targets[i] * posweights[i];
+                weights += posweights[i];
+            }
+            averagepos /= weights;
+            return averagepos;
+        }
     }
 
 
@@ -366,4 +393,101 @@ namespace Laserbean.General
         Y,
         Z
     }
+
+
+    public static class QuaternionExtension
+    {
+        // Note: This works well if the quaternions are relatively close together.
+        public static Quaternion Average(this List<Quaternion> quaternions)
+        {
+            if (quaternions.Count == 0)
+            {
+                return Quaternion.identity;
+            }
+
+            Vector4 cumulative = Vector4.zero;
+            Quaternion firstRotation = quaternions[0];
+
+            // Ensure all quaternions are on the same "side" of the 4D sphere
+            foreach (var nextRotation in quaternions)
+            {
+                // If the dot product is negative, the quaternions are pointing in opposite directions, 
+                // so we reverse the sign of the nextRotation components to average correctly.
+                if (Vector4.Dot(new Vector4(nextRotation.x, nextRotation.y, nextRotation.z, nextRotation.w),
+                                new Vector4(firstRotation.x, firstRotation.y, firstRotation.z, firstRotation.w)) < 0)
+                {
+                    cumulative += new Vector4(-nextRotation.x, -nextRotation.y, -nextRotation.z, -nextRotation.w);
+                }
+                else
+                {
+                    cumulative += new Vector4(nextRotation.x, nextRotation.y, nextRotation.z, nextRotation.w);
+                }
+            }
+
+            // Average the components
+            cumulative /= quaternions.Count;
+
+            // If the cumulative is (near) zero, fall back to the first rotation
+            if (cumulative.sqrMagnitude < 1e-8f)
+            {
+                return firstRotation;
+            }
+
+            // Normalize the vector and return as a Quaternion
+            return new Quaternion(cumulative.x, cumulative.y, cumulative.z, cumulative.w).normalized;
+        }
+
+        // Weighted average. Weights must be same length as quaternions; zero/negative weights are allowed
+        // (they will influence the result accordingly). If total weight is zero, returns Quaternion.identity.
+        public static Quaternion WeightedAverage(this List<Quaternion> quaternions, List<float> weights)
+        {
+            if (quaternions == null) throw new ArgumentNullException(nameof(quaternions));
+            if (weights == null) throw new ArgumentNullException(nameof(weights));
+            if (quaternions.Count == 0)
+            {
+                return Quaternion.identity;
+            }
+            if (weights.Count != quaternions.Count)
+            {
+                throw new ArgumentException("Weights length must match quaternions length.", nameof(weights));
+            }
+
+            Vector4 cumulative = Vector4.zero;
+            Quaternion firstRotation = quaternions[0];
+
+            float totalWeight = 0f;
+
+            for (int i = 0; i < quaternions.Count; i++)
+            {
+                var q = quaternions[i];
+                float w = weights[i];
+
+                Vector4 v = new Vector4(q.x, q.y, q.z, q.w);
+
+                // Ensure consistent hemisphere
+                if (Vector4.Dot(v, new Vector4(firstRotation.x, firstRotation.y, firstRotation.z, firstRotation.w)) < 0f)
+                {
+                    v = -v;
+                }
+
+                cumulative += v * w;
+                totalWeight += w;
+            }
+
+            if (Mathf.Approximately(totalWeight, 0f))
+            {
+                return Quaternion.identity;
+            }
+
+            cumulative /= totalWeight;
+
+            if (cumulative.sqrMagnitude < 1e-8f)
+            {
+                return firstRotation;
+            }
+
+            return new Quaternion(cumulative.x, cumulative.y, cumulative.z, cumulative.w).normalized;
+        }
+    }
+
 }

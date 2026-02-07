@@ -7,9 +7,9 @@ namespace Laserbean.General.Follower
     public class SmoothPosFollower : MonoBehaviour, IPosFollower //, ILocalPositionFollower
     {
         [Header("PID Constants")]
-        [SerializeField] protected float p_const = 0.10f;
-        [SerializeField] protected float i_const = 0.1f;
-        [SerializeField] protected float d_const = 0.1f;
+        [SerializeField] protected float p_const = 15f;
+        [SerializeField] protected float i_const = 10f;
+        [SerializeField] protected float d_const = 5f;
 
         [Header("Integral Buffer Size"), Range(0, 10000)]
         [SerializeField] float buffer_size = 64;
@@ -43,7 +43,7 @@ namespace Laserbean.General.Follower
         Vector3 target_position;
 
 
-        void Awake()
+        protected virtual void Awake()
         {
             // IsFollowing = false;
             target_position = transform.position;
@@ -55,15 +55,7 @@ namespace Laserbean.General.Follower
         {
             get
             {
-                Vector3 averagepos = Vector3.zero;
-                float weights = 0f; 
-                foreach (var target in Targets)
-                {
-                    averagepos += (target.Position - transform.position) * target.Weight; 
-                    weights += target.Weight; 
-                }
-                averagepos /= weights; 
-                return averagepos + transform.position; 
+                return Targets.GetAveragePos(transform.position); 
             }
         }
 
@@ -103,6 +95,8 @@ namespace Laserbean.General.Follower
                 return;
             }
 
+            if (!Targets.HasTargets()) return; 
+
             previous_error = current_error;
             // PID control
             current_error = TargetPosition - transform.position;
@@ -138,29 +132,26 @@ namespace Laserbean.General.Follower
             if (force == Vector3.zero) return;
         }
 
-        protected List<PosFollowTarget> Targets = new();
+        protected PosFollowTargets Targets = new();
 
         public void AddTarget(PosFollowTarget target)
         {
-            if (!Targets.Contains(target))
-            {
-                Targets.Add(target);
-            }
+            Targets.AddTarget(target);
         }
 
         public void RemoveTarget(PosFollowTarget target)
         {
-            if (Targets.Contains(target))
-            {
-                Targets.Remove(target);
-            }
+            Targets.RemoveTarget(target);
         }
 
         public void ClearTargets()
         {
-            Targets.Clear();
+            Targets.ClearTargets();
         }
 
-
+        public bool HasTarget(PosFollowTarget target)
+        {
+            return Targets.HasTarget(target);
+        }
     }
 }

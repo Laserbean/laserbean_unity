@@ -4,13 +4,14 @@ using UnityEngine;
 
 namespace Laserbean.General.Follower
 {
-    public abstract class SmoothFollow : MonoBehaviour, IPositionFollower //, ILocalPositionFollower
+    public abstract class SmoothFollow : MonoBehaviour, IPosFollower //, ILocalPositionFollower
     {
         [Header("PID Constants")]
         [SerializeField] protected float p_const = 0.10f;
         [SerializeField] protected float i_const = 0.1f;
         [SerializeField] protected float d_const = 0.1f;
-        [SerializeField] public Transform Target;
+        [SerializeField] PosFollowTarget Target = new(Vector3.zero);
+
 
         [Header("Integral Buffer Size"), Range(0, 10000)]
         [SerializeField] float buffer_size = 64;
@@ -41,13 +42,11 @@ namespace Laserbean.General.Follower
         Vector3 previous_error = Vector3.zero;
         Vector3 current_error = Vector3.zero;
         Vector3 total_error = Vector3.zero;
-        Vector3 target_position;
 
 
-        void Awake()
+        protected virtual void Awake()
         {
             // IsFollowing = false;
-            target_position = transform.position;
 
             // fixedLocalPosition = transform.localPosition;
         }
@@ -60,33 +59,12 @@ namespace Laserbean.General.Follower
                 // {
                 //     return transform.parent != null ? transform.parent.TransformPoint(fixedLocalPosition) : transform.TransformPoint(fixedLocalPosition);
                 // }
-                if (Target == null)
-                {
-                    return target_position;
-                }
-                return Target.transform.position;
+
+                return Target.Position;
             }
         }
 
-        public void SetTarget(Vector3 targetpos)
-        {
-            target_position = targetpos;
-        }
 
-        public void SetTarget(Transform target)
-        {
-            Target = target;
-        }
-
-        public void RemoveTargetTransform()
-        {
-            Target = null;
-        }
-
-        public void RemoveTargetPosition()
-        {
-            target_position = transform.position;
-        }
 
         // public void SetLocalPositionTarget(Vector3 targetpos)
         // {
@@ -158,5 +136,24 @@ namespace Laserbean.General.Follower
         }
 
 
+        public void AddTarget(PosFollowTarget target)
+        {
+            Target = target;
+        }
+
+        public void RemoveTarget(PosFollowTarget target)
+        {
+            Target = null;
+        }
+
+        public void ClearTargets()
+        {
+            Target = null;
+        }
+
+        public bool HasTarget(PosFollowTarget target)
+        {
+            return target == Target;
+        }
     }
 }

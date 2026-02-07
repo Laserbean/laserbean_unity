@@ -4,11 +4,13 @@ using UnityEngine;
 namespace Laserbean.General.Follower
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class SmoothFollowRigidbody3D : SmoothFollow
+    public class SmoothFollowRigidbody3D : SmoothPosFollower
     {
         Rigidbody rgbd;
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake(); 
+
             rgbd = GetComponent<Rigidbody>();
         }
 

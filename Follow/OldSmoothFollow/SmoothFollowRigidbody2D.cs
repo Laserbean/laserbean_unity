@@ -7,15 +7,18 @@ namespace Laserbean.General.Follower
     {
         Rigidbody2D rgbd2d;
 
+        [SerializeField] bool counteractGravity = true;
+
         protected override void Awake()
         {
-            base.Awake(); 
+            base.Awake();
             rgbd2d = GetComponent<Rigidbody2D>();
         }
         public override void AddForce(Vector3 force)
         {
-            base.AddForce(force);
-            rgbd2d.AddForce(force);
+            var fff = counteractGravity ? force - (Physics2D.gravity * rgbd2d.mass * rgbd2d.gravityScale).ToVector3() : force;
+            base.AddForce(fff);
+            rgbd2d.AddForce(fff);
         }
 
     }

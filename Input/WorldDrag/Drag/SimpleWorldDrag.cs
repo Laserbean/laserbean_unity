@@ -12,5 +12,13 @@ namespace Laserbean.Input.WorldDrag
         public void DragReleased()
         {
         }
+
+
+        public bool DragStarted()
+        {
+            return true;
+        }
+
+
     }
 }

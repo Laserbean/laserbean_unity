@@ -27,5 +27,10 @@ namespace Laserbean.Input.WorldDrag
         {
             Targets.RemoveTarget(mousetarget);
         }
+
+        public bool DragStarted()
+        {
+            return true; 
+        }
     }
 }

@@ -184,6 +184,6 @@ namespace Laserbean.Input.WorldDrag
             Gizmos.color = Color.red;
             Gizmos.DrawCube(DebugMoveToPos2, Vector3.one * 0.2f);
         }
-
+   
     }
 }

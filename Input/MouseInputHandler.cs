@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,6 +6,7 @@ namespace Laserbean.Input
 {
 
     // [RequireComponent(typeof(IMouseInputable))]
+    [Obsolete("Use MouseInputs")]
     public class MouseInputHandler : MonoBehaviour
     {
         [SerializeField] private Camera cam; // assign or default to Camera.main

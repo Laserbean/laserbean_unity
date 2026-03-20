@@ -20,10 +20,10 @@ namespace Laserbean.Input
     public class MouseInputs : MonoBehaviour
     {
         [SerializeField] private Camera cam;
-        
+
         [Header("Drag Settings")]
         [SerializeField] private float dragThreshold = 5f; // Minimum drag distance to trigger drag
-        
+
         [Header("Double Click Settings")]
         [SerializeField] private float doubleClickTimeWindow = 0.3f; // Time window for double click detection
 
@@ -193,32 +193,27 @@ namespace Laserbean.Input
             currentScreenPos = pointAction.ReadValue<Vector2>();
             dragStartPos = currentScreenPos;
             isLeftClickPressed = true;
-            isLeftDragging = false;
+            // isLeftDragging = false;
 
             // Check for double click
             float timeSinceLastClick = Time.time - lastLeftClickTime;
             if (timeSinceLastClick <= doubleClickTimeWindow)
             {
-                bool doubleClickHandled = mouseInputable?.OnLeftDoubleClick(currentScreenPos) ?? false;
-                if (doubleClickHandled)
+                onLeftDoubleClick.Invoke(currentScreenPos);
+                lastLeftClickTime = 0; // Reset to prevent triple clicks
+
+                if (mouseInputable?.OnLeftDoubleClick(currentScreenPos) ?? false)
                 {
-                    onLeftDoubleClick.Invoke(currentScreenPos);
-                    lastLeftClickTime = 0; // Reset to prevent triple clicks
-                    return;
+                    // OnLeftDoubleClickSuccess
                 }
+                return;
             }
 
             lastLeftClickTime = Time.time;
-            bool clickHandled = mouseInputable?.OnLeftClickDown(currentScreenPos) ?? false;
-            
-            if (clickHandled)
+            onLeftClickDown.Invoke(currentScreenPos);
+            if (mouseInputable?.OnLeftClickDown(currentScreenPos) ?? false)
             {
-                onLeftClickDown.Invoke(currentScreenPos);
                 onLeftClickSuccessful.Invoke();
-            }
-            else
-            {
-                isLeftClickPressed = false;
             }
         }
 
@@ -247,32 +242,27 @@ namespace Laserbean.Input
             currentScreenPos = pointAction.ReadValue<Vector2>();
             dragStartPos = currentScreenPos;
             isRightClickPressed = true;
-            isRightDragging = false;
+            // isRightDragging = false;
 
             // Check for double click
             float timeSinceLastClick = Time.time - lastRightClickTime;
             if (timeSinceLastClick <= doubleClickTimeWindow)
             {
-                bool doubleClickHandled = mouseInputable?.OnRightDoubleClick(currentScreenPos) ?? false;
-                if (doubleClickHandled)
+                onRightDoubleClick.Invoke(currentScreenPos);
+                lastRightClickTime = 0; // Reset to prevent triple clicks
+
+                if (mouseInputable?.OnRightDoubleClick(currentScreenPos) ?? false)
                 {
-                    onRightDoubleClick.Invoke(currentScreenPos);
-                    lastRightClickTime = 0; // Reset to prevent triple clicks
-                    return;
+                    // OnRightDoubleClickSuccess
                 }
+                return;
             }
 
             lastRightClickTime = Time.time;
-            bool clickHandled = mouseInputable?.OnRightClickDown(currentScreenPos) ?? false;
-            
-            if (clickHandled)
+            onRightClickDown.Invoke(currentScreenPos);
+            if (mouseInputable?.OnRightClickDown(currentScreenPos) ?? false)
             {
-                onRightClickDown.Invoke(currentScreenPos);
                 onRightClickSuccessful.Invoke();
-            }
-            else
-            {
-                isRightClickPressed = false;
             }
         }
 
@@ -307,21 +297,19 @@ namespace Laserbean.Input
             float timeSinceLastClick = Time.time - lastMiddleClickTime;
             if (timeSinceLastClick <= doubleClickTimeWindow)
             {
-                bool doubleClickHandled = mouseInputable?.OnMiddleDoubleClick(currentScreenPos) ?? false;
-                if (doubleClickHandled)
+                onMiddleDoubleClick.Invoke(currentScreenPos);
+                lastMiddleClickTime = 0; // Reset to prevent triple clicks
+
+                if (mouseInputable?.OnMiddleDoubleClick(currentScreenPos) ?? false)
                 {
-                    onMiddleDoubleClick.Invoke(currentScreenPos);
-                    lastMiddleClickTime = 0; // Reset to prevent triple clicks
-                    return;
                 }
+                return;
             }
 
             lastMiddleClickTime = Time.time;
-            bool clickHandled = mouseInputable?.OnMiddleClickDown(currentScreenPos) ?? false;
-            
-            if (clickHandled)
+            onMiddleClickDown.Invoke(currentScreenPos);
+            if (mouseInputable?.OnMiddleClickDown(currentScreenPos) ?? false)
             {
-                onMiddleClickDown.Invoke(currentScreenPos);
                 onMiddleClickSuccessful.Invoke();
             }
             else
@@ -387,15 +375,13 @@ namespace Laserbean.Input
             if (!isLeftDragging && dragDistance >= dragThreshold)
             {
                 isLeftDragging = true;
-                bool dragStartHandled = mouseInputable?.OnLeftDragStart(dragStartPos) ?? false;
-                if (dragStartHandled)
+                onLeftDragStart.Invoke(dragStartPos);
+
+                if (mouseInputable?.OnLeftDragStart(dragStartPos) ?? false)
                 {
-                    onLeftDragStart.Invoke(dragStartPos);
-                }
-                else
-                {
-                    isLeftDragging = false;
-                    return;
+
+                    // OnLeftDragStartSuccess
+
                 }
             }
 
@@ -413,15 +399,11 @@ namespace Laserbean.Input
             if (!isRightDragging && dragDistance >= dragThreshold)
             {
                 isRightDragging = true;
-                bool dragStartHandled = mouseInputable?.OnRightDragStart(dragStartPos) ?? false;
-                if (dragStartHandled)
+                onRightDragStart.Invoke(dragStartPos);
+
+                if (mouseInputable?.OnRightDragStart(dragStartPos) ?? false)
                 {
-                    onRightDragStart.Invoke(dragStartPos);
-                }
-                else
-                {
-                    isRightDragging = false;
-                    return;
+                    // OnRightDragStartSuccess
                 }
             }
 
@@ -439,15 +421,10 @@ namespace Laserbean.Input
             if (!isMiddleDragging && dragDistance >= dragThreshold)
             {
                 isMiddleDragging = true;
-                bool dragStartHandled = mouseInputable?.OnMiddleDragStart(dragStartPos) ?? false;
-                if (dragStartHandled)
+                onMiddleDragStart.Invoke(dragStartPos);
+
+                if (mouseInputable?.OnMiddleDragStart(dragStartPos) ?? false)
                 {
-                    onMiddleDragStart.Invoke(dragStartPos);
-                }
-                else
-                {
-                    isMiddleDragging = false;
-                    return;
                 }
             }
 

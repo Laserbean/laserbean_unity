@@ -24,6 +24,8 @@ namespace Laserbean.General.Follower
 
         [SerializeField] float distance_treshold = 0.1f;
 
+        [SerializeField] float BreakForce = 20f;
+
         private Queue<Vector3> total_error_buffer = new();
 
         // [SerializeField] bool isFollowLocalPos = false;
@@ -48,7 +50,7 @@ namespace Laserbean.General.Follower
         {
             get
             {
-                return Targets.GetAveragePos(transform.position); 
+                return Targets.GetAveragePos(transform.position);
             }
         }
 
@@ -88,7 +90,7 @@ namespace Laserbean.General.Follower
                 return;
             }
 
-            if (!Targets.HasTargets()) return; 
+            if (!Targets.HasTargets()) return;
 
             previous_error = current_error;
             // PID control
@@ -116,9 +118,13 @@ namespace Laserbean.General.Follower
             if (Lock_x) pidForce.x = 0f;
             if (Lock_y) pidForce.y = 0f;
             if (Lock_z) pidForce.z = 0f;
-            AddForce(pidForce);
+            AddForce(CalculateForce(pidForce));
         }
 
+        protected Vector3 CalculateForce(Vector3 force)
+        {
+            return force.magnitude > BreakForce ? force.normalized * BreakForce : force;
+        }
 
         public virtual void AddForce(Vector3 force)
         {

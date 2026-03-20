@@ -121,27 +121,18 @@ public class HandTool2D : MonoBehaviour, IMouseInputable2
             Debug.Log(text);
     }
 
-    void DebugDrawRay(Vector3 start, Vector3 dir, Color color, float duration)
-    {
-        if (showDebug)
-            Debug.DrawRay(start, dir, color, duration);
-    }
 
     #region fish
     public bool OnLeftClickDown(Vector2 ScreenPoint)
     {
-        currentScreenPos = ScreenPoint;
-        return AttemptGrab(ScreenPoint);
+        return false;
     }
 
     #endregion
 
     public void OnLeftClickUp(Vector2 ScreenPoint)
     {
-        currentScreenPos = ScreenPoint;
-        ReleaseGrab();
-        onLeftClickUp?.Invoke(clickedObject);
-        clickedObject = null;
+
     }
 
     public bool OnLeftDoubleClick(Vector2 ScreenPoint)
@@ -152,19 +143,21 @@ public class HandTool2D : MonoBehaviour, IMouseInputable2
 
     public void OnLeftDrag(Vector2 ScreenPoint)
     {
-        // throw new System.NotImplementedException();
+
     }
 
     public void OnLeftDragEnd(Vector2 ScreenPoint)
     {
-        // throw new System.NotImplementedException();
+        currentScreenPos = ScreenPoint;
+        ReleaseGrab();
+        onLeftClickUp?.Invoke(clickedObject);
+        clickedObject = null;
     }
 
     public bool OnLeftDragStart(Vector2 ScreenPoint)
     {
-        // throw new System.NotImplementedException();
-        return false;
-
+        currentScreenPos = ScreenPoint;
+        return AttemptGrab(ScreenPoint);
     }
 
     public bool OnMiddleClickDown(Vector2 ScreenPoint)

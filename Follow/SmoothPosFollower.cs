@@ -121,8 +121,8 @@ namespace Laserbean.General.Follower
             if (Lock_x) pidForce.x = 0f;
             if (Lock_y) pidForce.y = 0f;
             if (Lock_z) pidForce.z = 0f;
-            // AddForce(CalculateForce(pidForce));
-            AddForce(pidForce);
+            AddForce(CalculateForce(pidForce));
+            // AddForce(pidForce);
         }
 
         protected Vector3 CalculateForce(Vector3 force)

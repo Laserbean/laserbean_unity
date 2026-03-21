@@ -123,9 +123,9 @@ public class HandTool2D : MonoBehaviour, IMouseInputable2
 
 
     #region fish
-    public bool OnLeftClickDown(Vector2 ScreenPoint)
+    public void OnLeftClickDown(Vector2 ScreenPoint)
     {
-        return false;
+
     }
 
     #endregion
@@ -135,10 +135,10 @@ public class HandTool2D : MonoBehaviour, IMouseInputable2
 
     }
 
-    public bool OnLeftDoubleClick(Vector2 ScreenPoint)
+    public void OnLeftDoubleClick(Vector2 ScreenPoint)
     {
         // throw new System.NotImplementedException();
-        return false;
+
     }
 
     public void OnLeftDrag(Vector2 ScreenPoint)
@@ -154,16 +154,16 @@ public class HandTool2D : MonoBehaviour, IMouseInputable2
         clickedObject = null;
     }
 
-    public bool OnLeftDragStart(Vector2 ScreenPoint)
+    public void OnLeftDragStart(Vector2 ScreenPoint)
     {
         currentScreenPos = ScreenPoint;
-        return AttemptGrab(ScreenPoint);
+        AttemptGrab(ScreenPoint);
     }
 
-    public bool OnMiddleClickDown(Vector2 ScreenPoint)
+    public void OnMiddleClickDown(Vector2 ScreenPoint)
     {
         // throw new System.NotImplementedException();
-        return false;
+
     }
 
     public void OnMiddleClickUp(Vector2 ScreenPoint)
@@ -171,10 +171,10 @@ public class HandTool2D : MonoBehaviour, IMouseInputable2
         // throw new System.NotImplementedException();
     }
 
-    public bool OnMiddleDoubleClick(Vector2 ScreenPoint)
+    public void OnMiddleDoubleClick(Vector2 ScreenPoint)
     {
         // throw new System.NotImplementedException();
-        return false;
+
     }
 
     public void OnMiddleDrag(Vector2 ScreenPoint)
@@ -187,10 +187,10 @@ public class HandTool2D : MonoBehaviour, IMouseInputable2
         // throw new System.NotImplementedException();
     }
 
-    public bool OnMiddleDragStart(Vector2 ScreenPoint)
+    public void OnMiddleDragStart(Vector2 ScreenPoint)
     {
         // throw new System.NotImplementedException();
-        return false;
+
     }
 
     public void OnPointMove(Vector2 ScreenPoint)
@@ -198,10 +198,10 @@ public class HandTool2D : MonoBehaviour, IMouseInputable2
         // // throw new System.NotImplementedException();
     }
 
-    public bool OnRightClickDown(Vector2 ScreenPoint)
+    public void OnRightClickDown(Vector2 ScreenPoint)
     {
         // throw new System.NotImplementedException();
-        return false;
+
     }
 
     public void OnRightClickUp(Vector2 ScreenPoint)
@@ -209,10 +209,10 @@ public class HandTool2D : MonoBehaviour, IMouseInputable2
         // throw new System.NotImplementedException();
     }
 
-    public bool OnRightDoubleClick(Vector2 ScreenPoint)
+    public void OnRightDoubleClick(Vector2 ScreenPoint)
     {
         // throw new System.NotImplementedException();
-        return false;
+
     }
 
     public void OnRightDrag(Vector2 ScreenPoint)
@@ -225,10 +225,10 @@ public class HandTool2D : MonoBehaviour, IMouseInputable2
         // throw new System.NotImplementedException();
     }
 
-    public bool OnRightDragStart(Vector2 ScreenPoint)
+    public void OnRightDragStart(Vector2 ScreenPoint)
     {
         // throw new System.NotImplementedException();
-        return false;
+
     }
 
     public void OnScroll(Vector2 ScrollDelta, Vector2 ScreenPoint)

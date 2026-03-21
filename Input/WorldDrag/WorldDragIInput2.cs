@@ -22,15 +22,14 @@ namespace Laserbean.Input.WorldDrag
         [SerializeField] private LayerMask hoverLayer;
         [SerializeField] private LayerMask floorLayer;
         [SerializeField] private float dragDistance = 40f;
+        [SerializeField] private float dragBreakDistance = 5f;
         [SerializeField] private bool use2D = true;
         [SerializeField] private float floatDistance = 20f;
 
-        private Transform grabbedObject;
-        private Transform clickedObject;
+        private Transform currentObject;
         private Vector3 grabOffset;
         private Plane dragPlane;
         private GameObject lastHoverObject;
-        private Vector2 currentScreenPos;
         private bool isCurrentlyDragging;
 
 
@@ -56,73 +55,71 @@ namespace Laserbean.Input.WorldDrag
 
         public void OnPointMove(Vector2 screenPos)
         {
-            currentScreenPos = screenPos;
             HandleHoverDetection(screenPos);
         }
 
-        public bool OnLeftClickDown(Vector2 screenPos)
+        public void OnLeftClickDown(Vector2 screenPos)
         {
-            currentScreenPos = screenPos;
-            return AttemptGrab(screenPos);
+            if (AttemptGetClickedObject(screenPos))
+            {
+                var clickable = currentObject.GetComponent<IWorldClickable>();
+                if (clickable != null)
+                {
+                    clickable?.OnClickDown();
+                    onLeftClickDown?.Invoke(currentObject.transform);
+                }
+            }
         }
 
         public void OnLeftClickUp(Vector2 screenPos)
         {
-            currentScreenPos = screenPos;
-            ReleaseGrab();
-            onLeftClickUp?.Invoke(clickedObject);
-            clickedObject = null;
+
+            ReleaseObject();
         }
 
-        public bool OnLeftDragStart(Vector2 screenPos)
+        public void OnLeftDragStart(Vector2 screenPos)
         {
-            currentScreenPos = screenPos;
             isCurrentlyDragging = true;
 
-            if (grabbedObject != null)
+            if (currentObject != null)
             {
-                var draggable = grabbedObject.GetComponent<IWorldDraggable>();
-                if (draggable == null) return false;
+                var draggable = currentObject.GetComponent<IWorldDraggable>();
+                if (draggable == null) return;
 
-                onLeftDragStart?.Invoke(grabbedObject);
-                return draggable.DragStarted(); // TODO
+                onLeftDragStart?.Invoke(currentObject);
+                draggable.DragStarted(); // TODO
             }
-            return false;
         }
 
         public void OnLeftDrag(Vector2 screenPos)
         {
-            currentScreenPos = screenPos;
 
-            if (grabbedObject != null && isCurrentlyDragging)
+            if (currentObject != null && isCurrentlyDragging)
             {
-                PerformDrag(screenPos);
+                var dragsuccess = PerformDrag(screenPos);
+
+                if (!dragsuccess)
+                {
+                    isCurrentlyDragging = false;
+                    ReleaseObject();
+                }
             }
         }
 
         public void OnLeftDragEnd(Vector2 screenPos)
         {
-            currentScreenPos = screenPos;
             isCurrentlyDragging = false;
-
-            if (grabbedObject != null)
-            {
-                var draggable = grabbedObject.GetComponent<IWorldDraggable>();
-                draggable?.DragReleased();
-            }
         }
         #endregion
 
         #region Optional
-        public bool OnLeftDoubleClick(Vector2 screenPos)
+        public void OnLeftDoubleClick(Vector2 screenPos)
         {
-            return false;
             // Optional: Implement double-click behavior (e.g., special grab or select)
         }
 
-        public bool OnRightClickDown(Vector2 screenPos)
+        public void OnRightClickDown(Vector2 screenPos)
         {
-            return false;
             // Optional: Implement right-click behavior
         }
 
@@ -136,9 +133,8 @@ namespace Laserbean.Input.WorldDrag
             // Optional: Implement right-click drag behavior (e.g., camera rotation)
         }
 
-        public bool OnMiddleClickDown(Vector2 screenPos)
+        public void OnMiddleClickDown(Vector2 screenPos)
         {
-            return false;
             // Optional: Implement middle-click behavior
         }
 
@@ -156,32 +152,28 @@ namespace Laserbean.Input.WorldDrag
         {
             // Optional: Implement scroll behavior (e.g., zoom camera, adjust height)
         }
-        public bool OnRightDragStart(Vector2 ScreenPoint)
+        public void OnRightDragStart(Vector2 ScreenPoint)
         {
-            return false;
         }
 
         public void OnRightDragEnd(Vector2 ScreenPoint)
         {
         }
 
-        public bool OnRightDoubleClick(Vector2 ScreenPoint)
+        public void OnRightDoubleClick(Vector2 ScreenPoint)
         {
-            return false;
         }
 
-        public bool OnMiddleDragStart(Vector2 ScreenPoint)
+        public void OnMiddleDragStart(Vector2 ScreenPoint)
         {
-            return false;
         }
 
         public void OnMiddleDragEnd(Vector2 ScreenPoint)
         {
         }
 
-        public bool OnMiddleDoubleClick(Vector2 ScreenPoint)
+        public void OnMiddleDoubleClick(Vector2 ScreenPoint)
         {
-            return false;
         }
         #endregion
 
@@ -219,99 +211,95 @@ namespace Laserbean.Input.WorldDrag
             }
         }
 
-        private bool AttemptGrab(Vector2 screenPos)
+        private bool AttemptGetClickedObject(Vector2 screenPos)
         {
-            if (grabbedObject != null)
+            if (currentObject != null)
             {
                 return false; // Already grabbing something
             }
 
             if (use2D)
             {
-                return AttemptGrab2D(screenPos);
+                return AttemptGetClickedObject2D(screenPos);
             }
             else
             {
-                return AttemptGrab3D(screenPos);
+                return AttemptGetClickedObject3D(screenPos);
             }
         }
 
-        private bool AttemptGrab3D(Vector2 screenPos)
+        private bool AttemptGetClickedObject3D(Vector2 screenPos)
         {
             Ray ray = cam.ScreenPointToRay(screenPos);
 
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, draggableLayer))
             {
-                grabbedObject = hit.transform;
+                currentObject = hit.transform;
                 InitializeDragPlane(ray, hit.point);
-                grabOffset = grabbedObject.position - hit.point;
-
-                var clickable = grabbedObject.GetComponent<IWorldClickable>();
-                if (clickable != null)
-                {
-                    clickable?.OnClickPressed();
-                    onLeftClickDown?.Invoke(hit.transform);
-                    clickedObject = hit.transform;
-                }
-
-                DebugLog($"[Grab] Grabbed 3D object: {grabbedObject.name}");
+                grabOffset = currentObject.position - hit.point;
+                DebugLog($"[Grab] Grabbed 3D object: {currentObject.name}");
                 return true;
             }
             return false;
         }
 
-        private bool AttemptGrab2D(Vector2 screenPos)
+        private bool AttemptGetClickedObject2D(Vector2 screenPos)
         {
             Vector3 worldPoint = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, cam.nearClipPlane));
             RaycastHit2D hit2D = Physics2D.Raycast(worldPoint, Vector2.zero, Mathf.Infinity, draggableLayer);
 
             if (hit2D.collider != null)
             {
-                grabbedObject = hit2D.transform;
+                currentObject = hit2D.transform;
                 dragPlane = new Plane(-cam.transform.forward, hit2D.point);
-                grabOffset = grabbedObject.position - (Vector3)hit2D.point;
-
-                var clickable = hit2D.collider.GetComponent<IWorldClickable>();
-                if (clickable != null)
-                {
-                    clickable?.OnClickPressed();
-                    onLeftClickDown?.Invoke(hit2D.transform);
-                    clickedObject = hit2D.transform;
-                }
-
-                DebugLog($"[Grab] Grabbed 2D object: {grabbedObject.name}");
-
+                grabOffset = currentObject.position - (Vector3)hit2D.point;
+                DebugLog($"[Grab] Grabbed 2D object: {currentObject.name}");
                 return true;
             }
             return false;
         }
 
-        private void ReleaseGrab()
+        private void ReleaseObject()
         {
-            if (grabbedObject != null)
+            if (currentObject != null)
             {
-                var clickable = grabbedObject.GetComponent<IWorldClickable>();
-                clickable?.OnClickReleased();
+                currentObject.GetComponent<IWorldClickable>()?.OnClickUp();
+                currentObject.GetComponent<IWorldDraggable>()?.DragReleased();
 
-                onLeftDragEnd?.Invoke(grabbedObject);
+                onLeftClickUp?.Invoke(currentObject);
+                onLeftDragEnd?.Invoke(currentObject);
 
-                DebugLog($"[Release] Released: {grabbedObject.name}");
-                grabbedObject = null;
+                DebugLog($"[Release] Released: {currentObject.name}");
+                currentObject = null;
             }
         }
 
-        private void PerformDrag(Vector2 screenPos)
+        private bool PerformDrag(Vector2 screenPos)
         {
-            if (!grabbedObject.TryGetComponent<IWorldDraggable>(out var draggable))
+            if (!currentObject.TryGetComponent<IWorldDraggable>(out var draggable))
             {
-                return;
+                return false;
             }
 
             Ray ray = cam.ScreenPointToRay(screenPos);
             Vector3 movePosition = CalculateDragPosition(ray);
-            draggable.Drag(movePosition);
-            onLeftDrag?.Invoke(grabbedObject);
 
+            if (use2D)
+            {
+                movePosition.z = currentObject.transform.position.z;
+            }
+
+            var curdragdistance = (movePosition - currentObject.transform.position).sqrMagnitude;
+            // Debug.Log(curdragdistance);
+
+            if (curdragdistance >= dragBreakDistance * dragBreakDistance)
+            {
+                return false;
+            }
+            draggable.Drag(movePosition);
+            onLeftDrag?.Invoke(currentObject);
+
+            return true;
         }
 
         private Vector3 CalculateDragPosition(Ray ray)
@@ -347,7 +335,7 @@ namespace Laserbean.Input.WorldDrag
                 return hitPoint + grabOffset + surfaceFloatOffset;
             }
 
-            return grabbedObject.position; // Fallback
+            return currentObject.position; // Fallback
         }
 
         private void InitializeDragPlane(Ray ray, Vector3 hitPoint)
@@ -389,10 +377,10 @@ namespace Laserbean.Input.WorldDrag
 
         void OnDrawGizmos()
         {
-            if (grabbedObject != null)
+            if (currentObject != null)
             {
                 Gizmos.color = Color.green;
-                Gizmos.DrawWireSphere(grabbedObject.position, 0.2f);
+                Gizmos.DrawWireSphere(currentObject.position, 0.2f);
             }
         }
 

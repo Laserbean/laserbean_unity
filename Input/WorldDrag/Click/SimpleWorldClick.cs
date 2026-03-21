@@ -37,7 +37,7 @@ public class SimpleWorldClick : MonoBehaviour, IWorldClickable
         // OnClickFastEvent.Invoke();
     }
 
-    public void OnClickPressed()
+    public void OnClickDown()
     {
         // Debug.Log(name + " clicked!");
         clicktimer.Reset();
@@ -46,7 +46,7 @@ public class SimpleWorldClick : MonoBehaviour, IWorldClickable
         OnClickDownEvent.Invoke();
     }
 
-    public void OnClickReleased()
+    public void OnClickUp()
     {
         clicktimer.Stop();
         OnClickReleasedEvent.Invoke();

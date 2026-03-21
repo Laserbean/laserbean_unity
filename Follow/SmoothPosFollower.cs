@@ -39,10 +39,12 @@ namespace Laserbean.General.Follower
             get
             {
                 return (current_error - previous_error) / Time.fixedDeltaTime;
+                // return (transform.position - previous_position) / Time.fixedDeltaTime;
             }
         }
 
         Vector3 previous_error = Vector3.zero;
+        Vector3 previous_position = Vector3.zero;
         Vector3 current_error = Vector3.zero;
         Vector3 total_error = Vector3.zero;
 
@@ -93,6 +95,7 @@ namespace Laserbean.General.Follower
             if (!Targets.HasTargets()) return;
 
             previous_error = current_error;
+            previous_position = transform.position; 
             // PID control
             current_error = TargetPosition - transform.position;
 
@@ -118,7 +121,8 @@ namespace Laserbean.General.Follower
             if (Lock_x) pidForce.x = 0f;
             if (Lock_y) pidForce.y = 0f;
             if (Lock_z) pidForce.z = 0f;
-            AddForce(CalculateForce(pidForce));
+            // AddForce(CalculateForce(pidForce));
+            AddForce(pidForce);
         }
 
         protected Vector3 CalculateForce(Vector3 force)
@@ -128,6 +132,7 @@ namespace Laserbean.General.Follower
 
         public virtual void AddForce(Vector3 force)
         {
+            // Debug.Log("Force".DebugColor(Color.red) + force + ""); 
             if (force == Vector3.zero) return;
         }
 

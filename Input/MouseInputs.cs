@@ -63,7 +63,6 @@ namespace Laserbean.Input
         [SerializeField] private Vector2Event onLeftDragStart = new Vector2Event();
         [SerializeField] private Vector2Event onLeftDrag = new Vector2Event();
         [SerializeField] private Vector2Event onLeftDragEnd = new Vector2Event();
-        [SerializeField] private UnityEvent onLeftClickSuccessful = new UnityEvent();
 
         [Header("Right Click Events")]
         [SerializeField] private Vector2Event onRightClickDown = new Vector2Event();
@@ -72,7 +71,6 @@ namespace Laserbean.Input
         [SerializeField] private Vector2Event onRightDragStart = new Vector2Event();
         [SerializeField] private Vector2Event onRightDrag = new Vector2Event();
         [SerializeField] private Vector2Event onRightDragEnd = new Vector2Event();
-        [SerializeField] private UnityEvent onRightClickSuccessful = new UnityEvent();
 
         [Header("Middle Click Events")]
         [SerializeField] private Vector2Event onMiddleClickDown = new Vector2Event();
@@ -81,7 +79,6 @@ namespace Laserbean.Input
         [SerializeField] private Vector2Event onMiddleDragStart = new Vector2Event();
         [SerializeField] private Vector2Event onMiddleDrag = new Vector2Event();
         [SerializeField] private Vector2Event onMiddleDragEnd = new Vector2Event();
-        [SerializeField] private UnityEvent onMiddleClickSuccessful = new UnityEvent();
 
         [Header("Scroll Events")]
         [SerializeField] private Vector2Vector2Event onScroll = new Vector2Vector2Event();
@@ -202,19 +199,15 @@ namespace Laserbean.Input
                 onLeftDoubleClick.Invoke(currentScreenPos);
                 lastLeftClickTime = 0; // Reset to prevent triple clicks
 
-                if (mouseInputable?.OnLeftDoubleClick(currentScreenPos) ?? false)
-                {
-                    // OnLeftDoubleClickSuccess
-                }
+                mouseInputable?.OnLeftDoubleClick(currentScreenPos);
+
                 return;
             }
 
             lastLeftClickTime = Time.time;
             onLeftClickDown.Invoke(currentScreenPos);
-            if (mouseInputable?.OnLeftClickDown(currentScreenPos) ?? false)
-            {
-                onLeftClickSuccessful.Invoke();
-            }
+            mouseInputable?.OnLeftClickDown(currentScreenPos);
+
         }
 
         private void OnLeftClickReleased(InputAction.CallbackContext ctx)
@@ -251,19 +244,15 @@ namespace Laserbean.Input
                 onRightDoubleClick.Invoke(currentScreenPos);
                 lastRightClickTime = 0; // Reset to prevent triple clicks
 
-                if (mouseInputable?.OnRightDoubleClick(currentScreenPos) ?? false)
-                {
-                    // OnRightDoubleClickSuccess
-                }
+                mouseInputable?.OnRightDoubleClick(currentScreenPos);
+
                 return;
             }
 
             lastRightClickTime = Time.time;
             onRightClickDown.Invoke(currentScreenPos);
-            if (mouseInputable?.OnRightClickDown(currentScreenPos) ?? false)
-            {
-                onRightClickSuccessful.Invoke();
-            }
+            mouseInputable?.OnRightClickDown(currentScreenPos);
+
         }
 
         private void OnRightClickReleased(InputAction.CallbackContext ctx)
@@ -300,22 +289,13 @@ namespace Laserbean.Input
                 onMiddleDoubleClick.Invoke(currentScreenPos);
                 lastMiddleClickTime = 0; // Reset to prevent triple clicks
 
-                if (mouseInputable?.OnMiddleDoubleClick(currentScreenPos) ?? false)
-                {
-                }
+                mouseInputable?.OnMiddleDoubleClick(currentScreenPos);
                 return;
             }
 
             lastMiddleClickTime = Time.time;
             onMiddleClickDown.Invoke(currentScreenPos);
-            if (mouseInputable?.OnMiddleClickDown(currentScreenPos) ?? false)
-            {
-                onMiddleClickSuccessful.Invoke();
-            }
-            else
-            {
-                isMiddleClickPressed = false;
-            }
+            mouseInputable?.OnMiddleClickDown(currentScreenPos);
         }
 
         private void OnMiddleClickReleased(InputAction.CallbackContext ctx)
@@ -377,12 +357,8 @@ namespace Laserbean.Input
                 isLeftDragging = true;
                 onLeftDragStart.Invoke(dragStartPos);
 
-                if (mouseInputable?.OnLeftDragStart(dragStartPos) ?? false)
-                {
+                mouseInputable?.OnLeftDragStart(dragStartPos);
 
-                    // OnLeftDragStartSuccess
-
-                }
             }
 
             if (isLeftDragging)
@@ -401,10 +377,7 @@ namespace Laserbean.Input
                 isRightDragging = true;
                 onRightDragStart.Invoke(dragStartPos);
 
-                if (mouseInputable?.OnRightDragStart(dragStartPos) ?? false)
-                {
-                    // OnRightDragStartSuccess
-                }
+                mouseInputable?.OnRightDragStart(dragStartPos);
             }
 
             if (isRightDragging)
@@ -422,10 +395,7 @@ namespace Laserbean.Input
             {
                 isMiddleDragging = true;
                 onMiddleDragStart.Invoke(dragStartPos);
-
-                if (mouseInputable?.OnMiddleDragStart(dragStartPos) ?? false)
-                {
-                }
+                mouseInputable?.OnMiddleDragStart(dragStartPos);
             }
 
             if (isMiddleDragging)

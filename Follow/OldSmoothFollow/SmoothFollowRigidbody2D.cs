@@ -19,6 +19,8 @@ namespace Laserbean.General.Follower
             var fff = counteractGravity ? force - (Physics2D.gravity * rgbd2d.mass * rgbd2d.gravityScale).ToVector3() : force;
             base.AddForce(fff);
             rgbd2d.AddForce(fff);
+            // Debug.Log("Force".DebugColor(Color.yellow) + fff + ""); 
+
         }
 
     }

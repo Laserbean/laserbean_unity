@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class ClickableTest : MonoBehaviour, IWorldClickable
 {
-    public void OnClickPressed()
+    public void OnClickDown()
     {
         Debug.Log(name + " clicked!");
     }
 
-    public void OnClickReleased()
+    public void OnClickUp()
     {
         Debug.Log(name + " released!");
     }

@@ -101,7 +101,7 @@ namespace Laserbean.Input.WorldDrag
                     grabOffset = GrabbedObject.position - (Vector3)hit2D.point;
 
                     var clickable = hit2D.collider.gameObject.GetComponent<IWorldClickable>();
-                    clickable?.OnClickPressed();
+                    clickable?.OnClickDown();
                 }
             }
         }
@@ -112,7 +112,7 @@ namespace Laserbean.Input.WorldDrag
             {
                 // Can implement drop logic here (e.g., snapping, checking valid drop zone)
                 var clickable = GrabbedObject.gameObject.GetComponent<IWorldClickable>();
-                clickable?.OnClickReleased();
+                clickable?.OnClickUp();
 
                 var grabbable = GrabbedObject.gameObject.GetComponent<IWorldDraggable>();
                 if (grabbable == null)

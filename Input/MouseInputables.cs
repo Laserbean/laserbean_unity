@@ -11,16 +11,15 @@ public class MouseInputables : MonoBehaviour, IMouseInputable2
 
     void Start()
     {
-        mouseinputables = GetComponentsInChildren<IMouseInputable2>().Where(c => (object) c != this).ToList();
+        mouseinputables = GetComponentsInChildren<IMouseInputable2>().Where(c => (object)c != this).ToList();
     }
-    public bool OnLeftClickDown(Vector2 ScreenPoint)
+    public void OnLeftClickDown(Vector2 ScreenPoint)
     {
-        bool success = true;
         foreach (var m in mouseinputables)
         {
-            success = m.OnLeftClickDown(ScreenPoint) && success;
+            m.OnLeftClickDown(ScreenPoint);
         }
-        return success;
+        ;
     }
 
     public void OnLeftClickUp(Vector2 ScreenPoint)
@@ -31,14 +30,13 @@ public class MouseInputables : MonoBehaviour, IMouseInputable2
         }
     }
 
-    public bool OnLeftDoubleClick(Vector2 ScreenPoint)
+    public void OnLeftDoubleClick(Vector2 ScreenPoint)
     {
-        bool success = true;
         foreach (var m in mouseinputables)
         {
-            success = m.OnLeftDoubleClick(ScreenPoint) && success;
+            m.OnLeftDoubleClick(ScreenPoint);
         }
-        return success;
+        ;
     }
 
     public void OnLeftDrag(Vector2 ScreenPoint)
@@ -57,24 +55,22 @@ public class MouseInputables : MonoBehaviour, IMouseInputable2
         }
     }
 
-    public bool OnLeftDragStart(Vector2 ScreenPoint)
+    public void OnLeftDragStart(Vector2 ScreenPoint)
     {
-        bool success = true;
         foreach (var m in mouseinputables)
         {
-            success = m.OnLeftDragStart(ScreenPoint) && success;
+            m.OnLeftDragStart(ScreenPoint);
         }
-        return success;
+        ;
     }
 
-    public bool OnMiddleClickDown(Vector2 ScreenPoint)
+    public void OnMiddleClickDown(Vector2 ScreenPoint)
     {
-        bool success = true;
         foreach (var m in mouseinputables)
         {
-            success = m.OnMiddleClickDown(ScreenPoint) && success;
+            m.OnMiddleClickDown(ScreenPoint);
         }
-        return success;
+        ;
     }
 
     public void OnMiddleClickUp(Vector2 ScreenPoint)
@@ -85,14 +81,13 @@ public class MouseInputables : MonoBehaviour, IMouseInputable2
         }
     }
 
-    public bool OnMiddleDoubleClick(Vector2 ScreenPoint)
+    public void OnMiddleDoubleClick(Vector2 ScreenPoint)
     {
-        bool success = true;
         foreach (var m in mouseinputables)
         {
-            success = m.OnMiddleDoubleClick(ScreenPoint) && success;
+            m.OnMiddleDoubleClick(ScreenPoint);
         }
-        return success;
+        ;
     }
 
     public void OnMiddleDrag(Vector2 ScreenPoint)
@@ -111,14 +106,13 @@ public class MouseInputables : MonoBehaviour, IMouseInputable2
         }
     }
 
-    public bool OnMiddleDragStart(Vector2 ScreenPoint)
+    public void OnMiddleDragStart(Vector2 ScreenPoint)
     {
-        bool success = true;
         foreach (var m in mouseinputables)
         {
-            success = m.OnMiddleDragStart(ScreenPoint) && success;
+            m.OnMiddleDragStart(ScreenPoint);
         }
-        return success;
+        ;
     }
 
 
@@ -131,14 +125,13 @@ public class MouseInputables : MonoBehaviour, IMouseInputable2
         }
     }
 
-    public bool OnRightClickDown(Vector2 ScreenPoint)
+    public void OnRightClickDown(Vector2 ScreenPoint)
     {
-        bool success = true;
         foreach (var m in mouseinputables)
         {
-            success = m.OnRightClickDown(ScreenPoint) && success;
+            m.OnRightClickDown(ScreenPoint);
         }
-        return success;
+        ;
     }
 
     public void OnRightClickUp(Vector2 ScreenPoint)
@@ -149,14 +142,13 @@ public class MouseInputables : MonoBehaviour, IMouseInputable2
         }
     }
 
-    public bool OnRightDoubleClick(Vector2 ScreenPoint)
+    public void OnRightDoubleClick(Vector2 ScreenPoint)
     {
-        bool success = true;
         foreach (var m in mouseinputables)
         {
-            success = m.OnRightDoubleClick(ScreenPoint) && success;
+            m.OnRightDoubleClick(ScreenPoint);
         }
-        return success;
+        ;
     }
 
     public void OnRightDrag(Vector2 ScreenPoint)
@@ -175,14 +167,13 @@ public class MouseInputables : MonoBehaviour, IMouseInputable2
         }
     }
 
-    public bool OnRightDragStart(Vector2 ScreenPoint)
+    public void OnRightDragStart(Vector2 ScreenPoint)
     {
-        bool success = true;
         foreach (var m in mouseinputables)
         {
-            success = m.OnRightDragStart(ScreenPoint) && success;
+            m.OnRightDragStart(ScreenPoint);
         }
-        return success;
+        ;
     }
 
     public void OnScroll(Vector2 ScrollDelta, Vector2 ScreenPoint)

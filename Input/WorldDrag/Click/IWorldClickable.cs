@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IWorldClickable
 {
-    public void OnClickPressed();
-    public void OnClickReleased();
+    public void OnClickDown();
+    public void OnClickUp();
 
 }

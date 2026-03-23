@@ -1,19 +1,50 @@
+using Laserbean.SpecialData;
+using UnityEditor;
 using UnityEngine;
 
-public class CustomCursor : MonoBehaviour
+public class CustomCursor : Singleton<CustomCursor>
 {
-    // Assign your custom cursor texture in the Unity Inspector
-    public Texture2D cursorTexture;
-    
     // Define the hotspot (the active point of the cursor, e.g., the tip of an arrow)
-    public Vector2 hotSpot = Vector2.zero; 
-    
-    // Choose between hardware or software cursor rendering
-    public CursorMode cursorMode = CursorMode.Auto; 
 
-    void Start()
+    // Choose between hardware or software cursor rendering
+    public CursorMode cursorMode = CursorMode.Auto;
+
+    public Texture2D defaultCursor;
+    public Texture2D interactCursor;
+    public Vector2 hotspot = Vector2.zero;
+
+#if UNITY_EDITOR
+    private void OnValidate()
     {
-        // Call SetCursor when the game starts
-        Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
+        if (EditorApplication.isPlaying)
+        {
+            SetCursor(defaultCursor);
+        }
+    }
+#endif
+    protected override void Awake()
+    {
+        base.Awake();
+        instance = this;
+        SetCursor(defaultCursor);
+    }
+
+    public void SetCursor(Texture2D texture)
+    {
+        Cursor.SetCursor(texture, hotspot, CursorMode.Auto);
+    }
+
+    [SerializeField] CustomDictionary<CursorType, Texture2D> texturedict = new();
+    public void SetCursorByType(CursorType hoverCursorType)
+    {
+        if (texturedict.TryGetValue(hoverCursorType, out Texture2D texture2d))
+        {
+            SetCursor(texture2d);
+        }
+    }
+
+    public void ResetCursor()
+    {
+        SetCursor(defaultCursor);
     }
 }

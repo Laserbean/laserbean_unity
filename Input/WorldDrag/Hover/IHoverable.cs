@@ -6,4 +6,6 @@ public interface IHoverable
     public void OnHoverExit();
     public void OnHoverEnter();
 
+    // public HoverCursorType GetCursorType();
+
 }

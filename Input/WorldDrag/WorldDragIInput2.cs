@@ -38,8 +38,6 @@ namespace Laserbean.Input.WorldDrag
 
         #region Unity Events
 
-
-
         [Header("Left Click Events")]
         [SerializeField] private TransformEvent onLeftClickDown = new TransformEvent();
         [SerializeField] private TransformEvent onLeftClickUp = new TransformEvent();
@@ -47,9 +45,13 @@ namespace Laserbean.Input.WorldDrag
         [SerializeField] private TransformEvent onLeftDrag = new TransformEvent();
         [SerializeField] private TransformEvent onLeftDragEnd = new TransformEvent();
         // [SerializeField] private UnityEvent onLeftClickSuccessful = new UnityEvent();
-
-
         #endregion
+
+        void SetCursor(CursorType cursorType)
+        {
+            CustomCursor.Instance.SetCursorByType(cursorType);
+
+        }
 
         #region IMouseInputable2 Implementation
 
@@ -67,12 +69,19 @@ namespace Laserbean.Input.WorldDrag
                 {
                     clickable?.OnClickDown();
                     onLeftClickDown?.Invoke(currentObject.transform);
+
+                    SetCursor(CursorType.Clicking);
+
                 }
             }
         }
 
         public void OnLeftClickUp(Vector2 screenPos)
         {
+            if (currentObject != null)
+            {
+                SetCursor(CursorType.Clickable);
+            }
 
             ReleaseObject();
         }
@@ -88,6 +97,8 @@ namespace Laserbean.Input.WorldDrag
 
                 onLeftDragStart?.Invoke(currentObject);
                 draggable.DragStarted(); // TODO
+                SetCursor(CursorType.Dragging);
+
             }
         }
 
@@ -109,7 +120,13 @@ namespace Laserbean.Input.WorldDrag
         public void OnLeftDragEnd(Vector2 screenPos)
         {
             isCurrentlyDragging = false;
+            ReleaseObject();
+            if (currentObject != null)
+            {
+                SetCursor(CursorType.Draggable);
+            }
         }
+
         #endregion
 
         #region Optional
@@ -207,6 +224,22 @@ namespace Laserbean.Input.WorldDrag
                 {
                     lastHoverObject.GetComponent<IHoverable>()?.OnHoverEnter();
                     DebugLog($"[Hover] Entered: {lastHoverObject.name}");
+                }
+            }
+
+            if (lastHoverObject == null)
+            {
+                SetCursor(CursorType.Default);
+            }
+            else
+            {
+                if (lastHoverObject.GetComponent<IWorldClickable>() != null)
+                {
+                    SetCursor(CursorType.Clickable);
+                }
+                else if (lastHoverObject.GetComponent<IWorldDraggable>() != null)
+                {
+                    SetCursor(CursorType.Draggable);
                 }
             }
         }

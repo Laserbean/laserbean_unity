@@ -44,6 +44,8 @@ public class SimpleWorldClick : MonoBehaviour, IWorldClickable
 
         clicktimer.Start();
         OnClickDownEvent.Invoke();
+
+        // CustomCursor.Instance.SetCursorByType(CursorType.Clicking); 
     }
 
     public void OnClickUp()
@@ -51,6 +53,7 @@ public class SimpleWorldClick : MonoBehaviour, IWorldClickable
         clicktimer.Stop();
         OnClickReleasedEvent.Invoke();
 
+        // CustomCursor.Instance.SetCursorByType(CursorType.Clickable); 
 
         // Debug.Log(name + " released!");
     }

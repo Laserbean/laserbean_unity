@@ -22,6 +22,8 @@ namespace Laserbean.Input.WorldDrag
    
             mousetarget.Position = mouseLocation;
             Targets.TryAddTarget(mousetarget);
+
+            // CustomCursor.Instance.SetCursor();
             // OnDragEvent?.Invoke(mouseLocation, transform);
             // OnDragTransformEvent?.Invoke(transform);
         }

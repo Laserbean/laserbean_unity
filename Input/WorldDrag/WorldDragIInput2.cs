@@ -114,17 +114,19 @@ namespace Laserbean.Input.WorldDrag
                     isCurrentlyDragging = false;
                     ReleaseObject();
                 }
+                SetCursor(CursorType.Dragging);
             }
         }
 
         public void OnLeftDragEnd(Vector2 screenPos)
         {
             isCurrentlyDragging = false;
-            ReleaseObject();
             if (currentObject != null)
             {
                 SetCursor(CursorType.Draggable);
             }
+            ReleaseObject();
+
         }
 
         #endregion
@@ -226,8 +228,10 @@ namespace Laserbean.Input.WorldDrag
                     DebugLog($"[Hover] Entered: {lastHoverObject.name}");
                 }
             }
-
-            if (lastHoverObject == null)
+            if (isCurrentlyDragging)
+            {
+            }
+            else if (lastHoverObject == null)
             {
                 SetCursor(CursorType.Default);
             }

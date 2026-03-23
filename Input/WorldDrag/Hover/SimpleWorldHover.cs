@@ -17,7 +17,7 @@ public class SimpleWorldHover : MonoBehaviour, IHoverable
 
     public void OnHoverEnter()
     {
-        Debug.Log("Hover Enter!".DebugColor(Color.green));
+        // Debug.Log("Hover Enter!".DebugColor(Color.green));
         OnHoverEnterEvent?.Invoke();
         // CustomCursor.Instance.SetCursorByType(cursorType);
 
@@ -25,7 +25,7 @@ public class SimpleWorldHover : MonoBehaviour, IHoverable
 
     public void OnHoverExit()
     {
-        Debug.Log("Hover Exit!".DebugColor(Color.red));
+        // Debug.Log("Hover Exit!".DebugColor(Color.red));
         OnHoverExitEvent?.Invoke();
         // CustomCursor.Instance.ResetCursor();
 

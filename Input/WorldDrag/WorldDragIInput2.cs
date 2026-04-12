@@ -50,7 +50,6 @@ namespace Laserbean.Input.WorldDrag
         void SetCursor(CursorType cursorType)
         {
             CustomCursor.Instance.SetCursorByType(cursorType);
-
         }
 
         #region IMouseInputable2 Implementation
@@ -69,10 +68,15 @@ namespace Laserbean.Input.WorldDrag
                 {
                     clickable?.OnClickDown();
                     onLeftClickDown?.Invoke(currentObject.transform);
-
                     SetCursor(CursorType.Clicking);
-
                 }
+
+                var draggable = currentObject.GetComponent<IWorldDraggable>();
+                if (draggable != null)
+                {
+                    SetCursor(CursorType.Dragging);
+                }
+
             }
         }
 
@@ -80,31 +84,35 @@ namespace Laserbean.Input.WorldDrag
         {
             if (currentObject != null)
             {
-                SetCursor(CursorType.Clickable);
+                var clickable = currentObject.GetComponent<IWorldClickable>();
+                if (clickable != null)
+                {
+                    SetCursor(CursorType.Clickable);
+                }
+                var draggable = currentObject.GetComponent<IWorldDraggable>();
+                if (draggable != null)
+                {
+                    SetCursor(CursorType.Draggable);
+                }
             }
-
             ReleaseObject();
         }
 
         public void OnLeftDragStart(Vector2 screenPos)
         {
             isCurrentlyDragging = true;
-
             if (currentObject != null)
             {
                 var draggable = currentObject.GetComponent<IWorldDraggable>();
                 if (draggable == null) return;
-
                 onLeftDragStart?.Invoke(currentObject);
                 draggable.DragStarted(); // TODO
                 SetCursor(CursorType.Dragging);
-
             }
         }
 
         public void OnLeftDrag(Vector2 screenPos)
         {
-
             if (currentObject != null && isCurrentlyDragging)
             {
                 var dragsuccess = PerformDrag(screenPos);
@@ -200,7 +208,7 @@ namespace Laserbean.Input.WorldDrag
 
         private void HandleHoverDetection(Vector2 screenPos)
         {
-            GameObject hitObject = null;
+            GameObject hitObject;
 
             if (use2D)
             {

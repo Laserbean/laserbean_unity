@@ -20,7 +20,6 @@ public class SimpleWorldHover : MonoBehaviour, IHoverable
         // Debug.Log("Hover Enter!".DebugColor(Color.green));
         OnHoverEnterEvent?.Invoke();
         // CustomCursor.Instance.SetCursorByType(cursorType);
-
     }
 
     public void OnHoverExit()
@@ -28,24 +27,6 @@ public class SimpleWorldHover : MonoBehaviour, IHoverable
         // Debug.Log("Hover Exit!".DebugColor(Color.red));
         OnHoverExitEvent?.Invoke();
         // CustomCursor.Instance.ResetCursor();
-
     }
-
 }
 
-
-[System.Serializable]
-public enum CursorType
-{
-    None = 0,
-    Default = 1,
-    Uninteractable = 2,
-
-    Clicking = 3,
-    Clickable = 4,
-    Dragging = 5,
-
-    Draggable = 6,
-    Panning = 7, 
-    
-}

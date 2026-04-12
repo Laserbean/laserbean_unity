@@ -48,3 +48,4 @@ public class CustomCursor : Singleton<CustomCursor>
         SetCursor(defaultCursor);
     }
 }
+

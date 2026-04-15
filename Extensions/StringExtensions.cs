@@ -49,6 +49,12 @@ namespace Laserbean.General
             Color32 color32 = color;
             return "#" + color32.r.ToString("X2") + color32.g.ToString("X2") + color32.b.ToString("X2");
         }
+
+        public static string ColorToHexTransparency(this Color color)
+        {
+            Color32 color32 = color;
+            return "#" + color32.r.ToString("X2") + color32.g.ToString("X2") + color32.b.ToString("X2") + color32.a.ToString("X2");
+        }
     }
 
     // <color=blue>{0}</color>

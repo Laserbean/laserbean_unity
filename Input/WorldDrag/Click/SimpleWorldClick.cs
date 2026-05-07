@@ -6,10 +6,9 @@ using UnityEngine.Events;
 
 public class SimpleWorldClick : MonoBehaviour, IWorldClickable
 {
-    [SerializeField]
-    UnityEvent OnClickDownEvent;
-    [SerializeField]
-    UnityEvent OnClickReleasedEvent;
+    [SerializeField] UnityEvent OnClickDownEvent;
+    [SerializeField] UnityEvent OnClickReleasedEvent;
+    [SerializeField] UnityEvent OnClickInterruptedEvent;
     [SerializeField]
     UnityEvent OnClickEvent;
 
@@ -49,7 +48,9 @@ public class SimpleWorldClick : MonoBehaviour, IWorldClickable
         clicktimer.Reset();
 
         clicktimer.Start();
-        OnClickDownEvent.Invoke();
+        OnClickDownEvent?.Invoke();
+
+        isInterrupted = false; 
 
         // CustomCursor.Instance.SetCursorByType(CursorType.Clicking); 
     }
@@ -58,8 +59,10 @@ public class SimpleWorldClick : MonoBehaviour, IWorldClickable
     {
         if (!Clickable1) return;
 
+        if (isInterrupted) return;
+
         clicktimer.Stop();
-        OnClickReleasedEvent.Invoke();
+        OnClickReleasedEvent?.Invoke();
 
         // CustomCursor.Instance.SetCursorByType(CursorType.Clickable); 
 
@@ -71,4 +74,15 @@ public class SimpleWorldClick : MonoBehaviour, IWorldClickable
         Clickable1 = click_able;
     }
 
+    public void OnClickInterrupt()
+    {
+        if (!Clickable1) return;
+        clicktimer.Stop();
+
+        isInterrupted = true;
+        OnClickInterruptedEvent?.Invoke();
+    }
+
+    [ShowOnly, SerializeField]
+    bool isInterrupted = false;
 }

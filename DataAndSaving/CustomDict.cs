@@ -94,6 +94,11 @@ namespace Laserbean.SpecialData
             return keys.Contains(key);
         }
 
+        public bool ContainsValue(Tvalue value)
+        {
+            return values.Contains(value);
+        }
+
         public void CopyTo(KeyValuePair<Tkey, Tvalue>[] array, int arrayIndex)
         {
             throw new NotImplementedException();

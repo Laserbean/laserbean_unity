@@ -1,15 +1,103 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-
-
 using System.Numerics;
 using Laserbean.CustomUnityEvents;
 using Laserbean.EventManager;
 using Laserbean.General;
 using Laserbean.Removable;
 using UnityEditor;
+using UnityEngine;
 
+// // // [System.Serializable]
+// // // public class BigNumMetric : BigNum
+// // // {
+// // //     public BigNumMetric(double coeff, int exp) : base(coeff, exp)
+// // //     {
+// // //     }
+// // //     public new static BigNumMetric Parse(string value)
+// // //     {
+// // //         if (string.IsNullOrWhiteSpace(value))
+// // //             throw new FormatException("Input string was not in a correct format.");
+
+// // //         value = value.Trim();
+// // //         var uppercase = value.ToUpperInvariant();
+// // //         var suffixes = new Dictionary<string, int>
+// // //         {
+// // //             { "P", 15 },
+// // //             { "T", 12 },
+// // //             { "G", 9 },
+// // //             { "M", 6 },
+// // //             { "K", 3 }
+// // //         };
+
+// // //         foreach (var suffix in suffixes)
+// // //         {
+// // //             if (uppercase.EndsWith(suffix.Key, StringComparison.Ordinal))
+// // //             {
+// // //                 var numberPart = uppercase.Substring(0, uppercase.Length - suffix.Key.Length).Trim();
+// // //                 if (string.IsNullOrEmpty(numberPart))
+// // //                     throw new FormatException("Input string was not in a correct format.");
+
+// // //                 double coeff = double.Parse(numberPart);
+// // //                 return new BigNumMetric(coeff, suffix.Value);
+// // //             }
+// // //         }
+
+// // //         // Fallback to the base BigIntMetric parser for scientific/exact values.
+// // //         var baseValue = BigNum.Parse(value);
+// // //         return new BigNumMetric(baseValue.coefficient, baseValue.exponent);
+// // //     }
+
+// // //     public static bool TryParse(string value, out BigNumMetric result)
+// // //     {
+// // //         result = null;
+// // //         try
+// // //         {
+// // //             result = Parse(value);
+// // //             return true;
+// // //         }
+// // //         catch
+// // //         {
+// // //             return false;
+// // //         }
+// // //     }
+// // //     public override string ToString()
+// // //     {
+// // //         return ToString(1);
+// // //     }
+
+// // //     public string ToString(int decimalPlaces = 1)
+// // //     {
+// // //         double value = ToDouble();
+
+// // //         if (value == 0) return "0";
+
+// // //         double absValue = Math.Abs(value);
+// // //         string[] metricPrefixes = { "", "K", "M", "G", "T", "P" };
+// // //         int prefixIndex = 0;
+
+// // //         while (absValue >= 1000 && prefixIndex < metricPrefixes.Length - 1)
+// // //         {
+// // //             absValue /= 1000;
+// // //             prefixIndex++;
+// // //         }
+
+// // //         double displayValue = value / Math.Pow(1000, prefixIndex);
+// // //         string format;
+
+// // //         if (prefixIndex == 0)
+// // //         {
+// // //             format = "F0";
+// // //         }
+// // //         else
+// // //         {
+// // //             format = decimalPlaces == 0 ? "F0" : $"F{decimalPlaces}";
+// // //         }
+
+// // //         return displayValue.ToString(format) + metricPrefixes[prefixIndex];
+// // //     }
+
+// // // }
 
 [System.Serializable]
 public class BigNumMetric : System.IComparable<BigNumMetric>, System.IEquatable<BigNumMetric>, ISerializationCallbackReceiver
@@ -26,6 +114,12 @@ public class BigNumMetric : System.IComparable<BigNumMetric>, System.IEquatable<
     public const long MaxValue = long.MaxValue;
     public const long MinValue = long.MinValue;
 
+    public BigNumMetric(BigNumMetric num)
+    {
+        coefficient = num.coefficient; 
+        exponent = num.exponent; 
+    }
+    
     public BigNumMetric(double coeff, int exp)
     {
         Normalize(coeff, exp);

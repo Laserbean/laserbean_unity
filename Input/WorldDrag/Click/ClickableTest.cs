@@ -8,6 +8,12 @@ public class ClickableTest : MonoBehaviour, IWorldClickable
         Debug.Log(name + " clicked!");
     }
 
+    public void OnClickInterrupt()
+    {
+        Debug.Log(name + " interrupt!");
+        
+    }
+
     public void OnClickUp()
     {
         Debug.Log(name + " released!");

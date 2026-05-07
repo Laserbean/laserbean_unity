@@ -8,7 +8,6 @@ using Laserbean.Removable;
 using UnityEditor;
 using UnityEngine;
 
-
 [System.Serializable]
 public class BigNum : System.IComparable<BigNum>, System.IEquatable<BigNum>, ISerializationCallbackReceiver
 {
@@ -17,7 +16,9 @@ public class BigNum : System.IComparable<BigNum>, System.IEquatable<BigNum>, ISe
     public int exponent;
     [Header("Number")]
     [ShowOnly]
-    public double Display; 
+    public double Display;
+    public string InputText = "";
+    public bool TryParseInput = false;
 
     public const long MaxValue = long.MaxValue;
     public const long MinValue = long.MinValue;
@@ -58,6 +59,29 @@ public class BigNum : System.IComparable<BigNum>, System.IEquatable<BigNum>, ISe
             Normalize();
         }
     }
+
+    public void OnBeforeSerialize()
+    {
+        // throw new NotImplementedException();
+    }
+
+    public void OnAfterDeserialize()
+    {
+        if (TryParseInput)
+        {
+            if (TryParse(InputText, out BigNum result))
+            {
+                // InputText = "";
+                coefficient = result.coefficient;
+                exponent = result.exponent;
+            }
+            TryParseInput = false;
+        }
+        Display = ToDouble();
+
+        // throw new NotImplementedException();
+    }
+
 
     private void Normalize(double coeff, int exp)
     {
@@ -308,14 +332,14 @@ public class BigNum : System.IComparable<BigNum>, System.IEquatable<BigNum>, ISe
         }
     }
 
-    public void OnBeforeSerialize()
-    {
-        // throw new NotImplementedException();
-    }
+    // public void OnBeforeSerialize()
+    // {
+    //     // throw new NotImplementedException();
+    // }
 
-    public void OnAfterDeserialize()
-    {
-        Display = ToDouble();
-        // throw new NotImplementedException();
-    }
+    // public void OnAfterDeserialize()
+    // {
+    //     Display = ToDouble();
+    //     // throw new NotImplementedException();
+    // }
 }

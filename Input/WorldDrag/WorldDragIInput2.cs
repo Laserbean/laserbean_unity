@@ -103,11 +103,15 @@ namespace Laserbean.Input.WorldDrag
             isCurrentlyDragging = true;
             if (currentObject != null)
             {
+                currentObject.GetComponent<IWorldClickable>()?.OnClickInterrupt();
+
                 var draggable = currentObject.GetComponent<IWorldDraggable>();
                 if (draggable == null) return;
                 onLeftDragStart?.Invoke(currentObject);
                 draggable.DragStarted(); // TODO
                 SetCursor(CursorType.Dragging);
+
+
             }
         }
 

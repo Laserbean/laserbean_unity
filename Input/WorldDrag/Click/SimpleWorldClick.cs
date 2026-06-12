@@ -50,7 +50,7 @@ public class SimpleWorldClick : MonoBehaviour, IWorldClickable
         clicktimer.Start();
         OnClickDownEvent?.Invoke();
 
-        isInterrupted = false; 
+        isInterrupted = false;
 
         // CustomCursor.Instance.SetCursorByType(CursorType.Clicking); 
     }
@@ -81,6 +81,11 @@ public class SimpleWorldClick : MonoBehaviour, IWorldClickable
 
         isInterrupted = true;
         OnClickInterruptedEvent?.Invoke();
+    }
+
+    public void OnDoubleClick()
+    {
+        Debug.Log("Double clicked success!");
     }
 
     [ShowOnly, SerializeField]

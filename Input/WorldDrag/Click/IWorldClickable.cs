@@ -6,4 +6,6 @@ public interface IWorldClickable
     public void OnClickUp();
     public void OnClickInterrupt(); 
 
+    public void OnDoubleClick();
+
 }

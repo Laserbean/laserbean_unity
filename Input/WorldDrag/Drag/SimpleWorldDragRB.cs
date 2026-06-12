@@ -34,13 +34,10 @@ namespace Laserbean.Input.WorldDrag
 
         public void DragReleased()
         {
-            Debug.Log("world drag over = what?");
-
             isDragging = false;
             OnDragStop.Invoke();
 
             worldDragOver?.DragReleased(transform);
-            Debug.Log("world drag over = " + worldDragOver == null);
         }
 
 
@@ -59,12 +56,18 @@ namespace Laserbean.Input.WorldDrag
 
         void OnTriggerEnter2D(Collider2D collision)
         {
-            Debug.Log("Dragging trigger enter".DebugColor(Color.yellow) + isDragging);
-
             if (isDragging)
             {
                 worldDragOver = collision.GetComponent<IWorldDragOver>();
                 worldDragOver?.DragOver(transform);
+            }
+        }
+
+        void OTriggerExit2D(Collider2D collision)
+        {
+            if (isDragging)
+            {
+                worldDragOver?.DragExit(transform);
             }
         }
     }

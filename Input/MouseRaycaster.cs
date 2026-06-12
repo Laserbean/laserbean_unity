@@ -26,6 +26,12 @@ namespace Laserbean.NewInput
         Transform CurrentTransform = null;
         IWorldClickable worldclickable;
         IWorldDraggable worlddraggable;
+
+
+        public void OnPointMove(Vector2 ScreenPoint)
+        {
+
+        }
         public void OnClickDown(Vector2 ScreenPoint)
         {
             CurrentTransform = GetClickedTransform(ScreenPoint);
@@ -48,26 +54,22 @@ namespace Laserbean.NewInput
 
         public void OnDoubleClick(Vector2 ScreenPoint)
         {
-
             worldclickable?.OnDoubleClick();
-
         }
 
         public void OnDrag(Vector2 ScreenPoint)
         {
             worlddraggable?.Drag(GetWorldPosition(ScreenPoint));
-            worlddraggable = null;
         }
 
         public void OnDragEnd(Vector2 ScreenPoint)
         {
-
             worlddraggable?.DragReleased();
+            worlddraggable = null;
         }
 
         public void OnDragStart(Vector2 ScreenPoint)
         {
-
             if (CurrentTransform != null)
             {
                 worlddraggable = CurrentTransform.GetComponent<IWorldDraggable>();
@@ -80,11 +82,15 @@ namespace Laserbean.NewInput
 
         }
 
-        public void OnPointMove(Vector2 ScreenPoint)
+
+        public void OnHoldDown(Vector2 ScreenPoint)
         {
 
         }
 
+        public void OnHoldUp(Vector2 ScreenPoint)
+        {
+        }
 
         // private Transform currentObject;
         private Vector3 grabOffset;
@@ -198,14 +204,6 @@ namespace Laserbean.NewInput
                 Debug.DrawRay(start, dir, color, duration);
         }
 
-        public void OnHoldDown(Vector2 ScreenPoint)
-        {
-            throw new System.NotImplementedException();
-        }
 
-        public void OnHoldUp(Vector2 ScreenPoint)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

@@ -168,7 +168,7 @@ namespace Laserbean.NewInput
 
             if (isClickDown && dragDistance >= dragThreshold)
             {
-                Debug.Log("Drag Start".DebugColor(Color.yellow));
+                // Debug.Log("Drag Start".DebugColor(Color.yellow));
                 isDragging = true;
                 onDragStart.Invoke(dragStartPos);
                 mouseInputable?.OnDragStart(dragStartPos);
@@ -176,7 +176,7 @@ namespace Laserbean.NewInput
 
             if (isDragging && isClickDown)
             {
-                Debug.Log("Is Dragging".DebugColor(Color.yellow));
+                // Debug.Log("Is Dragging".DebugColor(Color.yellow));
                 mouseInputable?.OnDrag(currentScreenPos);
                 onDrag.Invoke(currentScreenPos);
             }

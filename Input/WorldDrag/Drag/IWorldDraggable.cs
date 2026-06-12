@@ -8,4 +8,12 @@ namespace Laserbean.Input.WorldDrag
         public bool DragStarted();
 
     }
+
+    public interface IWorldDragOver
+    {
+        public void DragOver(Transform transform); 
+
+        public void DragReleased(Transform transform); 
+        // public void DragStarted(Transform transform); 
+    }
 }

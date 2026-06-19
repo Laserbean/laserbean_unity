@@ -29,39 +29,47 @@ public static class Lglog
 {
     public static bool EnableLogs = true;
 
-    public static void Log(string message)
+
+    [HideInCallstack]
+    public static void Log(object message)
     {
 #if USINGVISUALCONSOLE
-        Debug.Log(message);
+        VisualDebug.Log(message.ToString());
 #else
         Debug.Log(message);
 #endif
     }
 
-    public static void Log(string message, string id)
+
+    [HideInCallstack]
+    public static void Log(object message, string id)
     {
 #if USINGVISUALCONSOLE
-        VisualDebug.NestingLog(id, message);
+        VisualDebug.NestingLog(id, message.ToString());
 #else
         Debug.Log(message);
 #endif
     }
 
+
+    [HideInCallstack]
     public static void CloseNest(string id)
     {
 #if USINGVISUALCONSOLE
-        VisualDebug.NestingLogEnd(id); 
+        VisualDebug.NestingLogEnd(id);
 #else
         // // Debug.Log(message);
 #endif
     }
 
-
+    [HideInCallstack]
     public static void LogError(string message)
     {
         Debug.LogError(message);
     }
 
+
+    [HideInCallstack]
     public static void LogWarning(string message)
     {
         Debug.LogWarning(message);

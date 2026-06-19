@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace Laserbean.Input.WorldDrag
 {
-    public class SimpleWorldDragRB : MonoBehaviour, IWorldDraggable
+    public class SimpleWorldDragRB : MonoBehaviour, IWorldDraggable, IWorldInteractable
     {
         Rigidbody2D rb2d;
         Rigidbody rb;
@@ -17,6 +17,8 @@ namespace Laserbean.Input.WorldDrag
 
         public void Drag(Vector3 mouseLocation)
         {
+            if (!isDragable) return;
+
             // isDragging = false;
             // transform.position = mouseLocation;
 
@@ -35,6 +37,9 @@ namespace Laserbean.Input.WorldDrag
         public void DragReleased()
         {
             isDragging = false;
+
+            if (!isDragable) return;
+
             OnDragStop.Invoke();
 
             worldDragOver?.DragReleased(transform);
@@ -43,6 +48,7 @@ namespace Laserbean.Input.WorldDrag
 
         public bool DragStarted()
         {
+            if (!isDragable) return false;
             isDragging = true;
             OnDragStart.Invoke();
             return true;
@@ -69,6 +75,16 @@ namespace Laserbean.Input.WorldDrag
             {
                 worldDragOver?.DragExit(transform);
             }
+        }
+        [SerializeField] bool isDragable = true;
+        public void SetInteractable(bool canInteract)
+        {
+            isDragable = canInteract;
+        }
+
+        public bool IsInteractable()
+        {
+            return isDragable;
         }
     }
 }

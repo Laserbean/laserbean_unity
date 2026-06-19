@@ -23,4 +23,9 @@ public class ClickableTest : MonoBehaviour, IWorldClickable
     {
         Debug.Log(name + " DOUBLE CLICK!");
     }
+
+    public void SetClickable(bool Clickable)
+    {
+        
+    }
 }

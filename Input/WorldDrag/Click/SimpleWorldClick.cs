@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SimpleWorldClick : MonoBehaviour, IWorldClickable
+public class SimpleWorldClick : MonoBehaviour, IWorldClickable, IWorldInteractable
 {
     [SerializeField] UnityEvent OnClickDownEvent;
     [SerializeField] UnityEvent OnClickReleasedEvent;
@@ -16,7 +16,7 @@ public class SimpleWorldClick : MonoBehaviour, IWorldClickable
 
     StopwatchTimer clicktimer;
 
-    [SerializeField] public bool Clickable1 = true;
+    [SerializeField] public bool isClickable = true;
 
 
     private void Awake()
@@ -43,7 +43,7 @@ public class SimpleWorldClick : MonoBehaviour, IWorldClickable
 
     public void OnClickDown()
     {
-        if (!Clickable1) return;
+        if (!isClickable) return;
         // Debug.Log(name + " clicked!");
         clicktimer.Reset();
 
@@ -57,7 +57,7 @@ public class SimpleWorldClick : MonoBehaviour, IWorldClickable
 
     public void OnClickUp()
     {
-        if (!Clickable1) return;
+        if (!isClickable) return;
 
         if (isInterrupted) return;
 
@@ -71,12 +71,22 @@ public class SimpleWorldClick : MonoBehaviour, IWorldClickable
 
     public void SetClickable(bool click_able)
     {
-        Clickable1 = click_able;
+        isClickable = click_able;
+        if (isClickable)
+        {
+            OnSetClickable.Invoke();
+        }
+        else
+        {
+            OnSetUnclickable.Invoke();
+        }
     }
+    [SerializeField] UnityEvent OnSetClickable;
+    [SerializeField] UnityEvent OnSetUnclickable;
 
     public void OnClickInterrupt()
     {
-        if (!Clickable1) return;
+        if (!isClickable) return;
         clicktimer.Stop();
 
         isInterrupted = true;
@@ -86,6 +96,16 @@ public class SimpleWorldClick : MonoBehaviour, IWorldClickable
     public void OnDoubleClick()
     {
         Debug.Log("Double clicked success!");
+    }
+
+    public void SetInteractable(bool canInteract)
+    {
+        SetClickable(canInteract);
+    }
+
+    public bool IsInteractable()
+    {
+        return isClickable;
     }
 
     [ShowOnly, SerializeField]

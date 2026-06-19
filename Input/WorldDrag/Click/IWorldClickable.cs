@@ -8,4 +8,6 @@ public interface IWorldClickable
 
     public void OnDoubleClick();
 
+    public void SetClickable(bool Clickable); 
+
 }
